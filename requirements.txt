@@ -1,13 +1,8 @@
-# Upgrade build tools first (avoids wheel build errors)
-pip>=23.3
-setuptools>=68
-wheel>=0.41
 
-# Core dependencies
 Flask==2.3.3
 Flask-CORS==4.0.0
 requests==2.31.0
 python-dotenv==1.0.0
 gunicorn==21.2.0
 Werkzeug==2.3.7
-Pillow==9.5.0
+Pillow==10.0.2
