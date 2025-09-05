@@ -4,7 +4,7 @@ import os
 import base64
 import requests
 import json
-from PIL import Image
+from PIL import image
 import io
 from datetime import datetime, timedelta
 from flask import render_template
