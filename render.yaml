@@ -9,8 +9,8 @@ services:
         sync: false
       - key: FLASK_ENV
         value: production
-      - key: PYTHON_VERSION
-        value: 3.10
+      - key: PYTHONPATH
+        value: .
     healthCheckPath: /health
     autoDeploy: true
     disk:
