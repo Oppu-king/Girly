@@ -5,6 +5,8 @@ import base64
 import requests
 import json
 from PIL import Image
+except ImportError:
+    import Image
 import io
 from datetime import datetime, timedelta
 from flask import render_template
