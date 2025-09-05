@@ -4,7 +4,8 @@ import os
 import base64
 import requests
 import json
-from PIL import Image
+try:
+    from PIL import Image
 except ImportError:
     import Image
 import io
