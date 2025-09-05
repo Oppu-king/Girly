@@ -1383,6 +1383,666 @@
         // Updated JavaScript with proper loading indicators and emoji-focused AI
         const API_BASE_URL = window.location.origin;
 
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+            <h2 class="text-5xl md:text-7xl font-bold text-white mb-6">
+                Professional
+                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400">
+                    AI Try-On
+                </span>
+            </h2>
+            <p class="text-xl text-gray-200 max-w-3xl mx-auto mb-8">
+                Experience the future of fashion with our DeepSeek V3 powered virtual try-on technology. 
+                Upload your photo and see realistic clothing transformations in seconds.
+            </p>
+            <div class="flex justify-center space-x-6 text-sm text-gray-300">
+                <div class="flex items-center">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                    Real AI Processing
+                </div>
+                <div class="flex items-center">
+                    <span class="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
+                    High Quality Results
+                </div>
+                <div class="flex items-center">
+                    <span class="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
+                    Instant Generation
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="grid lg:grid-cols-2 gap-8 mb-12">
+            <!-- Person Photo Upload -->
+            <div class="glass-effect rounded-3xl p-8">
+                <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                    <span class="mr-3 text-3xl">👤</span>
+                    Your Photo
+                </h3>
+                <div id="personUploadZone" class="upload-zone rounded-2xl p-8 text-center min-h-[300px] flex flex-col justify-center">
+                    <input type="file" id="personInput" accept="image/*" class="hidden">
+                    <div id="personUploadContent">
+                        <div class="text-8xl mb-6 opacity-50">📸</div>
+                        <h4 class="text-xl font-semibold text-white mb-2">Upload Your Photo</h4>
+                        <p class="text-gray-300 mb-4">Drag & drop or click to select</p>
+                        <p class="text-sm text-gray-400 mb-6">Supported: JPG, PNG, WEBP (Max 10MB)</p>
+                        <button class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-xl font-medium hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105">
+                            Choose Photo
+                        </button>
+                    </div>
+                    <div id="personPreview" class="hidden">
+                        <img id="personImage" class="max-w-full max-h-80 mx-auto rounded-xl shadow-2xl">
+                        <div class="mt-4 flex justify-center space-x-4">
+                            <button id="removePerson" class="text-red-400 hover:text-red-300 transition-colors px-4 py-2 rounded-lg border border-red-400 hover:border-red-300">
+                                Remove Photo
+                            </button>
+                            <button id="cropPerson" class="text-blue-400 hover:text-blue-300 transition-colors px-4 py-2 rounded-lg border border-blue-400 hover:border-blue-300">
+                                Crop & Adjust
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clothing Upload -->
+            <div class="glass-effect rounded-3xl p-8">
+                <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                    <span class="mr-3 text-3xl">👗</span>
+                    Clothing Item
+                </h3>
+                <div id="clothUploadZone" class="upload-zone rounded-2xl p-8 text-center min-h-[300px] flex flex-col justify-center">
+                    <input type="file" id="clothInput" accept="image/*" class="hidden">
+                    <div id="clothUploadContent">
+                        <div class="text-8xl mb-6 opacity-50">👕</div>
+                        <h4 class="text-xl font-semibold text-white mb-2">Upload Clothing</h4>
+                        <p class="text-gray-300 mb-4">Drag & drop or click to select</p>
+                        <p class="text-sm text-gray-400 mb-6">Best results with clear, front-facing clothing images</p>
+                        <button class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-medium hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105">
+                            Choose Clothing
+                        </button>
+                    </div>
+                    <div id="clothPreview" class="hidden">
+                        <img id="clothImage" class="max-w-full max-h-80 mx-auto rounded-xl shadow-2xl">
+                        <div class="mt-4 flex justify-center space-x-4">
+                            <button id="removeCloth" class="text-red-400 hover:text-red-300 transition-colors px-4 py-2 rounded-lg border border-red-400 hover:border-red-300">
+                                Remove Clothing
+                            </button>
+                            <button id="adjustCloth" class="text-green-400 hover:text-green-300 transition-colors px-4 py-2 rounded-lg border border-green-400 hover:border-green-300">
+                                Adjust Fit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Processing Controls -->
+        <div class="glass-effect rounded-3xl p-8 mb-8">
+            <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                <span class="mr-3 text-3xl">⚙️</span>
+                AI Processing Options
+            </h3>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
+                    <h4 class="text-white font-medium mb-2">Quality Level</h4>
+                    <select id="qualityLevel" class="w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-purple-500 focus:outline-none">
+                        <option value="standard">Standard (Fast)</option>
+                        <option value="high" selected>High Quality</option>
+                        <option value="ultra">Ultra HD (Slower)</option>
+                    </select>
+                </div>
+                <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
+                    <h4 class="text-white font-medium mb-2">Fit Adjustment</h4>
+                    <select id="fitAdjustment" class="w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-purple-500 focus:outline-none">
+                        <option value="auto" selected>Auto Fit</option>
+                        <option value="loose">Loose Fit</option>
+                        <option value="tight">Tight Fit</option>
+                        <option value="custom">Custom Fit</option>
+                    </select>
+                </div>
+                <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
+                    <h4 class="text-white font-medium mb-2">Style Enhancement</h4>
+                    <select id="styleEnhancement" class="w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-purple-500 focus:outline-none">
+                        <option value="none">None</option>
+                        <option value="natural" selected>Natural</option>
+                        <option value="enhanced">Enhanced</option>
+                        <option value="artistic">Artistic</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate Button -->
+        <div class="text-center mb-8">
+            <button id="generateBtn" class="bg-gradient-to-r from-pink-500 via-purple-600 to-blue-600 text-white px-16 py-5 rounded-2xl text-2xl font-bold hover:from-pink-600 hover:via-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-2xl">
+                <span id="generateBtnText">🚀 Generate AI Try-On</span>
+            </button>
+            <p class="text-gray-300 text-sm mt-4">Processing typically takes 10-30 seconds</p>
+        </div>
+
+        <!-- Processing Section -->
+        <div id="processingSection" class="hidden glass-effect rounded-3xl p-12 text-center mb-8">
+            <div class="flex flex-col items-center">
+                <!-- Circular Progress -->
+                <div class="relative w-32 h-32 mb-8">
+                    <svg class="progress-ring w-32 h-32" viewBox="0 0 120 120">
+                        <circle class="progress-ring-circle" stroke="#374151" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                        <circle id="progressCircle" class="progress-ring-circle" stroke="url(#gradient)" stroke-width="8" fill="transparent" r="52" cx="60" cy="60" stroke-dasharray="327" stroke-dashoffset="327"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#ec4899"/>
+                                <stop offset="50%" style="stop-color:#8b5cf6"/>
+                                <stop offset="100%" style="stop-color:#3b82f6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span id="progressPercent" class="text-2xl font-bold text-white">0%</span>
+                    </div>
+                </div>
+
+                <h3 class="text-3xl font-bold text-white mb-4">AI Processing in Progress</h3>
+                <p id="processingStatus" class="text-xl text-gray-300 mb-6">Initializing DeepSeek V3...</p>
+
+                <!-- Processing Steps -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 w-full max-w-4xl">
+                    <div id="step1" class="processing-step bg-gray-800 bg-opacity-50 rounded-xl p-4 text-center">
+                        <div class="text-3xl mb-2">📤</div>
+                        <p class="text-white font-medium">Upload</p>
+                        <p class="text-xs text-gray-400">Sending images</p>
+                    </div>
+                    <div id="step2" class="processing-step bg-gray-800 bg-opacity-50 rounded-xl p-4 text-center">
+                        <div class="text-3xl mb-2">🔍</div>
+                        <p class="text-white font-medium">Analysis</p>
+                        <p class="text-xs text-gray-400">AI detection</p>
+                    </div>
+                    <div id="step3" class="processing-step bg-gray-800 bg-opacity-50 rounded-xl p-4 text-center">
+                        <div class="text-3xl mb-2">🎨</div>
+                        <p class="text-white font-medium">Generation</p>
+                        <p class="text-xs text-gray-400">Creating result</p>
+                    </div>
+                    <div id="step4" class="processing-step bg-gray-800 bg-opacity-50 rounded-xl p-4 text-center">
+                        <div class="text-3xl mb-2">✨</div>
+                        <p class="text-white font-medium">Enhancement</p>
+                        <p class="text-xs text-gray-400">Final touches</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden result-fade-in">
+            <div class="glass-effect rounded-3xl p-8">
+                <h3 class="text-4xl font-bold text-white mb-8 text-center flex items-center justify-center">
+                    <span class="mr-4">🎉</span>
+                    Your AI Try-On Result
+                    <span class="ml-4">🎉</span>
+                </h3>
+
+                <!-- Result Comparison -->
+                <div class="grid lg:grid-cols-3 gap-8 mb-8">
+                    <!-- Original Photo -->
+                    <div class="text-center">
+                        <h4 class="text-xl font-semibold text-white mb-4 flex items-center justify-center">
+                            <span class="mr-2">📸</span>
+                            Original Photo
+                        </h4>
+                        <div class="bg-gray-800 bg-opacity-50 rounded-2xl p-4">
+                            <img id="originalResult" class="w-full rounded-xl shadow-lg">
+                        </div>
+                    </div>
+
+                    <!-- Clothing Item -->
+                    <div class="text-center">
+                        <h4 class="text-xl font-semibold text-white mb-4 flex items-center justify-center">
+                            <span class="mr-2">👗</span>
+                            Clothing Item
+                        </h4>
+                        <div class="bg-gray-800 bg-opacity-50 rounded-2xl p-4">
+                            <img id="clothingResult" class="w-full rounded-xl shadow-lg">
+                        </div>
+                    </div>
+
+                    <!-- AI Generated Result -->
+                    <div class="text-center">
+                        <h4 class="text-xl font-semibold text-white mb-4 flex items-center justify-center">
+                            <span class="mr-2">🤖</span>
+                            AI Generated
+                        </h4>
+                        <div class="bg-gray-800 bg-opacity-50 rounded-2xl p-4 relative">
+                            <img id="finalResult" class="w-full rounded-xl shadow-lg">
+                            <div class="absolute top-6 right-6">
+                                <span class="bg-gradient-to-r from-green-500 to-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                                    ✨ DeepSeek V3
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Result Actions -->
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <button id="downloadBtn" class="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 flex items-center">
+                        <span class="mr-2">📥</span>
+                        Download HD Result
+                    </button>
+                    <button id="shareBtn" class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all transform hover:scale-105 flex items-center">
+                        <span class="mr-2">📤</span>
+                        Share Result
+                    </button>
+                    <button id="regenerateBtn" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 flex items-center">
+                        <span class="mr-2">🔄</span>
+                        Regenerate
+                    </button>
+                    <button id="newTryOnBtn" class="bg-gradient-to-r from-orange-600 to-red-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-orange-700 hover:to-red-700 transition-all transform hover:scale-105 flex items-center">
+                        <span class="mr-2">✨</span>
+                        New Try-On
+                    </button>
+                </div>
+
+                <!-- AI Metadata -->
+                <div class="bg-gray-800 bg-opacity-30 rounded-2xl p-6">
+                    <h4 class="text-lg font-semibold text-white mb-4">Generation Details</h4>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                        <div>
+                            <p class="text-gray-400">Model</p>
+                            <p class="text-white font-medium">DeepSeek V3</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400">Processing Time</p>
+                            <p class="text-white font-medium" id="processingTime">--</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400">Quality</p>
+                            <p class="text-white font-medium" id="resultQuality">High</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400">Resolution</p>
+                            <p class="text-white font-medium" id="resultResolution">--</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Application State
+        let appState = {
+            personImage: null,
+            clothingImage: null,
+            personFile: null,
+            clothingFile: null,
+            isProcessing: false,
+            startTime: null
+        };
+
+        // API Configuration
+        const API_BASE = window.location.origin; // Uses your Flask server
+
+        // Initialize Application
+        function initializeApp() {
+            setupEventListeners();
+            checkAPIStatus();
+            updateGenerateButton();
+        }
+
+        // Check API Status
+        async function checkAPIStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/api/status`);
+                if (response.ok) {
+                    updateAPIStatus('connected', 'DeepSeek V3 Ready');
+                } else {
+                    updateAPIStatus('error', 'API Error');
+                }
+            } catch (error) {
+                updateAPIStatus('connecting', 'Connecting...');
+                // Retry after 3 seconds
+                setTimeout(checkAPIStatus, 3000);
+            }
+        }
+
+        // Update API Status Display
+        function updateAPIStatus(status, message) {
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+
+            const colors = {
+                connecting: 'bg-yellow-400',
+                connected: 'bg-green-400',
+                error: 'bg-red-400'
+            };
+
+            dot.className = `inline-block w-2 h-2 ${colors[status]} rounded-full mr-2`;
+            text.textContent = message;
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Person photo upload
+            setupFileUpload('person', 'personUploadZone', 'personInput', handlePersonUpload);
+            document.getElementById('removePerson').addEventListener('click', removePerson);
+
+            // Clothing upload
+            setupFileUpload('clothing', 'clothUploadZone', 'clothInput', handleClothingUpload);
+            document.getElementById('removeCloth').addEventListener('click', removeClothing);
+
+            // Generate button
+            document.getElementById('generateBtn').addEventListener('click', generateTryOn);
+
+            // Result actions
+            document.getElementById('downloadBtn').addEventListener('click', downloadResult);
+            document.getElementById('shareBtn').addEventListener('click', shareResult);
+            document.getElementById('regenerateBtn').addEventListener('click', regenerateResult);
+            document.getElementById('newTryOnBtn').addEventListener('click', startNewTryOn);
+        }
+
+        // Setup file upload for a specific type
+        function setupFileUpload(type, zoneId, inputId, handler) {
+            const zone = document.getElementById(zoneId);
+            const input = document.getElementById(inputId);
+
+            zone.addEventListener('click', () => input.click());
+            zone.addEventListener('dragover', handleDragOver);
+            zone.addEventListener('drop', (e) => handleDrop(e, handler));
+            input.addEventListener('change', (e) => {
+                if (e.target.files[0]) handler(e.target.files[0]);
+            });
+        }
+
+        // Handle drag over
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('dragover');
+        }
+
+        // Handle drop
+        function handleDrop(e, handler) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handler(files[0]);
+            }
+        }
+
+        // Handle person photo upload
+        function handlePersonUpload(file) {
+            if (!validateImageFile(file)) return;
+
+            appState.personFile = file;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                appState.personImage = e.target.result;
+                displayPersonImage(e.target.result);
+                updateGenerateButton();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Handle clothing upload
+        function handleClothingUpload(file) {
+            if (!validateImageFile(file)) return;
+
+            appState.clothingFile = file;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                appState.clothingImage = e.target.result;
+                displayClothingImage(e.target.result);
+                updateGenerateButton();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Validate image file
+        function validateImageFile(file) {
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            const maxSize = 10 * 1024 * 1024; // 10MB
+
+            if (!validTypes.includes(file.type)) {
+                alert('Please upload a valid image file (JPG, PNG, WEBP)');
+                return false;
+            }
+
+            if (file.size > maxSize) {
+                alert('File size must be less than 10MB');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Display person image
+        function displayPersonImage(imageSrc) {
+            document.getElementById('personUploadContent').classList.add('hidden');
+            document.getElementById('personPreview').classList.remove('hidden');
+            document.getElementById('personImage').src = imageSrc;
+        }
+
+        // Display clothing image
+        function displayClothingImage(imageSrc) {
+            document.getElementById('clothUploadContent').classList.add('hidden');
+            document.getElementById('clothPreview').classList.remove('hidden');
+            document.getElementById('clothImage').src = imageSrc;
+        }
+
+        // Remove person photo
+        function removePerson() {
+            appState.personImage = null;
+            appState.personFile = null;
+            document.getElementById('personUploadContent').classList.remove('hidden');
+            document.getElementById('personPreview').classList.add('hidden');
+            document.getElementById('personInput').value = '';
+            updateGenerateButton();
+        }
+
+        // Remove clothing
+        function removeClothing() {
+            appState.clothingImage = null;
+            appState.clothingFile = null;
+            document.getElementById('clothUploadContent').classList.remove('hidden');
+            document.getElementById('clothPreview').classList.add('hidden');
+            document.getElementById('clothInput').value = '';
+            updateGenerateButton();
+        }
+
+        // Update generate button state
+        function updateGenerateButton() {
+            const btn = document.getElementById('generateBtn');
+            const btnText = document.getElementById('generateBtnText');
+            const canGenerate = appState.personImage && appState.clothingImage && !appState.isProcessing;
+
+            btn.disabled = !canGenerate;
+
+            if (appState.isProcessing) {
+                btnText.textContent = '🤖 Processing...';
+            } else if (canGenerate) {
+                btnText.textContent = '🚀 Generate AI Try-On';
+            } else if (!appState.personImage) {
+                btnText.textContent = '📸 Upload Your Photo First';
+            } else {
+                btnText.textContent = '👗 Upload Clothing First';
+            }
+        }
+
+        // Generate try-on result
+        async function generateTryOn() {
+            if (!appState.personImage || !appState.clothingImage || appState.isProcessing) return;
+
+            appState.isProcessing = true;
+            appState.startTime = Date.now();
+            updateGenerateButton();
+
+            // Show processing section
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('processingSection').classList.remove('hidden');
+
+            try {
+                // Prepare form data
+                const formData = new FormData();
+                formData.append('person', appState.personFile);
+                formData.append('clothing', appState.clothingFile);
+                formData.append('quality', document.getElementById('qualityLevel').value);
+                formData.append('fit', document.getElementById('fitAdjustment').value);
+                formData.append('style', document.getElementById('styleEnhancement').value);
+
+                // Start processing animation
+                startProcessingAnimation();
+
+                // Make API call to your Flask backend
+                const response = await fetch(`${API_BASE}/api/try-on`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Display results
+                    displayResults(result);
+                } else {
+                    throw new Error(result.error || 'Processing failed');
+                }
+
+            } catch (error) {
+                console.error('Try-on generation failed:', error);
+                alert(`Generation failed: ${error.message}`);
+                document.getElementById('processingSection').classList.add('hidden');
+            } finally {
+                appState.isProcessing = false;
+                updateGenerateButton();
+            }
+        }
+
+        // Start processing animation
+        function startProcessingAnimation() {
+            const steps = [
+                { step: 1, progress: 25, status: "Uploading images to DeepSeek V3..." },
+                { step: 2, progress: 50, status: "Analyzing body pose and clothing..." },
+                { step: 3, progress: 75, status: "Generating AI try-on result..." },
+                { step: 4, progress: 100, status: "Applying final enhancements..." }
+            ];
+
+            let currentStep = 0;
+            const interval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    updateProcessingProgress(step.progress, step.status);
+                    highlightProcessingStep(step.step);
+                    currentStep++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 2000);
+        }
+
+        // Update processing progress
+        function updateProcessingProgress(progress, status) {
+            const circle = document.getElementById('progressCircle');
+            const percent = document.getElementById('progressPercent');
+            const statusText = document.getElementById('processingStatus');
+
+            const circumference = 2 * Math.PI * 52;
+            const offset = circumference - (progress / 100) * circumference;
+
+            circle.style.strokeDashoffset = offset;
+            percent.textContent = `${progress}%`;
+            statusText.textContent = status;
+        }
+
+        // Highlight processing step
+        function highlightProcessingStep(stepNumber) {
+            // Reset all steps
+            for (let i = 1; i <= 4; i++) {
+                const step = document.getElementById(`step${i}`);
+                step.classList.remove('bg-purple-600', 'bg-opacity-80');
+                step.classList.add('bg-gray-800', 'bg-opacity-50');
+            }
+
+            // Highlight current step
+            const currentStep = document.getElementById(`step${stepNumber}`);
+            currentStep.classList.remove('bg-gray-800', 'bg-opacity-50');
+            currentStep.classList.add('bg-purple-600', 'bg-opacity-80');
+        }
+
+        // Display results
+        function displayResults(result) {
+            document.getElementById('processingSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+
+            // Display images
+            document.getElementById('originalResult').src = appState.personImage;
+            document.getElementById('clothingResult').src = appState.clothingImage;
+            document.getElementById('finalResult').src = result.result_url;
+
+            // Update metadata
+            const processingTime = ((Date.now() - appState.startTime) / 1000).toFixed(1);
+            document.getElementById('processingTime').textContent = `${processingTime}s`;
+            document.getElementById('resultQuality').textContent = document.getElementById('qualityLevel').value;
+            document.getElementById('resultResolution').textContent = result.resolution || 'HD';
+        }
+
+        // Download result
+        function downloadResult() {
+            const resultImg = document.getElementById('finalResult');
+            const link = document.createElement('a');
+            link.download = `virtualfit-result-${Date.now()}.png`;
+            link.href = resultImg.src;
+            link.click();
+        }
+
+        // Share result
+        async function shareResult() {
+            if (navigator.share) {
+                try {
+                    const resultImg = document.getElementById('finalResult');
+                    const response = await fetch(resultImg.src);
+                    const blob = await response.blob();
+                    const file = new File([blob], 'virtualfit-result.png', { type: 'image/png' });
+
+                    await navigator.share({
+                        title: 'My VirtualFit AI Try-On Result',
+                        text: 'Check out my virtual try-on result created with DeepSeek V3!',
+                        files: [file]
+                    });
+                } catch (error) {
+                    console.error('Sharing failed:', error);
+                    fallbackShare();
+                }
+            } else {
+                fallbackShare();
+            }
+        }
+
+        // Fallback share method
+        function fallbackShare() {
+            navigator.clipboard.writeText(window.location.href);
+            alert('Link copied to clipboard!');
+        }
+
+        // Regenerate result
+        function regenerateResult() {
+            generateTryOn();
+        }
+
+        // Start new try-on
+        function startNewTryOn() {
+            document.getElementById('resultsSection').classList.add('hidden');
+            removePerson();
+            removeClothing();
+        }
+
+        // Initialize app when page loads
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
         // Modal functions
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
