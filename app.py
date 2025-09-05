@@ -6,6 +6,7 @@ import requests
 import json
 from PIL import Image
 import io
+import time
 from datetime import datetime, timedelta
 import random
 import uuid
@@ -24,8 +25,10 @@ logger = logging.getLogger(__name__)
 # OpenRouter API configuration
 OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', 'your-openrouter-api-key-here')
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
-UPLOAD_FOLDER = 'uploads'
-RESULTS_FOLDER = 'results'
+
+# Use /tmp for file storage on Render
+UPLOAD_FOLDER = '/tmp/uploads'
+RESULTS_FOLDER = '/tmp/results'
 
 # Create directories if they don't exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -38,175 +41,111 @@ if not DEEPSEEK_API_KEY:
 
 def encode_image_to_base64(image_path):
     """Convert image file to base64 string"""
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+    try:
+        with open(image_path, "rb") as image_file:
+            return base64.b64encode(image_file.read()).decode('utf-8')
+    except Exception as e:
+        logger.error(f"Error encoding image: {str(e)}")
+        return None
 
 def save_uploaded_file(file, prefix="img"):
     """Save uploaded file and return the path"""
-    if file and file.filename:
-        # Generate unique filename
-        file_extension = file.filename.rsplit('.', 1)[1].lower()
-        unique_filename = f"{prefix}_{uuid.uuid4().hex}.{file_extension}"
-        file_path = os.path.join(UPLOAD_FOLDER, unique_filename)
-        
-        # Save file
-        file.save(file_path)
-        
-        # Validate and resize if needed
-        try:
+    try:
+        if file and file.filename:
+            file_extension = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else 'jpg'
+            unique_filename = f"{prefix}_{uuid.uuid4().hex}.{file_extension}"
+            file_path = os.path.join(UPLOAD_FOLDER, unique_filename)
+            
+            file.save(file_path)
+            
+            # Process image
             with Image.open(file_path) as img:
-                # Convert to RGB if necessary
                 if img.mode in ('RGBA', 'P'):
                     img = img.convert('RGB')
                 
-                # Resize if too large (max 1024x1024 for API efficiency)
                 max_size = 1024
                 if img.width > max_size or img.height > max_size:
                     img.thumbnail((max_size, max_size), Image.Resampling.LANCZOS)
                     img.save(file_path, 'JPEG', quality=90)
                 
-                logger.info(f"Saved and processed image: {file_path} ({img.width}x{img.height})")
+                logger.info(f"Saved image: {file_path}")
                 return file_path
                 
-        except Exception as e:
-            logger.error(f"Error processing image {file_path}: {str(e)}")
-            if os.path.exists(file_path):
-                os.remove(file_path)
-            return None
-    
-    return None
+    except Exception as e:
+        logger.error(f"Error saving file: {str(e)}")
+        return None
 
 def call_deepseek_api(person_image_path, clothing_image_path, options):
-    """Call DeepSeek V3 API for virtual try-on"""
+    """Call DeepSeek V3 API"""
     try:
-        # Encode images to base64
+        if not DEEPSEEK_API_KEY:
+            logger.error("DeepSeek API key not available")
+            return None
+            
         person_b64 = encode_image_to_base64(person_image_path)
         clothing_b64 = encode_image_to_base64(clothing_image_path)
         
-        # Prepare the prompt based on options
-        quality_prompts = {
-            'standard': 'Generate a realistic virtual try-on result',
-            'high': 'Generate a high-quality, detailed virtual try-on result with accurate fitting',
-            'ultra': 'Generate an ultra-high-definition virtual try-on result with perfect detail and realistic lighting'
-        }
+        if not person_b64 or not clothing_b64:
+            return None
         
-        fit_prompts = {
-            'auto': 'with natural, well-fitted appearance',
-            'loose': 'with a loose, comfortable fit',
-            'tight': 'with a tight, form-fitting appearance',
-            'custom': 'with custom tailored fit'
-        }
+        prompt = f"""Create a realistic virtual try-on result. Take the person from the first image and put the clothing from the second image on them. Make it look natural and well-fitted with proper lighting and shadows. Quality: {options.get('quality', 'high')}"""
         
-        style_prompts = {
-            'none': '',
-            'natural': 'Maintain natural lighting and colors',
-            'enhanced': 'Enhance colors and contrast for a more vibrant look',
-            'artistic': 'Apply artistic styling with enhanced visual appeal'
-        }
-        
-        base_prompt = quality_prompts.get(options.get('quality', 'high'), quality_prompts['high'])
-        fit_prompt = fit_prompts.get(options.get('fit', 'auto'), fit_prompts['auto'])
-        style_prompt = style_prompts.get(options.get('style', 'natural'), style_prompts['natural'])
-        
-        full_prompt = f"""
-        {base_prompt} {fit_prompt}. {style_prompt}
-        
-        Instructions:
-        1. Take the person from the first image and the clothing item from the second image
-        2. Realistically place the clothing on the person, ensuring proper fit and proportions
-        3. Maintain the person's pose, lighting, and background
-        4. Ensure the clothing looks natural and well-fitted
-        5. Preserve image quality and realistic textures
-        6. Make sure shadows and lighting are consistent
-        
-        Return only the final composite image showing the person wearing the clothing item.
-        """
-        
-        # Prepare API request
         headers = {
             'Authorization': f'Bearer {DEEPSEEK_API_KEY}',
             'Content-Type': 'application/json'
         }
         
         payload = {
-            "model": "deepseek-v3",
+            "model": "deepseek-chat",
             "messages": [
                 {
                     "role": "user",
                     "content": [
-                        {
-                            "type": "text",
-                            "text": full_prompt
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/jpeg;base64,{person_b64}"
-                            }
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/jpeg;base64,{clothing_b64}"
-                            }
-                        }
+                        {"type": "text", "text": prompt},
+                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{person_b64}"}},
+                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{clothing_b64}"}}
                     ]
                 }
             ],
-            "max_tokens": 4000,
+            "max_tokens": 1000,
             "temperature": 0.1
         }
         
-        logger.info("Sending request to DeepSeek V3 API...")
-        
-        # Make API call
-        response = requests.post(
-            DEEPSEEK_API_URL,
-            headers=headers,
-            json=payload,
-            timeout=120  # 2 minute timeout
-        )
+        response = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload, timeout=60)
         
         if response.status_code == 200:
-            result = response.json()
-            logger.info("DeepSeek V3 API call successful")
-            return result
+            return response.json()
         else:
-            logger.error(f"DeepSeek API error: {response.status_code} - {response.text}")
+            logger.error(f"API Error: {response.status_code} - {response.text}")
             return None
             
     except Exception as e:
-        logger.error(f"Error calling DeepSeek API: {str(e)}")
+        logger.error(f"DeepSeek API error: {str(e)}")
         return None
 
-def process_api_response(api_response, person_image_path, clothing_image_path):
-    """Process the API response and generate result image"""
+def create_result_image(person_path, clothing_path):
+    """Create a demo result image"""
     try:
-        # For this example, we'll create a composite result
-        # In a real implementation, DeepSeek V3 would return the generated image
+        person_img = Image.open(person_path)
         
-        # Load the original images
-        person_img = Image.open(person_image_path)
-        clothing_img = Image.open(clothing_image_path)
+        # Create a simple overlay effect as demo
+        overlay = Image.new('RGBA', person_img.size, (124, 58, 237, 20))
+        if person_img.mode != 'RGBA':
+            person_img = person_img.convert('RGBA')
         
-        # Create a result image (this is a placeholder - replace with actual API response processing)
-        result_img = person_img.copy()
+        result_img = Image.alpha_composite(person_img, overlay).convert('RGB')
         
-        # Add a subtle overlay to indicate processing (remove this in production)
-        overlay = Image.new('RGBA', result_img.size, (124, 58, 237, 30))
-        result_img = Image.alpha_composite(result_img.convert('RGBA'), overlay).convert('RGB')
-        
-        # Save result
         result_filename = f"result_{uuid.uuid4().hex}.jpg"
         result_path = os.path.join(RESULTS_FOLDER, result_filename)
         result_img.save(result_path, 'JPEG', quality=95)
         
-        logger.info(f"Generated result image: {result_path}")
         return result_path
         
     except Exception as e:
-        logger.error(f"Error processing API response: {str(e)}")
+        logger.error(f"Error creating result: {str(e)}")
         return None
+
+
 
 
 def call_openrouter_api(prompt, system_prompt="You are Nipa, a helpful AI assistant for girls. You're friendly, supportive, and knowledgeable about fashion, beauty, wellness, and lifestyle. IMPORTANT: Always use emojis instead of asterisks (*). Never use asterisks for emphasis - use emojis like 💕✨🌟💖 instead. Respond in a girly, encouraging tone with lots of emojis."):
