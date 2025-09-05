@@ -658,6 +658,14 @@ def health_check():
     """Health check endpoint for monitoring"""
     return jsonify({'status': 'healthy', 'message': 'Nipa API is running! 💕✨'})
 
+
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    # Set maximum file size (10MB)
+    app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+    
+    print("🚀 VirtualFit Flask Server Starting...")
+    print(f"📁 Upload folder: {UPLOAD_FOLDER}")
+    print(f"📁 Results folder: {RESULTS_FOLDER}")
+    print(f"🤖 DeepSeek V3 API: {'✅ Configured' if DEEPSEEK_API_KEY else '❌ Missing API Key'}")
+    
+    app.run(debug=True, host='0.0.0.0', port=5000)
