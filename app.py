@@ -1,13 +1,12 @@
-from flask import Flask, request, jsonify,send_file
+from flask import Flask, request, jsonify, send_file, render_template
 from flask_cors import CORS
 import os
 import base64
 import requests
 import json
-from PIL import image
+from PIL import Image
 import io
 from datetime import datetime, timedelta
-from flask import render_template
 import random
 import uuid
 import logging
