@@ -6,6 +6,8 @@ import json
 from datetime import datetime, timedelta
 from flask import render_template
 import random
+from authlib.integrations.flask_client import OAuth
+import hashlib
 
 app = Flask(__name__)
 CORS(app)
