@@ -113,11 +113,6 @@ def call_openrouter_api(prompt, system_prompt="You are Nipa, a helpful AI assist
 
 
 # --- Routes ---
-@app.route("/")
-def root():
-    # public root -> login page
-    return redirect(url_for("login_page"))
-
 
 @app.route("/login", methods=["GET"])
 def login_page():
