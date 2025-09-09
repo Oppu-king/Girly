@@ -374,46 +374,34 @@ def chat_with_ai():
     """Handle AI chat requests"""
     try:
         data = request.get_json()
-        message = data.get('message', '')
-        context = data.get('context', 'general')
-        model = data.get('model', 'deepseek/deepseek-chat')
+        message = data.get("message", "")
+        context = data.get("context", "general")
 
         if not message:
-            return jsonify({'error': 'Message is required'}), 400
+            return jsonify({"error": "Message is required"}), 400
 
         # System prompts
         system_prompts = {
-            'tutor': 'You are an expert AI Legal Tutor helping law students. Provide educational explanations with examples and case references where relevant. Focus on Indian law when applicable.',
-            'case_brief': 'You are an AI legal assistant specializing in case brief generation. Analyze judgments and create comprehensive case briefs with facts, issues, holdings, and legal reasoning.',
-            'drafting': 'You are an AI legal drafting assistant. Create professional legal documents with proper formatting, clauses, and legal language. Ensure compliance with standard legal practices.',
-            'research': 'You are an AI legal research assistant. Provide comprehensive legal research with relevant cases, statutes, legal principles, and citations.',
-            'moot_court': 'You are an AI moot court judge. Provide constructive feedback, ask probing questions, and present counter-arguments. Be professional but challenging.',
-            'general': 'You are an expert AI legal assistant helping law students and professionals. Provide accurate, helpful legal information and guidance.'
+            "tutor": "You are an expert AI Legal Tutor helping law students. Provide educational explanations with examples and case references where relevant. Focus on Indian law when applicable.",
+            "case_brief": "You are an AI legal assistant specializing in case brief generation. Analyze judgments and create comprehensive case briefs with facts, issues, holdings, and legal reasoning.",
+            "drafting": "You are an AI legal drafting assistant. Create professional legal documents with proper formatting, clauses, and legal language. Ensure compliance with standard legal practices.",
+            "research": "You are an AI legal research assistant. Provide comprehensive legal research with relevant cases, statutes, legal principles, and citations.",
+            "moot_court": "You are an AI moot court judge. Provide constructive feedback, ask probing questions, and present counter-arguments. Be professional but challenging.",
+            "general": "You are an expert AI legal assistant helping law students and professionals. Provide accurate, helpful legal information and guidance."
         }
-        system_prompt = system_prompts.get(context, system_prompts['general'])
+        system_prompt = system_prompts.get(context, system_prompts["general"])
 
-        # Call OpenRouter API
-        headers = {
-            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-            "Content-Type": "application/json"
-        }
+        ai_response = call_openrouter_api(message, system_prompt)
 
-        payload = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": message}
-            ],
-            "max_tokens": 3000,
-            "temperature": 0.7,
-            "top_p": 1
-        }
-
-                response = call_openrouter_api(prompt, system_prompt)
-        return jsonify({'products': response})
+        return jsonify({
+            "response": ai_response,
+            "context": context,
+            "timestamp": datetime.now().isoformat()
+        })
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
+
 
 # -------------------------------------------------------------------
 # File Upload
@@ -421,17 +409,17 @@ def chat_with_ai():
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
     try:
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file uploaded'}), 400
+        if "file" not in request.files:
+            return jsonify({"error": "No file uploaded"}), 400
 
-        file = request.files['file']
-        if file.filename == '':
-            return jsonify({'error': 'No file selected'}), 400
+        file = request.files["file"]
+        if file.filename == "":
+            return jsonify({"error": "No file selected"}), 400
 
         file_id = str(uuid.uuid4())
         filename = f"{file_id}_{file.filename}"
 
-        upload_folder = os.path.join(app.root_path, 'uploads')
+        upload_folder = os.path.join(app.root_path, "uploads")
         os.makedirs(upload_folder, exist_ok=True)
         file_path = os.path.join(upload_folder, filename)
         file.save(file_path)
@@ -446,7 +434,8 @@ def upload_file():
             "upload_time": datetime.now().isoformat()
         })
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
+
 
 # -------------------------------------------------------------------
 # Generate Document
@@ -455,13 +444,13 @@ def upload_file():
 def generate_document():
     try:
         data = request.get_json()
-        doc_type = data.get('document_type', '')
-        details = data.get('details', '')
+        doc_type = data.get("document_type", "")
+        details = data.get("details", "")
 
         if not doc_type or not details:
-            return jsonify({'error': 'Document type and details are required'}), 400
+            return jsonify({"error": "Document type and details are required"}), 400
 
-        prompt = f"""Generate a professional {doc_type} based on these requirements: "{details}". 
+        prompt = f"""Generate a professional {doc_type} based on these requirements: "{details}".
 Please create a complete, legally formatted document with:
 1. Proper legal structure and formatting
 2. All necessary clauses and provisions
@@ -469,7 +458,7 @@ Please create a complete, legally formatted document with:
 4. Professional legal language
 5. Compliance with standard legal practices"""
 
-        ai_response = call_ai_api(prompt, 'drafting')
+        ai_response = call_openrouter_api(prompt, "You are an AI legal drafting assistant.")
         doc_id = save_generated_document(doc_type, ai_response, details)
 
         return jsonify({
@@ -479,7 +468,8 @@ Please create a complete, legally formatted document with:
             "generated_at": datetime.now().isoformat()
         })
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
+
 
 # -------------------------------------------------------------------
 # Case Brief
@@ -488,14 +478,14 @@ Please create a complete, legally formatted document with:
 def generate_case_brief():
     try:
         data = request.get_json()
-        file_content = data.get('file_content', '')
+        file_content = data.get("file_content", "")
 
         if not file_content:
-            return jsonify({'error': 'File content is required'}), 400
+            return jsonify({"error": "File content is required"}), 400
 
         prompt = f"""Analyze this legal judgment and create a comprehensive case brief. Content: "{file_content}"."""
 
-        ai_response = call_ai_api(prompt, 'case_brief')
+        ai_response = call_openrouter_api(prompt, "You are an AI legal assistant specializing in case brief generation.")
         brief_id = save_case_brief(ai_response, file_content[:100])
 
         return jsonify({
@@ -504,7 +494,8 @@ def generate_case_brief():
             "generated_at": datetime.now().isoformat()
         })
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
+
 
 # -------------------------------------------------------------------
 # Plagiarism
@@ -513,14 +504,14 @@ def generate_case_brief():
 def check_plagiarism():
     try:
         data = request.get_json()
-        content = data.get('content', '')
+        content = data.get("content", "")
 
         if not content:
-            return jsonify({'error': 'Content is required'}), 400
+            return jsonify({"error": "Content is required"}), 400
 
         prompt = f"""Analyze this document for plagiarism and originality. Content: "{content}"."""
 
-        ai_response = call_ai_api(prompt, 'research')
+        ai_response = call_openrouter_api(prompt, "You are an AI legal research assistant.")
 
         return jsonify({
             "report": ai_response,
@@ -528,15 +519,16 @@ def check_plagiarism():
             "word_count": len(content.split())
         })
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
+
 
 # -------------------------------------------------------------------
 # User Stats
 # -------------------------------------------------------------------
 @app.route('/api/user-stats', methods=['GET', 'POST'])
 def user_stats():
-    if request.method == 'GET':
-        stats = session.get('user_stats', {
+    if request.method == "GET":
+        stats = session.get("user_stats", {
             "study_streak": 0,
             "cases_studied": 0,
             "ai_interactions": 0,
@@ -545,12 +537,13 @@ def user_stats():
         })
         return jsonify(stats)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         data = request.get_json()
-        current_stats = session.get('user_stats', {})
+        current_stats = session.get("user_stats", {})
         current_stats.update(data)
-        session['user_stats'] = current_stats
+        session["user_stats"] = current_stats
         return jsonify(current_stats)
+
 
 # -------------------------------------------------------------------
 # Save Document
@@ -559,14 +552,14 @@ def user_stats():
 def save_document():
     try:
         data = request.get_json()
-        doc_name = data.get('name', '')
-        doc_content = data.get('content', '')
-        doc_type = data.get('type', 'general')
+        doc_name = data.get("name", "")
+        doc_content = data.get("content", "")
+        doc_type = data.get("type", "general")
 
         if not doc_name or not doc_content:
-            return jsonify({'error': 'Name and content are required'}), 400
+            return jsonify({"error": "Name and content are required"}), 400
 
-        saved_docs = session.get('saved_documents', [])
+        saved_docs = session.get("saved_documents", [])
         doc_id = str(uuid.uuid4())
 
         new_doc = {
@@ -579,14 +572,15 @@ def save_document():
         }
 
         saved_docs.append(new_doc)
-        session['saved_documents'] = saved_docs
+        session["saved_documents"] = saved_docs
 
         return jsonify({
             "document_id": doc_id,
             "message": "Document saved successfully"
         })
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
+
 
 # -------------------------------------------------------------------
 # Legal News
@@ -596,14 +590,14 @@ def get_legal_news():
     try:
         prompt = """Generate 3 current and realistic legal news items for today's date relevant to Indian law students."""
 
-        ai_response = call_ai_api(prompt, 'general')
+        ai_response = call_openrouter_api(prompt, "You are an expert AI legal assistant.")
 
         return jsonify({
             "news": ai_response,
             "generated_at": datetime.now().isoformat()
         })
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
 
 # Health check endpoint
