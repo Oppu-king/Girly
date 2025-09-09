@@ -627,7 +627,7 @@ def get_legal_news():
 
 
 @app.route("/nayana-ai", methods=["GET", "POST"])
-def ask_ai():
+def nayana_ai():
     response = None
     if request.method == "POST":
         try:
@@ -688,7 +688,7 @@ def ask_ai():
             if request.is_json or request.headers.get('Content-Type') == 'application/json':
                 return jsonify({'error': error_msg}), 500
             else:
-                return render_template("ask_ai.html", response=error_msg)
+                return render_template("nayana_ai.html", response=error_msg)
     
 
 
