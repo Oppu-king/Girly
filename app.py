@@ -651,8 +651,8 @@ def nayana_ai():
                 headers={
                     "Authorization": f"Bearer {OPENROUTER_KEY}",
                     "Content-Type": "application/json",
-                    "HTTP-Referer": "https://lakshmi-ai-trades.onrender.com",
-                    "X-Title": "Lakshmi AI Wife"
+                    "HTTP-Referer": "https://girly-z0et.onrender.com",
+                    "X-Title": "Nayana Ai"
                 },
                 json={
                     "model": "deepseek/deepseek-chat-v3-0324",
