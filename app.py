@@ -409,24 +409,8 @@ def chat_with_ai():
             "top_p": 1
         }
 
-        response = requests.post(OPENROUTER_BASE_URL, headers=headers, json=payload)
-
-        if response.status_code == 200:
-            result = response.json()
-            ai_response = result['choices'][0]['message']['content']
-
-            log_interaction(message, ai_response, context)
-
-            return jsonify({
-                "response": ai_response,
-                "model": model,
-                "timestamp": datetime.now().isoformat()
-            })
-        else:
-            return jsonify({
-                "error": f"API request failed: {response.status_code}",
-                "details": response.text
-            }), 500
+                response = call_openrouter_api(prompt, system_prompt)
+        return jsonify({'products': response})
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
