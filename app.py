@@ -688,7 +688,7 @@ def nayana_ai():
                 headers={
                     "Authorization": f"Bearer {OPENROUTER_KEY}",
                     "Content-Type": "application/json",
-                    "HTTP-Referer": "https://lakshmi-ai-trades.onrender.com",
+                    "HTTP-Referer": "https://girly-z0et.onrender.com",
                     "X-Title": "Nayana AI"
                 },
                 json={
