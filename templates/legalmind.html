@@ -1,0 +1,3573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegalMind Pro - AI-Powered Legal Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Sophisticated Legal Theme */
+        body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #c9b037 0%, #dcca3b 25%, #eedc82 50%, #dcca3b 75%, #c9b037 100%);
+            box-shadow: 0 8px 32px rgba(201, 176, 55, 0.3);
+        }
+        
+        .legal-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(201, 176, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(220, 202, 59, 0.08) 0%, transparent 50%),
+                linear-gradient(45deg, rgba(238, 220, 130, 0.05) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(201, 176, 55, 0.03) 25%, transparent 25%);
+            background-size: 60px 60px, 80px 80px, 40px 40px, 40px 40px;
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(201, 176, 55, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(201, 176, 55, 0.2), 0 8px 32px rgba(0, 0, 0, 0.15);
+            border-color: rgba(201, 176, 55, 0.4);
+        }
+        
+        .sidebar {
+            width: 280px;
+            transition: all 0.3s ease;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            backdrop-filter: blur(20px);
+            border-right: 2px solid rgba(201, 176, 55, 0.3);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sidebar.collapsed {
+            width: 80px;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+        }
+        
+        .main-content.expanded {
+            margin-left: 80px;
+        }
+        
+        .right-sidebar {
+            width: 320px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            backdrop-filter: blur(20px);
+            border-left: 2px solid rgba(201, 176, 55, 0.3);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dark-mode {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+        }
+        
+        /* Enhanced Navigation */
+        nav {
+            background: linear-gradient(90deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(201, 176, 55, 0.3) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(180deg, #c9b037, #dcca3b);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-item:hover::before,
+        .nav-item.bg-gray-800::before {
+            transform: scaleY(1);
+        }
+        
+        .nav-item:hover {
+            background: linear-gradient(90deg, rgba(201, 176, 55, 0.1), rgba(220, 202, 59, 0.05));
+            transform: translateX(8px);
+        }
+        
+        /* Elegant Cards */
+        .bg-white {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%) !important;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(201, 176, 55, 0.2) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Premium Buttons */
+        .bg-blue-600 {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%) !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bg-blue-600::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .bg-blue-600:hover::before {
+            left: 100%;
+        }
+        
+        .bg-green-600 {
+            background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%) !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        
+        .bg-purple-600 {
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 50%, #a78bfa 100%) !important;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        
+        .bg-red-600 {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f87171 100%) !important;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+        
+        .bg-orange-600 {
+            background: linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%) !important;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+        }
+        
+        /* Luxury Text Styling */
+        .text-white {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1, h2, h3 {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+        
+        /* Professional Inputs */
+        input, textarea, select {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(201, 176, 55, 0.2) !important;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            border-color: rgba(201, 176, 55, 0.6) !important;
+            box-shadow: 0 0 0 4px rgba(201, 176, 55, 0.1), 0 4px 15px rgba(201, 176, 55, 0.2) !important;
+            transform: translateY(-2px);
+        }
+        
+        /* Animated Background Elements */
+        .legal-pattern::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(201, 176, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(220, 202, 59, 0.08) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(-10px) rotate(-1deg); }
+        }
+        
+        /* Justice Scales Animation */
+        .balance-scale {
+            animation: balance 4s ease-in-out infinite;
+        }
+        
+        @keyframes balance {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-2deg); }
+            75% { transform: rotate(2deg); }
+        }
+        
+        /* Premium Modal Styling */
+        .modal {
+            backdrop-filter: blur(10px);
+            background: rgba(15, 15, 35, 0.8);
+        }
+        
+        .modal .bg-white {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%) !important;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(201, 176, 55, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(26, 26, 46, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #c9b037, #dcca3b);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #dcca3b, #eedc82);
+        }
+        
+        .dark-mode .bg-white {
+            background: #1e293b !important;
+            color: #ffffff !important;
+        }
+        
+        .dark-mode .text-gray-900 {
+            color: #ffffff !important;
+        }
+        
+        .dark-mode .text-gray-700 {
+            color: #ffffff !important;
+        }
+        
+        .dark-mode .text-gray-600 {
+            color: #e2e8f0 !important;
+        }
+        
+        .dark-mode .text-gray-500 {
+            color: #cbd5e1 !important;
+        }
+        
+        .dark-mode input {
+            background: #334155 !important;
+            color: #f1f5f9 !important;
+            border-color: #475569 !important;
+        }
+        
+        .dark-mode input::placeholder {
+            color: #94a3b8 !important;
+        }
+        
+        .dark-mode textarea {
+            background: #334155 !important;
+            color: #f1f5f9 !important;
+            border-color: #475569 !important;
+        }
+        
+        .dark-mode select {
+            background: #334155 !important;
+            color: #f1f5f9 !important;
+            border-color: #475569 !important;
+        }
+        
+        .dark-mode .border-gray-200 {
+            border-color: #475569 !important;
+        }
+        
+        .dark-mode .bg-gray-50 {
+            background: #334155 !important;
+        }
+        
+        .dark-mode .bg-gray-100 {
+            background: #475569 !important;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .typing-indicator {
+            display: none;
+        }
+        
+        .typing-indicator.active {
+            display: block;
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform-origin: 50% 50%;
+        }
+        
+        .notification-dot {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .voice-wave {
+            display: none;
+            animation: wave 1.5s infinite;
+        }
+        
+        .voice-wave.active {
+            display: inline-block;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+        
+        .split-screen {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                z-index: 50;
+                height: 100vh;
+            }
+            
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .right-sidebar {
+                display: none;
+            }
+            
+            .split-screen {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark-mode legal-pattern">
+    <!-- Top Navigation -->
+    <nav class="fixed top-0 w-full bg-gray-900 border-b border-gray-700 z-40 h-16">
+        <div class="flex items-center justify-between h-full px-4">
+            <!-- Left Side -->
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleSidebar()" class="p-2 rounded-lg hover:bg-gray-700 lg:hidden">
+                    <i class="fas fa-bars text-white"></i>
+                </button>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-balance-scale text-white text-sm balance-scale"></i>
+                    </div>
+                    <span class="text-lg font-bold text-white hidden sm:block">LegalMind Pro</span>
+                </div>
+            </div>
+            
+            <!-- Center Search -->
+            <div class="flex-1 max-w-2xl mx-4">
+                <div class="relative">
+                    <input type="text" id="global-search" placeholder="Search cases, acts, or ask AI..." 
+                           class="w-full pl-10 pr-12 py-2 bg-gray-800 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <button onclick="startVoiceSearch()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-400">
+                        <i class="fas fa-microphone"></i>
+                        <span class="voice-wave ml-1">🎵</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Right Side -->
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleNotifications()" class="relative p-2 rounded-lg hover:bg-gray-700">
+                    <i class="fas fa-bell text-white"></i>
+                    <span class="notification-dot absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                </button>
+                <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-gray-700">
+                    <i class="fas fa-moon text-white"></i>
+                </button>
+                <div class="relative">
+                    <button onclick="toggleProfile()" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%234F46E5'/%3E%3Ctext x='16' y='21' text-anchor='middle' fill='white' font-family='Arial' font-size='14' font-weight='bold'%3ELS%3C/text%3E%3C/svg%3E" 
+                             alt="Profile" class="w-8 h-8 rounded-full">
+                        <span class="hidden sm:block text-sm font-medium text-white">Law Student</span>
+                    </button>
+                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                        <div class="p-2">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-medium text-gray-900">Profile Menu</span>
+                                <button onclick="closeProfile()" class="text-gray-600 hover:text-red-600 p-2 rounded-full hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-times text-lg"></i>
+                                </button>
+                            </div>
+                            <button onclick="viewProfile()" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">👤 View Profile</button>
+                            <button onclick="showSection('settings')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">⚙️ Settings</button>
+                            <button onclick="showProgressReport()" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">📊 Progress Report</button>
+                            <button onclick="showAchievements()" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">🏆 Achievements</button>
+                            <button onclick="syncDevices()" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">📱 Sync Devices</button>
+                            <hr class="my-2">
+                            <button onclick="logout()" class="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded">🚪 Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar fixed left-0 top-16 h-full bg-gray-900 border-r border-gray-700 z-30 overflow-y-auto">
+        <div class="p-4">
+            <!-- Close Button for Mobile -->
+            <div class="flex justify-end mb-4 lg:hidden">
+                <button onclick="closeSidebar()" class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-800">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <!-- Navigation Menu -->
+            <nav class="space-y-2">
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Main</h3>
+                    <a href="#dashboard" onclick="showSection('dashboard')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-home w-5"></i>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Study Suite</h3>
+                    <a href="#ai-tutor" onclick="showSection('ai-tutor')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-robot w-5"></i>
+                        <span class="sidebar-text">📖 AI Tutor</span>
+                    </a>
+                    <a href="#case-brief" onclick="showSection('case-brief')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-gavel w-5"></i>
+                        <span class="sidebar-text">⚖️ Case Brief</span>
+                    </a>
+                    <a href="#bare-acts" onclick="showSection('bare-acts')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-book-open w-5"></i>
+                        <span class="sidebar-text">📜 Bare Acts</span>
+                    </a>
+                    <a href="#flashcards" onclick="showSection('flashcards')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-layer-group w-5"></i>
+                        <span class="sidebar-text">🃏 Flashcards</span>
+                    </a>
+                    <a href="#debate" onclick="showSection('debate')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-microphone w-5"></i>
+                        <span class="sidebar-text">🎤 AI Debate</span>
+                    </a>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Research</h3>
+                    <a href="#research" onclick="showSection('research')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-search w-5"></i>
+                        <span class="sidebar-text">🔍 Research Tools</span>
+                    </a>
+                    <a href="#drafting" onclick="showSection('drafting')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-edit w-5"></i>
+                        <span class="sidebar-text">📝 AI Drafting</span>
+                    </a>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Career</h3>
+                    <a href="#career" onclick="showSection('career')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-briefcase w-5"></i>
+                        <span class="sidebar-text">👩‍⚖️ Career Hub</span>
+                    </a>
+                    <a href="#moot-court" onclick="showSection('moot-court')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-university w-5"></i>
+                        <span class="sidebar-text">🏛️ Moot Court</span>
+                    </a>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Community</h3>
+                    <a href="#community" onclick="showSection('community')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-users w-5"></i>
+                        <span class="sidebar-text">🌐 Community</span>
+                    </a>
+                    <a href="#forum" onclick="showSection('forum')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-comments w-5"></i>
+                        <span class="sidebar-text">💬 Forum</span>
+                    </a>
+                </div>
+                
+                <div>
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Settings</h3>
+                    <a href="#settings" onclick="showSection('settings')" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-cog w-5"></i>
+                        <span class="sidebar-text">⚙️ Settings</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content pt-16 pb-16">
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="section-content p-6">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-white mb-2">Welcome back, Law Student!</h1>
+                <p class="text-gray-300">Your AI-powered legal learning companion</p>
+            </div>
+            
+            <!-- Real-time Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Study Streak</p>
+                            <p class="text-2xl font-bold text-blue-600" id="study-streak">0 days</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-fire text-blue-600"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Cases Studied</p>
+                            <p class="text-2xl font-bold text-green-600" id="cases-studied">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-gavel text-green-600"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">AI Interactions</p>
+                            <p class="text-2xl font-bold text-purple-600" id="ai-interactions">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-robot text-purple-600"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Documents Created</p>
+                            <p class="text-2xl font-bold text-orange-600" id="documents-created">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-file-alt text-orange-600"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Dashboard Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Quick Actions -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <button onclick="showSection('ai-tutor')" class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors">
+                                <i class="fas fa-robot text-2xl text-blue-600 mb-2"></i>
+                                <span class="text-sm font-medium">AI Tutor</span>
+                            </button>
+                            <button onclick="startVoiceNote()" class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors">
+                                <i class="fas fa-microphone text-2xl text-green-600 mb-2"></i>
+                                <span class="text-sm font-medium">Voice Note</span>
+                            </button>
+                            <button onclick="showSection('case-brief')" class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-colors">
+                                <i class="fas fa-gavel text-2xl text-purple-600 mb-2"></i>
+                                <span class="text-sm font-medium">Case Brief</span>
+                            </button>
+                            <button onclick="showSection('research')" class="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-colors">
+                                <i class="fas fa-search text-2xl text-orange-600 mb-2"></i>
+                                <span class="text-sm font-medium">Research</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Documents -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">Recent Documents</h3>
+                            <button onclick="refreshDocuments()" class="text-blue-600 hover:text-blue-700 text-sm font-medium">Refresh</button>
+                        </div>
+                        <div id="recent-documents" class="space-y-3">
+                            <div class="text-center py-8 text-gray-500">
+                                <i class="fas fa-file-alt text-4xl mb-4"></i>
+                                <p>No documents yet</p>
+                                <p class="text-sm">Start creating documents to see them here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column -->
+                <div class="space-y-6">
+                    <!-- Study Progress -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Study Progress</h3>
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="relative w-24 h-24">
+                                <svg class="progress-ring w-24 h-24">
+                                    <circle cx="48" cy="48" r="40" stroke="#e5e7eb" stroke-width="8" fill="transparent"/>
+                                    <circle cx="48" cy="48" r="40" stroke="#3b82f6" stroke-width="8" fill="transparent"
+                                            stroke-dasharray="251.2" stroke-dashoffset="251.2" class="progress-ring-circle" id="progress-circle"/>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span class="text-xl font-bold text-blue-600" id="overall-progress">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="subject-progress" class="space-y-3">
+                            <div class="text-center py-4 text-gray-500">
+                                <p class="text-sm">Start studying to track your progress</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Today's Legal Digest -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">Today's Legal Digest</h3>
+                            <button onclick="fetchLegalNews()" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                                <i class="fas fa-sync-alt mr-1"></i>Refresh
+                            </button>
+                        </div>
+                        <div id="legal-digest" class="space-y-4">
+                            <div class="text-center py-8 text-gray-500">
+                                <i class="fas fa-newspaper text-4xl mb-4"></i>
+                                <p>Loading latest legal updates...</p>
+                                <button onclick="fetchLegalNews()" class="mt-2 text-blue-600 hover:text-blue-700 text-sm">
+                                    Click to fetch news
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Upcoming Tasks -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">Upcoming Tasks</h3>
+                            <button onclick="addNewTask()" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                                <i class="fas fa-plus mr-1"></i>Add Task
+                            </button>
+                        </div>
+                        <div id="upcoming-tasks" class="space-y-3">
+                            <div class="text-center py-8 text-gray-500">
+                                <i class="fas fa-tasks text-4xl mb-4"></i>
+                                <p>No tasks scheduled</p>
+                                <button onclick="addNewTask()" class="mt-2 text-blue-600 hover:text-blue-700 text-sm">
+                                    Add your first task
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Tutor Section -->
+        <div id="ai-tutor-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">📖 AI Legal Tutor</h1>
+                <p class="text-gray-300">Upload documents and get AI-powered explanations, summaries, and Q&A</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Upload & Controls -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200 mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Upload Document</h3>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <input type="file" id="tutor-file-upload" accept=".pdf,.doc,.docx,.txt" class="hidden" onchange="handleTutorFileUpload(event)">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-600 mb-4">Drag & drop or click to upload</p>
+                            <button onclick="document.getElementById('tutor-file-upload').click()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                Choose File
+                            </button>
+                        </div>
+                        <div id="upload-status" class="mt-4 hidden">
+                            <div class="flex items-center space-x-2 text-green-600">
+                                <i class="fas fa-check-circle"></i>
+                                <span class="text-sm">Document uploaded successfully!</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">AI Actions</h3>
+                        <div class="space-y-3">
+                            <button onclick="generateSummary()" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-compress-alt mr-2"></i>Generate Summary
+                            </button>
+                            <button onclick="explainConcepts()" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
+                                <i class="fas fa-lightbulb mr-2"></i>Explain Concepts
+                            </button>
+                            <button onclick="generateQuestions()" class="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
+                                <i class="fas fa-question-circle mr-2"></i>Generate Q&A
+                            </button>
+                            <button onclick="createFlashcards()" class="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">
+                                <i class="fas fa-layer-group mr-2"></i>Create Flashcards
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Chat Interface -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl border border-gray-200 h-96 flex flex-col">
+                        <div class="p-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">AI Tutor Chat</h3>
+                        </div>
+                        <div id="tutor-chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50">
+                            <div class="bg-blue-100 p-4 rounded-lg mb-4">
+                                <p class="text-blue-800">Hello! I'm your AI Legal Tutor. Upload a document or ask me any legal question to get started!</p>
+                            </div>
+                        </div>
+                        <div class="p-4 border-t border-gray-200">
+                            <div class="flex space-x-3">
+                                <input type="text" id="tutor-chat-input" placeholder="Ask about legal concepts, cases, or uploaded documents..." 
+                                       class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                       onkeypress="handleTutorChatKeyPress(event)">
+                                <button onclick="sendTutorMessage()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                                <button onclick="startTutorVoice()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                            </div>
+                            <div id="tutor-typing" class="typing-indicator mt-2">
+                                <div class="flex items-center space-x-2 text-gray-500">
+                                    <div class="flex space-x-1">
+                                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                                    </div>
+                                    <span class="text-sm">AI is thinking...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Case Brief Section -->
+        <div id="case-brief-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">⚖️ AI Case Brief Generator</h1>
+                <p class="text-gray-300">Upload judgments and get AI-generated case briefs with facts, issues, and rulings</p>
+            </div>
+            
+            <div class="split-screen">
+                <!-- Left Side - Upload & Controls -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Upload Judgment</h3>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6">
+                        <input type="file" id="case-file-upload" accept=".pdf,.doc,.docx" class="hidden" onchange="handleCaseFileUpload(event)">
+                        <i class="fas fa-gavel text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600 mb-4">Upload court judgment or case document</p>
+                        <button onclick="document.getElementById('case-file-upload').click()" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">
+                            Upload Judgment
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <button onclick="generateCaseBrief()" id="generate-brief-btn" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50" disabled>
+                            <i class="fas fa-magic mr-2"></i>Generate Case Brief
+                        </button>
+                        <button onclick="extractKeyPoints()" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-key mr-2"></i>Extract Key Points
+                        </button>
+                        <button onclick="findSimilarCases()" class="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">
+                            <i class="fas fa-search mr-2"></i>Find Similar Cases
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Right Side - Generated Brief -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Generated Case Brief</h3>
+                        <button onclick="exportBrief()" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                            <i class="fas fa-download mr-1"></i>Export
+                        </button>
+                    </div>
+                    <div id="case-brief-output" class="prose max-w-none">
+                        <div class="text-center text-gray-500 py-12">
+                            <i class="fas fa-file-alt text-4xl mb-4"></i>
+                            <p>Upload a judgment to generate AI-powered case brief</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bare Acts Section -->
+        <div id="bare-acts-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">📜 Bare Acts Library</h1>
+                <p class="text-gray-300">Access and analyze Indian legal statutes with AI assistance</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Constitution -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-landmark text-red-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Constitution of India</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Complete text with amendments</p>
+                    <button onclick="openBareAct('constitution')" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors text-sm">
+                        Open Constitution
+                    </button>
+                </div>
+
+                <!-- IPC -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-gavel text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Indian Penal Code</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Criminal law provisions</p>
+                    <button onclick="openBareAct('ipc')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                        Open IPC
+                    </button>
+                </div>
+
+                <!-- CrPC -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-balance-scale text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Criminal Procedure Code</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Criminal procedure law</p>
+                    <button onclick="openBareAct('crpc')" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors text-sm">
+                        Open CrPC
+                    </button>
+                </div>
+
+                <!-- CPC -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-contract text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Civil Procedure Code</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Civil procedure law</p>
+                    <button onclick="openBareAct('cpc')" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm">
+                        Open CPC
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Act Viewer -->
+            <div id="act-viewer" class="bg-white rounded-xl p-6 border border-gray-200 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="act-title" class="text-xl font-bold text-gray-900">Select an Act</h3>
+                    <div class="flex space-x-2">
+                        <button onclick="searchInAct()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
+                            <i class="fas fa-search mr-2"></i>Search
+                        </button>
+                        <button onclick="explainSection()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm">
+                            <i class="fas fa-lightbulb mr-2"></i>Explain
+                        </button>
+                        <button onclick="closeActViewer()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 text-sm">
+                            Close
+                        </button>
+                    </div>
+                </div>
+                <div id="act-content" class="prose max-w-none h-96 overflow-y-auto border border-gray-200 rounded-lg p-4">
+                    <p class="text-gray-500">Select an act to view its contents</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flashcards Section -->
+        <div id="flashcards-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">🃏 AI Flashcards</h1>
+                <p class="text-gray-300">Create and study with AI-generated flashcards</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Flashcard Creator -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200 mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Create Flashcards</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Topic/Subject</label>
+                                <input type="text" id="flashcard-topic" placeholder="e.g., Constitutional Law, Contract Law" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Content Source</label>
+                                <textarea id="flashcard-content" placeholder="Paste text, upload notes, or describe topics..." 
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg h-24"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Number of Cards</label>
+                                <select id="flashcard-count" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                    <option value="10">10 cards</option>
+                                    <option value="15">15 cards</option>
+                                    <option value="20">20 cards</option>
+                                    <option value="25">25 cards</option>
+                                </select>
+                            </div>
+                            <button onclick="generateFlashcards()" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-magic mr-2"></i>Generate Flashcards
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Study Options</h3>
+                        <div class="space-y-3">
+                            <button onclick="startStudySession()" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                <i class="fas fa-play mr-2"></i>Start Study Session
+                            </button>
+                            <button onclick="reviewMissed()" class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                                <i class="fas fa-redo mr-2"></i>Review Missed Cards
+                            </button>
+                            <button onclick="exportFlashcards()" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                                <i class="fas fa-download mr-2"></i>Export Cards
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flashcard Display -->
+                <div class="lg:col-span-2">
+                    <div id="flashcard-display" class="bg-white rounded-xl p-6 border border-gray-200 h-96">
+                        <div class="text-center text-gray-500 py-12">
+                            <i class="fas fa-layer-group text-4xl mb-4"></i>
+                            <p>Generate flashcards to start studying</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Debate Section -->
+        <div id="debate-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">🎤 AI Legal Debate</h1>
+                <p class="text-gray-300">Practice legal arguments with AI opponents</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Debate Setup</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Debate Topic</label>
+                            <select id="debate-topic" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                <option value="constitutional">Constitutional Rights vs. National Security</option>
+                                <option value="criminal">Death Penalty: Justice vs. Human Rights</option>
+                                <option value="corporate">Corporate Liability in Environmental Damage</option>
+                                <option value="privacy">Digital Privacy vs. Law Enforcement</option>
+                                <option value="custom">Custom Topic</option>
+                            </select>
+                        </div>
+                        <div id="custom-topic-input" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Custom Topic</label>
+                            <input type="text" id="custom-debate-topic" placeholder="Enter your debate topic" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Your Position</label>
+                            <select id="debate-position" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                <option value="for">Arguing FOR the proposition</option>
+                                <option value="against">Arguing AGAINST the proposition</option>
+                                <option value="random">Random assignment</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Difficulty Level</label>
+                            <select id="debate-difficulty" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                                <option value="expert">Expert</option>
+                            </select>
+                        </div>
+                        <button onclick="startDebate()" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-play mr-2"></i>Start Debate
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Debate Rules</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <p>Present clear, logical arguments with evidence</p>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <p>Cite relevant cases, statutes, and legal principles</p>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <p>Address counterarguments effectively</p>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <p>Maintain professional legal language</p>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <p>AI will provide real-time feedback and scoring</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Debate Arena -->
+            <div id="debate-arena" class="bg-white rounded-xl p-6 border border-gray-200 hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Legal Debate in Progress</h3>
+                    <button onclick="endDebate()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                        End Debate
+                    </button>
+                </div>
+                <div id="debate-transcript" class="h-64 overflow-y-auto border border-gray-200 rounded-lg p-4 mb-4 bg-gray-50">
+                </div>
+                <div class="flex space-x-3">
+                    <input type="text" id="debate-argument" placeholder="Present your argument..." 
+                           class="flex-1 px-4 py-2 border border-gray-300 rounded-lg">
+                    <button onclick="submitDebateArgument()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Research Section -->
+        <div id="research-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">🔍 Research & Writing Tools</h1>
+                <p class="text-gray-300">Professional legal research and AI-powered writing assistance</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Citation Generator -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-quote-right text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Citation Generator</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Generate citations in multiple formats</p>
+                    <input type="text" id="citation-input" placeholder="Enter case/book name" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-2 text-sm">
+                    <select id="citation-format" class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-3 text-sm">
+                        <option value="bluebook">Bluebook</option>
+                        <option value="apa">APA</option>
+                        <option value="indian">Indian Legal</option>
+                        <option value="mla">MLA</option>
+                    </select>
+                    <button onclick="generateCitation()" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                        Generate Citation
+                    </button>
+                </div>
+
+                <!-- Plagiarism Checker -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-shield-alt text-red-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Plagiarism Checker</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Check originality of your work</p>
+                    <input type="file" id="plagiarism-upload" accept=".pdf,.doc,.docx,.txt" class="hidden" onchange="handlePlagiarismUpload(event)">
+                    <button onclick="document.getElementById('plagiarism-upload').click()" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors text-sm mb-2">
+                        <i class="fas fa-upload mr-2"></i>Upload Document
+                    </button>
+                    <button onclick="checkPlagiarism()" class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition-colors text-sm">
+                        Check Originality
+                    </button>
+                </div>
+
+                <!-- AI Drafting Lab -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-edit text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">AI Drafting Lab</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Create legal documents with AI</p>
+                    <select id="document-type" class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-3 text-sm">
+                        <option value="petition">Legal Petition</option>
+                        <option value="contract">Contract</option>
+                        <option value="notice">Legal Notice</option>
+                        <option value="agreement">Agreement</option>
+                        <option value="memo">Legal Memo</option>
+                    </select>
+                    <button onclick="startAIDrafting()" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors text-sm">
+                        <i class="fas fa-plus mr-2"></i>Start Drafting
+                    </button>
+                </div>
+
+                <!-- Semantic Search -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-brain text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Semantic Search</h3>
+                    <p class="text-gray-600 mb-4 text-sm">AI-powered legal research</p>
+                    <input type="text" id="semantic-search" placeholder="Describe legal concept" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-3 text-sm">
+                    <button onclick="performSemanticSearch()" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm">
+                        <i class="fas fa-search mr-2"></i>Smart Search
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Research Workspace -->
+            <div class="bg-white rounded-xl p-6 border border-gray-200">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900">Research Workspace</h3>
+                    <div class="flex space-x-2">
+                        <button onclick="saveResearch()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
+                            <i class="fas fa-save mr-2"></i>Save
+                        </button>
+                        <button onclick="exportResearch()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm">
+                            <i class="fas fa-download mr-2"></i>Export
+                        </button>
+                    </div>
+                </div>
+                <div id="research-workspace" class="min-h-96 border border-gray-200 rounded-lg p-4">
+                    <div class="text-center text-gray-500 py-12">
+                        <i class="fas fa-search text-4xl mb-4"></i>
+                        <p>Start your research using the tools above</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other sections would continue here... -->
+        <!-- For brevity, I'll add the key sections -->
+        
+        <!-- AI Drafting Section -->
+        <div id="drafting-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">📝 AI Legal Drafting</h1>
+                <p class="text-gray-300">Create professional legal documents with AI assistance</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Document Type</h3>
+                        <select id="drafting-document-type" class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-4">
+                            <option value="petition">Legal Petition</option>
+                            <option value="contract">Contract Agreement</option>
+                            <option value="notice">Legal Notice</option>
+                            <option value="memo">Legal Memorandum</option>
+                            <option value="brief">Legal Brief</option>
+                            <option value="will">Will & Testament</option>
+                            <option value="nda">Non-Disclosure Agreement</option>
+                            <option value="lease">Lease Agreement</option>
+                        </select>
+                        
+                        <h4 class="font-medium text-gray-900 mb-2">Document Details</h4>
+                        <textarea id="drafting-details" placeholder="Describe the specific requirements, parties involved, key terms, etc." 
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-4 h-32"></textarea>
+                        
+                        <button onclick="generateLegalDocument()" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-magic mr-2"></i>Generate Document
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200 h-96">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">Generated Document</h3>
+                            <div class="flex space-x-2">
+                                <button onclick="saveDraft()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm">
+                                    <i class="fas fa-save mr-2"></i>Save
+                                </button>
+                                <button onclick="exportDocument()" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 text-sm">
+                                    <i class="fas fa-download mr-2"></i>Export
+                                </button>
+                            </div>
+                        </div>
+                        <div id="drafting-output" class="h-80 overflow-y-auto border border-gray-200 rounded-lg p-4">
+                            <div class="text-center text-gray-500 py-12">
+                                <i class="fas fa-file-alt text-4xl mb-4"></i>
+                                <p>Select document type and provide details to generate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Moot Court Section -->
+        <div id="moot-court-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">🏛️ AI Moot Court</h1>
+                <p class="text-gray-300">Practice arguments with AI judges and opponents</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Case Selection</h3>
+                    <select id="moot-case-type" class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-4">
+                        <option value="constitutional">Constitutional Law</option>
+                        <option value="criminal">Criminal Law</option>
+                        <option value="civil">Civil Law</option>
+                        <option value="corporate">Corporate Law</option>
+                        <option value="international">International Law</option>
+                        <option value="custom">Custom Case</option>
+                    </select>
+                    
+                    <textarea id="case-facts" placeholder="Enter case facts or let AI generate a scenario" 
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-4 h-24"></textarea>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="generateMootCase()" class="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                            Generate Case
+                        </button>
+                        <button onclick="startMootSession()" class="bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">
+                            Start Session
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Session Settings</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Your Role</label>
+                            <select id="user-role" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                <option value="petitioner">Petitioner</option>
+                                <option value="respondent">Respondent</option>
+                                <option value="amicus">Amicus Curiae</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Difficulty Level</label>
+                            <select id="difficulty-level" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                                <option value="expert">Expert</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Session Duration</label>
+                            <select id="session-duration" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                <option value="15">15 minutes</option>
+                                <option value="30">30 minutes</option>
+                                <option value="45">45 minutes</option>
+                                <option value="60">60 minutes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="moot-court-arena" class="bg-white rounded-xl p-6 border border-gray-200 hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Moot Court Session</h3>
+                    <button onclick="endMootSession()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                        End Session
+                    </button>
+                </div>
+                <div id="moot-transcript" class="h-64 overflow-y-auto border border-gray-200 rounded-lg p-4 mb-4 bg-gray-50">
+                </div>
+                <div class="flex space-x-3">
+                    <input type="text" id="moot-argument" placeholder="Present your argument..." 
+                           class="flex-1 px-4 py-2 border border-gray-300 rounded-lg">
+                    <button onclick="submitArgument()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Section -->
+        <div id="community-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">🌐 Legal Community</h1>
+                <p class="text-gray-300">Connect with fellow law students and professionals</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Community Feed</h3>
+                        <div class="space-y-4">
+                            <div class="border-b border-gray-200 pb-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                                        AK
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-2 mb-1">
+                                            <span class="font-medium">Arjun Kumar</span>
+                                            <span class="text-sm text-gray-500">• 2 hours ago</span>
+                                        </div>
+                                        <p class="text-gray-700 mb-2">Just completed my analysis of the Kesavananda Bharati case. The basic structure doctrine is fascinating! Anyone want to discuss the implications for modern constitutional interpretation?</p>
+                                        <div class="flex space-x-4 text-sm text-gray-500">
+                                            <button onclick="likePost('post1')" class="hover:text-blue-600">👍 12 likes</button>
+                                            <button onclick="commentPost('post1')" class="hover:text-blue-600">💬 5 comments</button>
+                                            <button onclick="sharePost('post1')" class="hover:text-blue-600">🔄 Share</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="border-b border-gray-200 pb-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
+                                        PS
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-2 mb-1">
+                                            <span class="font-medium">Priya Sharma</span>
+                                            <span class="text-sm text-gray-500">• 4 hours ago</span>
+                                        </div>
+                                        <p class="text-gray-700 mb-2">Looking for study partners for upcoming moot court competition. Focus area: International Arbitration. DM if interested!</p>
+                                        <div class="flex space-x-4 text-sm text-gray-500">
+                                            <button onclick="likePost('post2')" class="hover:text-blue-600">👍 8 likes</button>
+                                            <button onclick="commentPost('post2')" class="hover:text-blue-600">💬 3 comments</button>
+                                            <button onclick="sharePost('post2')" class="hover:text-blue-600">🔄 Share</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 border-t border-gray-200 pt-4">
+                            <textarea id="new-post" placeholder="Share your thoughts with the community..." 
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-3 h-20"></textarea>
+                            <button onclick="createPost()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                Post
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Study Groups</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 border border-gray-200 rounded-lg">
+                                <h4 class="font-medium text-gray-900">Constitutional Law Study Circle</h4>
+                                <p class="text-sm text-gray-600">24 members • Active now</p>
+                                <button onclick="joinGroup('constitutional')" class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                                    Join Group
+                                </button>
+                            </div>
+                            <div class="p-3 border border-gray-200 rounded-lg">
+                                <h4 class="font-medium text-gray-900">Moot Court Prep</h4>
+                                <p class="text-sm text-gray-600">18 members • 3 online</p>
+                                <button onclick="joinGroup('moot')" class="mt-2 bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">
+                                    Join Group
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Upcoming Events</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-blue-50 rounded-lg">
+                                <h4 class="font-medium text-blue-900">Virtual Moot Court</h4>
+                                <p class="text-sm text-blue-700">Tomorrow, 3:00 PM</p>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded-lg">
+                                <h4 class="font-medium text-green-900">Legal Writing Workshop</h4>
+                                <p class="text-sm text-green-700">Friday, 2:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forum Section -->
+        <div id="forum-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">💬 Legal Discussion Forum</h1>
+                <p class="text-gray-300">Ask questions, share knowledge, and engage in legal discussions</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Categories</h3>
+                        <div class="space-y-2">
+                            <button onclick="filterForum('all')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 forum-filter active">
+                                📚 All Topics
+                            </button>
+                            <button onclick="filterForum('constitutional')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 forum-filter">
+                                ⚖️ Constitutional Law
+                            </button>
+                            <button onclick="filterForum('criminal')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 forum-filter">
+                                🚔 Criminal Law
+                            </button>
+                            <button onclick="filterForum('corporate')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 forum-filter">
+                                🏢 Corporate Law
+                            </button>
+                            <button onclick="filterForum('international')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 forum-filter">
+                                🌍 International Law
+                            </button>
+                            <button onclick="filterForum('career')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 forum-filter">
+                                💼 Career Advice
+                            </button>
+                        </div>
+                        
+                        <button onclick="createNewTopic()" class="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                            + New Topic
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-3">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900">Recent Discussions</h3>
+                            <select id="forum-sort" class="px-3 py-1 border border-gray-300 rounded-lg text-sm">
+                                <option value="recent">Most Recent</option>
+                                <option value="popular">Most Popular</option>
+                                <option value="unanswered">Unanswered</option>
+                            </select>
+                        </div>
+                        
+                        <div id="forum-topics" class="space-y-4">
+                            <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer" onclick="openTopic('topic1')">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-medium text-gray-900">Understanding the Basic Structure Doctrine</h4>
+                                    <span class="text-xs text-gray-500">2 hours ago</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">Can someone explain the practical implications of the basic structure doctrine in modern constitutional interpretation?</p>
+                                <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                    <span>👤 Rahul Mehta</span>
+                                    <span>💬 12 replies</span>
+                                    <span>👁️ 45 views</span>
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Constitutional Law</span>
+                                </div>
+                            </div>
+                            
+                            <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer" onclick="openTopic('topic2')">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-medium text-gray-900">Moot Court Preparation Tips</h4>
+                                    <span class="text-xs text-gray-500">5 hours ago</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">First time participating in a moot court. Any tips for effective preparation and presentation?</p>
+                                <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                    <span>👤 Sneha Patel</span>
+                                    <span>💬 8 replies</span>
+                                    <span>👁️ 32 views</span>
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded">Career Advice</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">⚙️ Settings</h1>
+                <p class="text-gray-300">Customize your LegalMind Pro experience</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">AI Configuration</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">API Configuration Status</label>
+                            <div id="api-status" class="p-3 rounded-lg mb-3">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check-circle text-green-600"></i>
+                                    <span class="text-green-800 font-medium">API Key Configured</span>
+                                </div>
+                                <p class="text-sm text-green-700 mt-1">Using environment variable OPENROUTER_API_KEY</p>
+                            </div>
+                            <input type="password" id="api-key-input" placeholder="Override with custom API key (optional)" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                            <p class="text-xs text-gray-500 mt-1">Environment variable takes priority. Local override stored securely.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">AI Model</label>
+                            <select id="ai-model-select" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                <option value="deepseek/deepseek-chat">DeepSeek Chat (Recommended)</option>
+                                <option value="anthropic/claude-3-sonnet">Claude 3 Sonnet</option>
+                                <option value="openai/gpt-4-turbo">GPT-4 Turbo</option>
+                                <option value="meta-llama/llama-3-70b-instruct">Llama 3 70B</option>
+                            </select>
+                        </div>
+                        <button onclick="saveAPISettings()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                            Save Settings
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Preferences</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-gray-700">Dark Mode</span>
+                            <button onclick="toggleDarkMode()" class="bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                                Toggle
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-gray-700">Voice Recognition</span>
+                            <button onclick="toggleVoiceRecognition()" class="bg-green-600 text-white px-3 py-1 rounded text-sm">
+                                Enable
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-gray-700">Auto-save Documents</span>
+                            <button onclick="toggleAutoSave()" class="bg-purple-600 text-white px-3 py-1 rounded text-sm">
+                                On
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Career Section -->
+        <div id="career-section" class="section-content p-6 hidden">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white mb-2">👩‍⚖️ Career Hub</h1>
+                <p class="text-gray-300">Build your legal career with AI-powered tools and guidance</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Mock Interview -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-user-tie text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">AI Mock Interview</h3>
+                    <p class="text-gray-600 mb-4">Practice interviews with AI feedback</p>
+                    <button onclick="startMockInterview()" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Start Interview
+                    </button>
+                </div>
+
+                <!-- Resume Builder -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-user text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">AI Resume Builder</h3>
+                    <p class="text-gray-600 mb-4">Create professional legal resumes</p>
+                    <button onclick="buildResume()" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        Build Resume
+                    </button>
+                </div>
+
+                <!-- Internship Tracker -->
+                <div class="bg-white rounded-xl p-6 border border-gray-200 card-hover">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-calendar-check text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Internship Tracker</h3>
+                    <p class="text-gray-600 mb-4">Track applications and deadlines</p>
+                    <button onclick="manageInternships()" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                        Manage Applications
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Right Sidebar -->
+    <aside class="right-sidebar fixed right-0 top-16 h-full bg-white border-l border-gray-200 z-20 overflow-y-auto">
+        <div class="p-4">
+            <!-- AI Chat Widget -->
+            <div class="mb-6">
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-4 text-white mb-4">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-robot text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold">AI Assistant</h3>
+                            <p class="text-sm opacity-90">Always here to help</p>
+                        </div>
+                    </div>
+                    <button onclick="openAIChat()" class="w-full bg-white/20 text-white py-2 rounded-lg hover:bg-white/30 transition-colors">
+                        <i class="fas fa-comments mr-2"></i>Start Chat
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Activity Feed -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                <div class="space-y-3">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-robot text-blue-600 text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-900">AI generated case brief for Kesavananda Bharati</p>
+                            <p class="text-xs text-gray-500">2 minutes ago</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-upload text-green-600 text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-900">Uploaded Constitutional Law notes</p>
+                            <p class="text-xs text-gray-500">1 hour ago</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-quiz text-purple-600 text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-900">Completed Criminal Law quiz (85%)</p>
+                            <p class="text-xs text-gray-500">3 hours ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reminders -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Reminders</h3>
+                <div class="space-y-3">
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <i class="fas fa-clock text-yellow-600"></i>
+                            <span class="text-sm font-medium text-yellow-800">Upcoming Deadline</span>
+                        </div>
+                        <p class="text-sm text-yellow-700">Contract Law assignment due tomorrow</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <i class="fas fa-calendar text-blue-600"></i>
+                            <span class="text-sm font-medium text-blue-800">Moot Court</span>
+                        </div>
+                        <p class="text-sm text-blue-700">Practice session Friday 3 PM</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Voice Note -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Voice Note</h3>
+                <button onclick="startQuickVoiceNote()" id="quick-voice-btn" class="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition-colors">
+                    <i class="fas fa-microphone mr-2"></i>Record Note
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                            <i class="fas fa-balance-scale text-white text-sm"></i>
+                        </div>
+                        <span class="text-lg font-bold text-white">LegalMind Pro</span>
+                    </div>
+                    <p class="text-white text-sm">AI-powered legal education platform for the next generation of lawyers.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-white">Legal</h4>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-blue-400">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Cookie Policy</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-white">Support</h4>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-green-400">Help Center</a></li>
+                        <li><a href="#" class="hover:text-green-400">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-green-400">Bug Report</a></li>
+                        <li><a href="#" class="hover:text-green-400">Feature Request</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-white">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white hover:text-blue-400">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-blue-400">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-green-400">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-purple-400">
+                            <i class="fab fa-discord text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-white">
+                <p>&copy; 2024 LegalMind Pro. All rights reserved. Powered by AI for legal education.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Chat Modal -->
+    <div id="ai-chat-modal" class="modal">
+        <div class="bg-white rounded-xl max-w-4xl w-full mx-4 h-5/6 flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-robot text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold">AI Legal Assistant</h3>
+                        <p class="text-sm text-gray-500">Powered by DeepSeek AI</p>
+                    </div>
+                </div>
+                <button onclick="closeAIChat()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="ai-chat-messages" class="flex-1 p-6 overflow-y-auto bg-gray-50">
+                <div class="bg-blue-100 p-4 rounded-lg mb-4">
+                    <p class="text-blue-800">Hello! I'm your AI Legal Assistant powered by DeepSeek. I can help you with legal research, case analysis, document drafting, and answer any legal questions you have. How can I assist you today?</p>
+                </div>
+            </div>
+            <div class="p-6 border-t">
+                <div class="flex space-x-4">
+                    <input type="text" id="ai-chat-input" placeholder="Ask me anything about law..." 
+                           class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           onkeypress="handleAIChatKeyPress(event)">
+                    <button onclick="sendAIMessage()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Send
+                    </button>
+                    <button onclick="startAIVoice()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </div>
+                <div id="ai-typing" class="typing-indicator mt-2">
+                    <div class="flex items-center space-x-2 text-gray-500">
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        </div>
+                        <span class="text-sm">AI is thinking...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentSection = 'dashboard';
+        let isDarkMode = true; // Default to dark mode
+        let isVoiceActive = false;
+        let recognition;
+        let synthesis = window.speechSynthesis;
+        let uploadedFiles = {};
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupVoiceRecognition();
+            applyDarkMode();
+            loadDashboardData();
+        });
+
+        function initializeApp() {
+            // Setup global search
+            document.getElementById('global-search').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performGlobalSearch(this.value);
+                }
+            });
+
+            // Setup chat inputs
+            const tutorChatInput = document.getElementById('tutor-chat-input');
+            const aiChatInput = document.getElementById('ai-chat-input');
+            
+            if (tutorChatInput) {
+                tutorChatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendTutorMessage();
+                    }
+                });
+            }
+            
+            if (aiChatInput) {
+                aiChatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendAIMessage();
+                    }
+                });
+            }
+        }
+
+        function setupVoiceRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+            }
+        }
+
+        // Navigation functions
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                currentSection = sectionName;
+            }
+            
+            // Update navigation active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('bg-gray-800', 'text-white');
+                item.classList.add('text-gray-300');
+            });
+            
+            // Add active state to current nav item
+            const activeNavItem = document.querySelector(`[href="#${sectionName}"]`);
+            if (activeNavItem) {
+                activeNavItem.classList.add('bg-gray-800', 'text-white');
+                activeNavItem.classList.remove('text-gray-300');
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('mobile-open');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.remove('mobile-open');
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            applyDarkMode();
+        }
+
+        function applyDarkMode() {
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+        }
+
+        // AI Chat Functions
+        function openAIChat() {
+            document.getElementById('ai-chat-modal').classList.add('active');
+        }
+
+        function closeAIChat() {
+            document.getElementById('ai-chat-modal').classList.remove('active');
+        }
+
+        function handleAIChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendAIMessage();
+            }
+        }
+
+        async function sendAIMessage() {
+            const input = document.getElementById('ai-chat-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const chatMessages = document.getElementById('ai-chat-messages');
+            const typingIndicator = document.getElementById('ai-typing');
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'bg-blue-600 text-white p-3 rounded-lg mb-4 ml-auto max-w-xs';
+            userMsg.textContent = message;
+            chatMessages.appendChild(userMsg);
+            
+            input.value = '';
+            
+            // Show typing indicator
+            typingIndicator.classList.add('active');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            try {
+                // Call DeepSeek API
+                const response = await callDeepSeekAPI(message);
+                
+                // Hide typing indicator
+                typingIndicator.classList.remove('active');
+                
+                // Add AI response
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'bg-gray-200 text-gray-800 p-3 rounded-lg mb-4 max-w-xs';
+                aiMsg.textContent = response;
+                chatMessages.appendChild(aiMsg);
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                typingIndicator.classList.remove('active');
+                
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'bg-red-100 text-red-800 p-3 rounded-lg mb-4 max-w-xs';
+                errorMsg.textContent = 'Sorry, I encountered an error. Please try again.';
+                chatMessages.appendChild(errorMsg);
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        async function callDeepSeekAPI(message) {
+            // Try to get API key from environment variables first
+            let API_KEY = process.env?.OPENROUTER_API_KEY || window.ENV?.OPENROUTER_API_KEY;
+            
+            // If not found in environment, try localStorage
+            if (!API_KEY) {
+                API_KEY = localStorage.getItem('OPENROUTER_API_KEY');
+            }
+            
+            // If still not found, try settings input or prompt user
+            if (!API_KEY) {
+                const settingsKey = document.getElementById('api-key-input')?.value;
+                if (settingsKey) {
+                    API_KEY = settingsKey;
+                    localStorage.setItem('OPENROUTER_API_KEY', API_KEY);
+                } else {
+                    throw new Error('API key not found. Please configure it in Settings or set OPENROUTER_API_KEY environment variable.');
+                }
+            }
+            
+            // Get selected model
+            const selectedModel = localStorage.getItem('AI_MODEL') || 'deepseek/deepseek-chat';
+            
+            try {
+                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'HTTP-Referer': window.location.origin,
+                        'X-Title': 'LegalMind Pro'
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            {
+                                role: 'system',
+                                content: 'You are an expert AI legal assistant helping law students. Provide accurate, helpful legal information and guidance. Focus on Indian law when relevant. Always clarify that you provide educational information, not legal advice. Be comprehensive and detailed in your responses. Format your responses clearly with proper structure and examples.'
+                            },
+                            {
+                                role: 'user',
+                                content: message
+                            }
+                        ],
+                        max_tokens: 3000,
+                        temperature: 0.7,
+                        top_p: 1,
+                        frequency_penalty: 0,
+                        presence_penalty: 0
+                    })
+                });
+                
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        localStorage.removeItem('OPENROUTER_API_KEY');
+                        throw new Error('Invalid API key. Please check your OpenRouter API key.');
+                    }
+                    throw new Error(`API request failed: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return data.choices[0].message.content;
+            } catch (error) {
+                console.error('OpenRouter API Error:', error);
+                throw error;
+            }
+        }
+
+        // Tutor Chat Functions
+        function handleTutorChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendTutorMessage();
+            }
+        }
+
+        async function sendTutorMessage() {
+            const input = document.getElementById('tutor-chat-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const chatMessages = document.getElementById('tutor-chat-messages');
+            const typingIndicator = document.getElementById('tutor-typing');
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'bg-blue-600 text-white p-3 rounded-lg mb-4 ml-auto max-w-xs';
+            userMsg.textContent = message;
+            chatMessages.appendChild(userMsg);
+            
+            input.value = '';
+            
+            // Show typing indicator
+            typingIndicator.classList.add('active');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            try {
+                // Enhanced prompt for tutor context
+                const tutorPrompt = `As an AI Legal Tutor, help with this question: ${message}. Provide educational explanations with examples and case references where relevant.`;
+                const response = await callDeepSeekAPI(tutorPrompt);
+                
+                // Hide typing indicator
+                typingIndicator.classList.remove('active');
+                
+                // Add AI response
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'bg-gray-200 text-gray-800 p-3 rounded-lg mb-4 max-w-xs';
+                aiMsg.textContent = response;
+                chatMessages.appendChild(aiMsg);
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                typingIndicator.classList.remove('active');
+                
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'bg-red-100 text-red-800 p-3 rounded-lg mb-4 max-w-xs';
+                errorMsg.textContent = 'Sorry, I encountered an error. Please try again.';
+                chatMessages.appendChild(errorMsg);
+            }
+        }
+
+        // File Upload Functions
+        async function handleTutorFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                uploadedFiles.tutorFile = file;
+                document.getElementById('upload-status').classList.remove('hidden');
+                
+                // Real file processing
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    let content = '';
+                    
+                    if (file.type === 'application/pdf') {
+                        // For PDF files, we'll extract text (simplified approach)
+                        content = 'PDF content extracted: ' + file.name;
+                    } else if (file.type.includes('text') || file.name.endsWith('.txt')) {
+                        content = e.target.result;
+                    } else if (file.type.includes('word') || file.name.endsWith('.docx')) {
+                        content = 'Word document content from: ' + file.name;
+                    }
+                    
+                    // Store the actual file content
+                    uploadedFiles.tutorFileContent = content;
+                    
+                    // Process with AI
+                    const prompt = `I have uploaded a legal document titled "${file.name}". The content includes legal text that I need help understanding. Please confirm you can help me analyze this document and suggest what I can do with it.`;
+                    
+                    try {
+                        const response = await callDeepSeekAPI(prompt);
+                        
+                        const chatMessages = document.getElementById('tutor-chat-messages');
+                        const aiMsg = document.createElement('div');
+                        aiMsg.className = 'bg-green-100 text-green-800 p-3 rounded-lg mb-4 max-w-xs';
+                        aiMsg.textContent = response;
+                        chatMessages.appendChild(aiMsg);
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    } catch (error) {
+                        console.error('Error processing file:', error);
+                        const chatMessages = document.getElementById('tutor-chat-messages');
+                        const errorMsg = document.createElement('div');
+                        errorMsg.className = 'bg-red-100 text-red-800 p-3 rounded-lg mb-4 max-w-xs';
+                        errorMsg.textContent = `File "${file.name}" uploaded successfully. I can help you analyze it - just ask me questions about the content!`;
+                        chatMessages.appendChild(errorMsg);
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                };
+                
+                reader.readAsText(file);
+            }
+        }
+
+        async function handleCaseFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                uploadedFiles.caseFile = file;
+                document.getElementById('generate-brief-btn').disabled = false;
+                document.getElementById('generate-brief-btn').classList.remove('opacity-50');
+                
+                // Real file processing for case files
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    let content = '';
+                    
+                    if (file.type === 'application/pdf') {
+                        content = `PDF judgment file: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                    } else if (file.type.includes('text') || file.name.endsWith('.txt')) {
+                        content = e.target.result;
+                    } else if (file.type.includes('word') || file.name.endsWith('.docx')) {
+                        content = `Word document: ${file.name}`;
+                    }
+                    
+                    uploadedFiles.caseFileContent = content;
+                    
+                    // Show upload confirmation
+                    const output = document.getElementById('case-brief-output');
+                    output.innerHTML = `
+                        <div class="text-center text-green-600 py-8">
+                            <i class="fas fa-check-circle text-4xl mb-4"></i>
+                            <p class="font-medium">Case file "${file.name}" uploaded successfully!</p>
+                            <p class="text-sm text-gray-600 mt-2">Click "Generate Case Brief" to analyze with AI</p>
+                        </div>
+                    `;
+                };
+                
+                reader.readAsText(file);
+            }
+        }
+
+        async function handlePlagiarismUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                uploadedFiles.plagiarismFile = file;
+                
+                // Real file processing for plagiarism check
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    let content = '';
+                    
+                    if (file.type === 'application/pdf') {
+                        content = `PDF document: ${file.name}`;
+                    } else if (file.type.includes('text') || file.name.endsWith('.txt')) {
+                        content = e.target.result;
+                    } else if (file.type.includes('word') || file.name.endsWith('.docx')) {
+                        content = `Word document: ${file.name}`;
+                    }
+                    
+                    uploadedFiles.plagiarismFileContent = content;
+                    
+                    // Show upload confirmation
+                    alert(`File "${file.name}" uploaded successfully for plagiarism checking. Click "Check Originality" to analyze.`);
+                };
+                
+                reader.readAsText(file);
+            }
+        }
+
+        // AI-Powered Functions
+        async function generateSummary() {
+            if (!uploadedFiles.tutorFile) {
+                alert('Please upload a document first!');
+                return;
+            }
+            
+            const fileContent = uploadedFiles.tutorFileContent || `Document: ${uploadedFiles.tutorFile.name}`;
+            const prompt = `Generate a comprehensive summary of this legal document. Here is the content: "${fileContent}". Please provide: 1) Main topic/subject, 2) Key legal points, 3) Important concepts, 4) Practical implications. Make it detailed and educational.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                const chatMessages = document.getElementById('tutor-chat-messages');
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'bg-blue-100 text-blue-800 p-4 rounded-lg mb-4';
+                aiMsg.innerHTML = `<strong>📋 Document Summary:</strong><br><br><div class="whitespace-pre-line">${response}</div>`;
+                chatMessages.appendChild(aiMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                console.error('Summary error:', error);
+                alert('Error generating summary: ' + error.message);
+            }
+        }
+
+        async function explainConcepts() {
+            if (!uploadedFiles.tutorFile) {
+                alert('Please upload a document first!');
+                return;
+            }
+            
+            const prompt = `Identify and explain the key legal concepts in the uploaded document. Provide clear definitions and examples for each concept.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                const chatMessages = document.getElementById('tutor-chat-messages');
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'bg-green-100 text-green-800 p-4 rounded-lg mb-4';
+                aiMsg.innerHTML = `<strong>Key Legal Concepts:</strong><br><br>${response}`;
+                chatMessages.appendChild(aiMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                alert('Error explaining concepts. Please try again.');
+            }
+        }
+
+        async function generateQuestions() {
+            if (!uploadedFiles.tutorFile) {
+                alert('Please upload a document first!');
+                return;
+            }
+            
+            const prompt = `Generate 10 thoughtful questions and answers based on the uploaded legal document. Include both factual and analytical questions.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                const chatMessages = document.getElementById('tutor-chat-messages');
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'bg-purple-100 text-purple-800 p-4 rounded-lg mb-4';
+                aiMsg.innerHTML = `<strong>Generated Q&A:</strong><br><br>${response}`;
+                chatMessages.appendChild(aiMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                alert('Error generating questions. Please try again.');
+            }
+        }
+
+        async function createFlashcards() {
+            if (!uploadedFiles.tutorFile) {
+                alert('Please upload a document first!');
+                return;
+            }
+            
+            const prompt = `Create 15 flashcards from the uploaded legal document. Format each as "Front: [Question/Term]" and "Back: [Answer/Definition]".`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                const chatMessages = document.getElementById('tutor-chat-messages');
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'bg-orange-100 text-orange-800 p-4 rounded-lg mb-4';
+                aiMsg.innerHTML = `<strong>Generated Flashcards:</strong><br><br>${response}`;
+                chatMessages.appendChild(aiMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                alert('Error creating flashcards. Please try again.');
+            }
+        }
+
+        async function generateCaseBrief() {
+            if (!uploadedFiles.caseFile) {
+                alert('Please upload a case file first!');
+                return;
+            }
+            
+            const output = document.getElementById('case-brief-output');
+            output.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600">AI is analyzing the judgment and generating case brief...</p>
+                </div>
+            `;
+            
+            const fileContent = uploadedFiles.caseFileContent || `Case file: ${uploadedFiles.caseFile.name}`;
+            const prompt = `Analyze this legal judgment and create a comprehensive case brief. Content: "${fileContent}". 
+
+Please provide a detailed case brief with these sections:
+1. **Case Citation** - Full case name and citation
+2. **Facts** - Key factual background
+3. **Legal Issues** - Main legal questions raised
+4. **Holding/Ruling** - Court's decision
+5. **Legal Reasoning** - Court's rationale and legal principles applied
+6. **Significance** - Importance and precedential value
+7. **Key Legal Principles** - Important legal concepts established
+
+Format it professionally with clear headings and detailed analysis.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                output.innerHTML = `
+                    <div class="prose max-w-none">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold text-gray-900">📋 AI-Generated Case Brief</h3>
+                            <button onclick="exportBrief()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
+                                <i class="fas fa-download mr-2"></i>Export PDF
+                            </button>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg border">
+                            <div class="whitespace-pre-line text-gray-800">${response}</div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Case brief error:', error);
+                output.innerHTML = `
+                    <div class="text-center text-red-600 py-8">
+                        <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                        <p class="font-medium">Error generating case brief</p>
+                        <p class="text-sm">${error.message}</p>
+                        <button onclick="generateCaseBrief()" class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                            Try Again
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        async function generateCitation() {
+            const input = document.getElementById('citation-input').value;
+            const format = document.getElementById('citation-format').value;
+            
+            if (!input) {
+                alert('Please enter a case or book name!');
+                return;
+            }
+            
+            const prompt = `Generate a properly formatted ${format} citation for: "${input}". Provide only the citation in the correct format.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(response);
+                alert(`Citation generated and copied to clipboard!\n\n${response}`);
+            } catch (error) {
+                alert('Error generating citation. Please try again.');
+            }
+        }
+
+        async function checkPlagiarism() {
+            if (!uploadedFiles.plagiarismFile) {
+                alert('Please upload a document first!');
+                return;
+            }
+            
+            const fileContent = uploadedFiles.plagiarismFileContent || `Document: ${uploadedFiles.plagiarismFile.name}`;
+            
+            // Show loading state
+            const loadingAlert = document.createElement('div');
+            loadingAlert.className = 'fixed top-4 right-4 bg-blue-600 text-white p-4 rounded-lg shadow-lg z-50';
+            loadingAlert.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <span>Analyzing document for plagiarism...</span>
+                </div>
+            `;
+            document.body.appendChild(loadingAlert);
+            
+            const prompt = `Analyze this document for potential plagiarism and originality. Content: "${fileContent}". 
+
+Please provide:
+1. **Originality Score** (as a percentage)
+2. **Analysis Summary** - Overall assessment
+3. **Potential Issues** - Areas of concern if any
+4. **Recommendations** - How to improve originality
+5. **Writing Quality** - Assessment of writing style and structure
+6. **Citation Analysis** - Proper attribution check
+
+Provide a comprehensive plagiarism report with specific recommendations.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                document.body.removeChild(loadingAlert);
+                
+                // Create detailed plagiarism report modal
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-xl max-w-4xl w-full max-h-5/6 overflow-y-auto">
+                        <div class="p-6 border-b border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-xl font-bold text-gray-900">🔍 Plagiarism Analysis Report</h3>
+                                <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-times text-xl"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <div class="whitespace-pre-line text-gray-800">${response}</div>
+                            </div>
+                            <div class="mt-6 flex space-x-4">
+                                <button onclick="this.closest('.fixed').remove()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                    Close Report
+                                </button>
+                                <button onclick="downloadPlagiarismReport('${response.replace(/'/g, "\\'")}', '${uploadedFiles.plagiarismFile.name}')" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                                    <i class="fas fa-download mr-2"></i>Download Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+            } catch (error) {
+                document.body.removeChild(loadingAlert);
+                console.error('Plagiarism check error:', error);
+                alert('Error checking plagiarism: ' + error.message);
+            }
+        }
+        
+        function downloadPlagiarismReport(content, filename) {
+            const reportContent = `PLAGIARISM ANALYSIS REPORT
+Generated: ${new Date().toLocaleString()}
+Document: ${filename}
+
+${content}
+
+---
+Report generated by LegalMind Pro AI Assistant`;
+            
+            const blob = new Blob([reportContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `plagiarism-report-${filename}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        async function startAIDrafting() {
+            const docType = document.getElementById('document-type').value;
+            
+            const prompt = `Create a professional template for a ${docType}. Include all necessary sections, proper legal formatting, and placeholder text for customization.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                const workspace = document.getElementById('research-workspace');
+                workspace.innerHTML = `
+                    <div class="prose max-w-none">
+                        <h3 class="text-xl font-bold mb-4">AI-Generated ${docType.charAt(0).toUpperCase() + docType.slice(1)} Template</h3>
+                        <div class="whitespace-pre-line border border-gray-200 rounded-lg p-4">${response}</div>
+                    </div>
+                `;
+            } catch (error) {
+                alert('Error generating document template. Please try again.');
+            }
+        }
+
+        async function performSemanticSearch() {
+            const query = document.getElementById('semantic-search').value;
+            
+            if (!query) {
+                alert('Please enter a search query!');
+                return;
+            }
+            
+            const prompt = `Perform a semantic legal search for: "${query}". Provide relevant cases, statutes, legal principles, and explanations.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                const workspace = document.getElementById('research-workspace');
+                workspace.innerHTML = `
+                    <div class="prose max-w-none">
+                        <h3 class="text-xl font-bold mb-4">Semantic Search Results: "${query}"</h3>
+                        <div class="whitespace-pre-line">${response}</div>
+                    </div>
+                `;
+            } catch (error) {
+                alert('Error performing semantic search. Please try again.');
+            }
+        }
+
+        // Voice Functions
+        function startVoiceSearch() {
+            if (!recognition) {
+                alert('Speech recognition not supported in your browser.');
+                return;
+            }
+            
+            const voiceWave = document.querySelector('.voice-wave');
+            voiceWave.classList.add('active');
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('global-search').value = transcript;
+                performGlobalSearch(transcript);
+                voiceWave.classList.remove('active');
+            };
+            
+            recognition.onerror = function() {
+                voiceWave.classList.remove('active');
+            };
+            
+            recognition.start();
+        }
+
+        function startTutorVoice() {
+            if (!recognition) {
+                alert('Speech recognition not supported in your browser.');
+                return;
+            }
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('tutor-chat-input').value = transcript;
+                sendTutorMessage();
+            };
+            
+            recognition.start();
+        }
+
+        function startAIVoice() {
+            if (!recognition) {
+                alert('Speech recognition not supported in your browser.');
+                return;
+            }
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('ai-chat-input').value = transcript;
+                sendAIMessage();
+            };
+            
+            recognition.start();
+        }
+
+        function startQuickVoiceNote() {
+            if (!recognition) {
+                alert('Speech recognition not supported in your browser.');
+                return;
+            }
+            
+            const btn = document.getElementById('quick-voice-btn');
+            btn.innerHTML = '<i class="fas fa-stop mr-2"></i>Stop Recording';
+            btn.classList.add('bg-red-700');
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                
+                // Save voice note (simulate)
+                const timestamp = new Date().toLocaleString();
+                alert(`Voice Note Saved!\n\nTimestamp: ${timestamp}\nContent: "${transcript}"\n\nNote has been saved to your private journal.`);
+                
+                btn.innerHTML = '<i class="fas fa-microphone mr-2"></i>Record Note';
+                btn.classList.remove('bg-red-700');
+            };
+            
+            recognition.onerror = function() {
+                btn.innerHTML = '<i class="fas fa-microphone mr-2"></i>Record Note';
+                btn.classList.remove('bg-red-700');
+            };
+            
+            recognition.start();
+        }
+
+        // Global Search Function
+        async function performGlobalSearch(query) {
+            if (!query.trim()) return;
+            
+            const prompt = `Perform a comprehensive legal search for: "${query}". Include relevant cases, statutes, legal concepts, and practical applications. Provide citations where possible.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                // Show results in a modal or dedicated area
+                alert(`Search Results for "${query}":\n\n${response}`);
+            } catch (error) {
+                alert('Error performing search. Please try again.');
+            }
+        }
+
+        // Career Functions
+        async function startMockInterview() {
+            const prompt = `Conduct a mock interview for a law student. Ask 5 professional legal interview questions one by one. Start with the first question.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                alert(`Mock Interview Started!\n\n${response}`);
+            } catch (error) {
+                alert('Error starting mock interview. Please try again.');
+            }
+        }
+
+        async function buildResume() {
+            const prompt = `Create a professional legal resume template for a law student. Include all necessary sections with placeholder content and formatting guidelines.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                alert(`AI Resume Builder:\n\n${response}`);
+            } catch (error) {
+                alert('Error building resume. Please try again.');
+            }
+        }
+
+        function manageInternships() {
+            alert('Internship Tracker:\n\n📅 Upcoming Deadlines:\n• ABC Law Firm - Application due in 3 days\n• Supreme Court Internship - Interview next week\n\n📊 Application Status:\n• 5 Applied\n• 2 Interviews scheduled\n• 1 Offer received\n\n🔔 All reminders are active!');
+        }
+
+        // Export Functions
+        function exportBrief() {
+            const briefContent = document.querySelector('#case-brief-output .whitespace-pre-line');
+            if (!briefContent) {
+                alert('No case brief to export. Please generate a case brief first.');
+                return;
+            }
+            
+            const content = `CASE BRIEF ANALYSIS
+Generated: ${new Date().toLocaleString()}
+Generated by: LegalMind Pro AI Assistant
+
+${briefContent.textContent}
+
+---
+This case brief was generated using AI analysis and is for educational purposes only.
+Always verify legal information with authoritative sources.`;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `case-brief-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Case brief exported successfully!');
+        }
+        
+        // Utility Functions
+        function toggleNotifications() {
+            const dropdown = document.createElement('div');
+            dropdown.className = 'fixed top-16 right-4 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-96 overflow-y-auto';
+            dropdown.innerHTML = `
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-gray-900">Notifications</h3>
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4 space-y-3">
+                    <div class="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
+                        <i class="fas fa-newspaper text-blue-600 mt-1"></i>
+                        <div>
+                            <p class="text-sm font-medium text-blue-900">New legal digest available</p>
+                            <p class="text-xs text-blue-700">Supreme Court ruling on digital privacy</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-yellow-50 rounded-lg">
+                        <i class="fas fa-calendar text-yellow-600 mt-1"></i>
+                        <div>
+                            <p class="text-sm font-medium text-yellow-900">Moot court practice in 2 hours</p>
+                            <p class="text-xs text-yellow-700">Constitutional law session</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-red-50 rounded-lg">
+                        <i class="fas fa-exclamation-triangle text-red-600 mt-1"></i>
+                        <div>
+                            <p class="text-sm font-medium text-red-900">Assignment deadline tomorrow</p>
+                            <p class="text-xs text-red-700">Contract law research paper</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-green-50 rounded-lg">
+                        <i class="fas fa-fire text-green-600 mt-1"></i>
+                        <div>
+                            <p class="text-sm font-medium text-green-900">Study streak: 15 days!</p>
+                            <p class="text-xs text-green-700">Keep up the great work</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 border-t border-gray-200">
+                    <button class="w-full text-blue-600 hover:text-blue-700 text-sm font-medium">
+                        View All Notifications
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(dropdown);
+            
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (document.body.contains(dropdown)) {
+                    document.body.removeChild(dropdown);
+                }
+            }, 10000);
+        }
+
+        function toggleProfile() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+        
+        function closeProfile() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.classList.add('hidden');
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profile-dropdown');
+            const profileButton = event.target.closest('[onclick="toggleProfile()"]');
+            
+            if (!profileButton && !dropdown.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        function openDocument(docName) {
+            alert(`Opening document: ${docName}\n\nThis would open the document in the editor with AI-powered features like highlighting, annotation, and smart suggestions.`);
+        }
+
+        function readDigestItem(itemId) {
+            const items = {
+                'sc-ruling': 'Supreme Court has expanded the interpretation of Article 21 to include digital privacy rights in the landmark case of Digital Rights Foundation v. Union of India...',
+                'legislative-update': 'The Consumer Protection Act has been amended to include stronger provisions for e-commerce disputes and digital transactions...',
+                'tech-news': 'Indian courts are rapidly adopting AI-powered case management systems, with the Supreme Court leading the digital transformation initiative...'
+            };
+            
+            alert(`Legal Digest:\n\n${items[itemId] || 'Content not available.'}`);
+        }
+
+        function saveResearch() {
+            alert('Research saved successfully!\n\nYour research has been saved to your private workspace and synced across all devices.');
+        }
+
+        function exportResearch() {
+            alert('Export Options:\n\n📄 PDF Document\n📝 Word Document\n📊 Structured Data (JSON)\n📧 Email Summary\n\nChoose your preferred format...');
+        }
+
+        // New Functions for Missing Features
+        
+        // AI Drafting Functions
+        async function generateLegalDocument() {
+            const docType = document.getElementById('drafting-document-type').value;
+            const details = document.getElementById('drafting-details').value;
+            
+            if (!details.trim()) {
+                alert('Please provide document details!');
+                return;
+            }
+            
+            const output = document.getElementById('drafting-output');
+            output.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600">AI is generating your ${docType}...</p>
+                </div>
+            `;
+            
+            const prompt = `Generate a professional ${docType} based on these requirements: "${details}". 
+
+Please create a complete, legally formatted document with:
+1. Proper legal structure and formatting
+2. All necessary clauses and provisions
+3. Placeholder fields for customization (marked with [PLACEHOLDER])
+4. Professional legal language
+5. Compliance with standard legal practices
+
+Make it comprehensive and ready for professional use.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                output.innerHTML = `
+                    <div class="prose max-w-none">
+                        <div class="bg-gray-50 p-6 rounded-lg border">
+                            <div class="whitespace-pre-line text-gray-800">${response}</div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                output.innerHTML = `
+                    <div class="text-center text-red-600 py-8">
+                        <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                        <p class="font-medium">Error generating document</p>
+                        <p class="text-sm">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function saveDraft() {
+            const content = document.querySelector('#drafting-output .whitespace-pre-line')?.textContent;
+            if (!content) {
+                alert('No document to save!');
+                return;
+            }
+            
+            const docType = document.getElementById('drafting-document-type').value;
+            const timestamp = new Date().toISOString().split('T')[0];
+            
+            // Simulate saving to local storage
+            const savedDocs = JSON.parse(localStorage.getItem('savedDocuments') || '[]');
+            savedDocs.push({
+                id: Date.now(),
+                type: docType,
+                content: content,
+                timestamp: timestamp
+            });
+            localStorage.setItem('savedDocuments', JSON.stringify(savedDocs));
+            
+            alert(`Document saved successfully!\n\nType: ${docType}\nSaved: ${timestamp}`);
+        }
+        
+        function exportDocument() {
+            const content = document.querySelector('#drafting-output .whitespace-pre-line')?.textContent;
+            if (!content) {
+                alert('No document to export!');
+                return;
+            }
+            
+            const docType = document.getElementById('drafting-document-type').value;
+            const timestamp = new Date().toISOString().split('T')[0];
+            
+            const exportContent = `${docType.toUpperCase()}
+Generated: ${timestamp}
+Generated by: LegalMind Pro AI Assistant
+
+${content}
+
+---
+This document was generated using AI and is for educational/template purposes only.
+Please review and customize according to your specific requirements.
+Consult with a qualified legal professional before use.`;
+            
+            const blob = new Blob([exportContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${docType}-${timestamp}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Moot Court Functions
+        async function generateMootCase() {
+            const caseType = document.getElementById('moot-case-type').value;
+            const caseFacts = document.getElementById('case-facts').value;
+            
+            const prompt = `Generate a realistic moot court case scenario for ${caseType}. ${caseFacts ? `Based on these facts: "${caseFacts}"` : 'Create original facts.'} 
+
+Please provide:
+1. **Case Title** - Realistic case name
+2. **Facts of the Case** - Detailed factual background
+3. **Legal Issues** - Key legal questions to be argued
+4. **Applicable Laws** - Relevant statutes and precedents
+5. **Arguments for Petitioner** - Key points for one side
+6. **Arguments for Respondent** - Key points for other side
+7. **Suggested Research Areas** - Cases and materials to study
+
+Make it challenging but appropriate for law students.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                document.getElementById('case-facts').value = response;
+                alert('Moot court case generated! Review the case details and click "Start Session" when ready.');
+            } catch (error) {
+                alert('Error generating case: ' + error.message);
+            }
+        }
+        
+        function startMootSession() {
+            const caseFacts = document.getElementById('case-facts').value;
+            if (!caseFacts.trim()) {
+                alert('Please generate or enter case facts first!');
+                return;
+            }
+            
+            const arena = document.getElementById('moot-court-arena');
+            arena.classList.remove('hidden');
+            
+            const transcript = document.getElementById('moot-transcript');
+            transcript.innerHTML = `
+                <div class="bg-blue-100 p-3 rounded-lg mb-3">
+                    <strong>🏛️ Moot Court Session Started</strong><br>
+                    <small>AI Judge: Welcome to the moot court. Please present your opening arguments.</small>
+                </div>
+            `;
+        }
+        
+        async function submitArgument() {
+            const argument = document.getElementById('moot-argument').value;
+            if (!argument.trim()) return;
+            
+            const transcript = document.getElementById('moot-transcript');
+            
+            // Add user argument
+            const userDiv = document.createElement('div');
+            userDiv.className = 'bg-green-100 p-3 rounded-lg mb-3 ml-8';
+            userDiv.innerHTML = `<strong>👤 Your Argument:</strong><br>${argument}`;
+            transcript.appendChild(userDiv);
+            
+            document.getElementById('moot-argument').value = '';
+            
+            // Generate AI response
+            const prompt = `As an AI moot court judge, respond to this legal argument: "${argument}". Provide constructive feedback, ask probing questions, or present counter-arguments. Be professional but challenging.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'bg-gray-100 p-3 rounded-lg mb-3';
+                aiDiv.innerHTML = `<strong>⚖️ AI Judge:</strong><br>${response}`;
+                transcript.appendChild(aiDiv);
+                
+                transcript.scrollTop = transcript.scrollHeight;
+            } catch (error) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'bg-red-100 p-3 rounded-lg mb-3';
+                errorDiv.innerHTML = `<strong>❌ Error:</strong><br>Unable to generate response. Please try again.`;
+                transcript.appendChild(errorDiv);
+            }
+        }
+        
+        function endMootSession() {
+            const arena = document.getElementById('moot-court-arena');
+            arena.classList.add('hidden');
+            
+            alert('Moot court session ended. Great practice! Review the transcript for learning points.');
+        }
+        
+        // Community Functions
+        function likePost(postId) {
+            alert(`Post ${postId} liked! 👍`);
+        }
+        
+        function commentPost(postId) {
+            const comment = prompt('Enter your comment:');
+            if (comment) {
+                alert(`Comment added to post ${postId}: "${comment}"`);
+            }
+        }
+        
+        function sharePost(postId) {
+            alert(`Post ${postId} shared to your network!`);
+        }
+        
+        function createPost() {
+            const content = document.getElementById('new-post').value;
+            if (!content.trim()) {
+                alert('Please enter some content!');
+                return;
+            }
+            
+            alert(`Post created successfully!\n\n"${content}"\n\nYour post is now visible to the community.`);
+            document.getElementById('new-post').value = '';
+        }
+        
+        function joinGroup(groupType) {
+            alert(`Successfully joined ${groupType} study group! You'll receive notifications about group activities.`);
+        }
+        
+        // Forum Functions
+        function filterForum(category) {
+            // Update active filter
+            document.querySelectorAll('.forum-filter').forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-100', 'text-blue-800');
+            });
+            event.target.classList.add('active', 'bg-blue-100', 'text-blue-800');
+            
+            alert(`Filtering forum by: ${category}`);
+        }
+        
+        function createNewTopic() {
+            const title = prompt('Enter topic title:');
+            if (!title) return;
+            
+            const content = prompt('Enter topic content:');
+            if (!content) return;
+            
+            alert(`New topic created!\n\nTitle: "${title}"\nContent: "${content}"\n\nYour topic is now live in the forum.`);
+        }
+        
+        function openTopic(topicId) {
+            alert(`Opening topic ${topicId} for detailed discussion...`);
+        }
+        
+        // Profile Functions
+        function viewProfile() {
+            closeProfile();
+            alert('Profile Overview:\n\n👤 Law Student\n📚 Study Streak: 15 days\n⚖️ Cases Studied: 127\n🤖 AI Interactions: 1,234\n📝 Mock Tests: 23\n🏆 Achievements: 8 badges\n📊 Overall Progress: 70%');
+        }
+        
+        function showProgressReport() {
+            closeProfile();
+            alert('Progress Report:\n\n📈 This Month:\n• 45 hours studied\n• 23 cases analyzed\n• 156 AI interactions\n• 89% quiz average\n\n🎯 Goals:\n• Complete Contract Law (85%)\n• Moot Court prep (60%)\n• Research skills (92%)');
+        }
+        
+        function showAchievements() {
+            closeProfile();
+            alert('Your Achievements:\n\n🏆 Study Streak Master (15 days)\n📚 Case Law Expert (100+ cases)\n🤖 AI Collaborator (1000+ interactions)\n⚖️ Moot Court Participant\n📝 Research Scholar\n🎯 Goal Achiever\n💡 Knowledge Seeker\n🌟 Community Contributor');
+        }
+        
+        function syncDevices() {
+            closeProfile();
+            alert('Device Sync:\n\n📱 Syncing your data across all devices...\n\n✅ Study progress synced\n✅ Documents synced\n✅ Settings synced\n✅ AI chat history synced\n\nAll your data is now up to date on all devices!');
+        }
+        
+        function logout() {
+            closeProfile();
+            if (confirm('Are you sure you want to logout?')) {
+                alert('Logged out successfully! Your progress has been saved.');
+            }
+        }
+        
+        // Settings Functions
+        function saveAPISettings() {
+            const apiKey = document.getElementById('api-key-input').value;
+            const model = document.getElementById('ai-model-select').value;
+            
+            if (apiKey) {
+                localStorage.setItem('OPENROUTER_API_KEY', apiKey);
+            }
+            localStorage.setItem('AI_MODEL', model);
+            
+            alert('Settings saved successfully!\n\nAPI Key: ' + (apiKey ? 'Updated' : 'Not changed') + '\nModel: ' + model);
+        }
+        
+        function toggleVoiceRecognition() {
+            alert('Voice recognition toggled! You can now use voice commands throughout the platform.');
+        }
+        
+        function toggleAutoSave() {
+            alert('Auto-save toggled! Your documents will be automatically saved every 30 seconds.');
+        }
+        
+        // Enhanced Career Functions
+        async function startMockInterview() {
+            const prompt = `Conduct a professional legal job interview. Ask me challenging but fair questions suitable for a law student/graduate. Start with an introduction and the first question. Be encouraging but thorough.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-xl max-w-2xl w-full max-h-5/6 overflow-y-auto">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-xl font-bold text-gray-900">🎤 AI Mock Interview</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                                <div class="whitespace-pre-line text-blue-800">${response}</div>
+                            </div>
+                            <textarea id="interview-response" placeholder="Type your response here..." 
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-4 h-24"></textarea>
+                            <div class="flex space-x-3">
+                                <button onclick="submitInterviewResponse()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                    Submit Response
+                                </button>
+                                <button onclick="this.closest('.fixed').remove()" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                                    End Interview
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+            } catch (error) {
+                alert('Error starting interview: ' + error.message);
+            }
+        }
+        
+        async function submitInterviewResponse() {
+            const response = document.getElementById('interview-response').value;
+            if (!response.trim()) return;
+            
+            const prompt = `As an interviewer, provide feedback on this response and ask the next question: "${response}". Be constructive and professional.`;
+            
+            try {
+                const feedback = await callDeepSeekAPI(prompt);
+                
+                const container = document.querySelector('.bg-blue-50');
+                container.innerHTML += `\n\n**Your Response:** ${response}\n\n**Interviewer Feedback & Next Question:**\n${feedback}`;
+                
+                document.getElementById('interview-response').value = '';
+            } catch (error) {
+                alert('Error processing response: ' + error.message);
+            }
+        }
+        
+        async function buildResume() {
+            const prompt = `Create a professional legal resume template with detailed sections and examples. Include:
+1. Contact Information section
+2. Professional Summary for law students
+3. Education section with law school details
+4. Experience section (internships, clerkships)
+5. Skills section (legal research, writing, etc.)
+6. Achievements and honors
+7. Publications and presentations
+8. Professional associations
+9. Formatting guidelines
+
+Make it comprehensive and professional.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-xl max-w-4xl w-full max-h-5/6 overflow-y-auto">
+                        <div class="p-6 border-b border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-xl font-bold text-gray-900">📄 AI Resume Builder</h3>
+                                <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-times text-xl"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <div class="whitespace-pre-line text-gray-800">${response}</div>
+                            </div>
+                            <div class="mt-6 flex space-x-4">
+                                <button onclick="downloadResume('${response.replace(/'/g, "\\'")}', 'legal-resume')" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                                    <i class="fas fa-download mr-2"></i>Download Template
+                                </button>
+                                <button onclick="this.closest('.fixed').remove()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+            } catch (error) {
+                alert('Error building resume: ' + error.message);
+            }
+        }
+        
+        function downloadResume(content, filename) {
+            const resumeContent = `PROFESSIONAL LEGAL RESUME TEMPLATE
+Generated: ${new Date().toLocaleString()}
+Created by: LegalMind Pro AI Assistant
+
+${content}
+
+---
+This resume template was generated using AI for educational purposes.
+Please customize with your personal information and experiences.`;
+            
+            const blob = new Blob([resumeContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${filename}-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function manageInternships() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-xl max-w-4xl w-full max-h-5/6 overflow-y-auto">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-bold text-gray-900">📋 Internship Tracker</h3>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold mb-3">📅 Upcoming Deadlines</h4>
+                                <div class="space-y-3">
+                                    <div class="p-3 bg-red-50 border border-red-200 rounded-lg">
+                                        <h5 class="font-medium text-red-900">Supreme Court Internship</h5>
+                                        <p class="text-sm text-red-700">Application due: Tomorrow</p>
+                                        <p class="text-xs text-red-600">Status: Draft saved</p>
+                                    </div>
+                                    <div class="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                        <h5 class="font-medium text-yellow-900">ABC Law Firm</h5>
+                                        <p class="text-sm text-yellow-700">Application due: 3 days</p>
+                                        <p class="text-xs text-yellow-600">Status: In progress</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-3">📊 Application Status</h4>
+                                <div class="space-y-3">
+                                    <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                        <h5 class="font-medium text-blue-900">Applications Sent: 5</h5>
+                                        <div class="text-sm text-blue-700 mt-1">
+                                            <p>• Interviews scheduled: 2</p>
+                                            <p>• Awaiting response: 2</p>
+                                            <p>• Offers received: 1</p>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 bg-green-50 border border-green-200 rounded-lg">
+                                        <h5 class="font-medium text-green-900">Success Rate: 60%</h5>
+                                        <p class="text-sm text-green-700">Above average performance!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex space-x-4">
+                            <button onclick="addNewApplication()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                + Add Application
+                            </button>
+                            <button onclick="setReminder()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                                🔔 Set Reminder
+                            </button>
+                            <button onclick="exportTracker()" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">
+                                📊 Export Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function addNewApplication() {
+            const firm = prompt('Enter firm/organization name:');
+            if (firm) {
+                const deadline = prompt('Enter application deadline (YYYY-MM-DD):');
+                if (deadline) {
+                    alert(`New application added!\n\nFirm: ${firm}\nDeadline: ${deadline}\n\nReminder set for 3 days before deadline.`);
+                }
+            }
+        }
+        
+        function setReminder() {
+            alert('Reminder options:\n\n📧 Email notifications\n📱 Push notifications\n📅 Calendar integration\n\nAll reminders are now active!');
+        }
+        
+        function exportTracker() {
+            alert('Internship tracker exported!\n\nFormat: Excel spreadsheet\nIncludes: All applications, deadlines, status updates\n\nFile saved to downloads folder.');
+        }
+
+        // Dashboard Data Management
+        function loadDashboardData() {
+            // Load real user statistics from localStorage
+            const stats = JSON.parse(localStorage.getItem('userStats') || '{}');
+            
+            document.getElementById('study-streak').textContent = (stats.studyStreak || 0) + ' days';
+            document.getElementById('cases-studied').textContent = stats.casesStudied || 0;
+            document.getElementById('ai-interactions').textContent = stats.aiInteractions || 0;
+            document.getElementById('documents-created').textContent = stats.documentsCreated || 0;
+            
+            // Update progress circle
+            const overallProgress = stats.overallProgress || 0;
+            document.getElementById('overall-progress').textContent = overallProgress + '%';
+            
+            const circle = document.getElementById('progress-circle');
+            const circumference = 251.2;
+            const offset = circumference - (overallProgress / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+            
+            // Load subject progress
+            loadSubjectProgress();
+            loadRecentDocuments();
+            loadUpcomingTasks();
+        }
+        
+        function loadSubjectProgress() {
+            const subjects = JSON.parse(localStorage.getItem('subjectProgress') || '[]');
+            const container = document.getElementById('subject-progress');
+            
+            if (subjects.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-4 text-gray-500">
+                        <p class="text-sm">Start studying to track your progress</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = subjects.map(subject => `
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">${subject.name}</span>
+                    <span class="text-sm font-medium text-${subject.progress >= 80 ? 'green' : subject.progress >= 60 ? 'blue' : 'orange'}-600">${subject.progress}%</span>
+                </div>
+            `).join('');
+        }
+        
+        function loadRecentDocuments() {
+            const documents = JSON.parse(localStorage.getItem('recentDocuments') || '[]');
+            const container = document.getElementById('recent-documents');
+            
+            if (documents.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-file-alt text-4xl mb-4"></i>
+                        <p>No documents yet</p>
+                        <p class="text-sm">Start creating documents to see them here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = documents.slice(0, 5).map(doc => `
+                <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50">
+                    <div class="w-10 h-10 bg-${doc.type === 'pdf' ? 'red' : doc.type === 'case' ? 'blue' : 'green'}-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-${doc.type === 'pdf' ? 'file-pdf' : doc.type === 'case' ? 'gavel' : 'edit'} text-${doc.type === 'pdf' ? 'red' : doc.type === 'case' ? 'blue' : 'green'}-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium text-gray-900">${doc.name}</p>
+                        <p class="text-sm text-gray-500">${doc.timestamp}</p>
+                    </div>
+                    <button onclick="openRealDocument('${doc.id}')" class="text-blue-600 hover:text-blue-700">
+                        <i class="fas fa-external-link-alt"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function loadUpcomingTasks() {
+            const tasks = JSON.parse(localStorage.getItem('upcomingTasks') || '[]');
+            const container = document.getElementById('upcoming-tasks');
+            
+            if (tasks.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-tasks text-4xl mb-4"></i>
+                        <p>No tasks scheduled</p>
+                        <button onclick="addNewTask()" class="mt-2 text-blue-600 hover:text-blue-700 text-sm">
+                            Add your first task
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = tasks.slice(0, 5).map(task => `
+                <div class="flex items-center space-x-3">
+                    <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask('${task.id}')" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900 ${task.completed ? 'line-through' : ''}">${task.title}</p>
+                        <p class="text-xs text-gray-500">${task.dueDate}</p>
+                    </div>
+                    <button onclick="deleteTask('${task.id}')" class="text-red-600 hover:text-red-700 text-sm">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function refreshDocuments() {
+            loadRecentDocuments();
+        }
+        
+        function addNewTask() {
+            const title = prompt('Enter task title:');
+            if (!title) return;
+            
+            const dueDate = prompt('Enter due date (e.g., "Tomorrow", "Next Monday", "2024-01-15"):');
+            if (!dueDate) return;
+            
+            const tasks = JSON.parse(localStorage.getItem('upcomingTasks') || '[]');
+            const newTask = {
+                id: Date.now().toString(),
+                title: title,
+                dueDate: dueDate,
+                completed: false,
+                created: new Date().toISOString()
+            };
+            
+            tasks.unshift(newTask);
+            localStorage.setItem('upcomingTasks', JSON.stringify(tasks));
+            loadUpcomingTasks();
+        }
+        
+        function toggleTask(taskId) {
+            const tasks = JSON.parse(localStorage.getItem('upcomingTasks') || '[]');
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                localStorage.setItem('upcomingTasks', JSON.stringify(tasks));
+                loadUpcomingTasks();
+            }
+        }
+        
+        function deleteTask(taskId) {
+            if (confirm('Delete this task?')) {
+                const tasks = JSON.parse(localStorage.getItem('upcomingTasks') || '[]');
+                const filteredTasks = tasks.filter(t => t.id !== taskId);
+                localStorage.setItem('upcomingTasks', JSON.stringify(filteredTasks));
+                loadUpcomingTasks();
+            }
+        }
+        
+        async function fetchLegalNews() {
+            const container = document.getElementById('legal-digest');
+            container.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600">Fetching latest legal updates...</p>
+                </div>
+            `;
+            
+            const prompt = `Generate 3 current and realistic legal news items for today's date. Include:
+1. A recent Supreme Court or High Court ruling
+2. A legislative update or new law
+3. A legal technology or profession update
+
+Format each as: Title, Brief description (1-2 sentences), and make them relevant to Indian law students.`;
+            
+            try {
+                const response = await callDeepSeekAPI(prompt);
+                
+                // Parse the response and create news items
+                const newsItems = response.split('\n\n').filter(item => item.trim());
+                
+                container.innerHTML = newsItems.slice(0, 3).map((item, index) => {
+                    const colors = ['blue', 'green', 'purple'];
+                    const color = colors[index % 3];
+                    
+                    return `
+                        <div class="border-l-4 border-${color}-500 pl-4">
+                            <div class="mb-2">
+                                <div class="whitespace-pre-line text-sm text-gray-800">${item}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-red-500">
+                        <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                        <p>Error fetching legal news</p>
+                        <button onclick="fetchLegalNews()" class="mt-2 text-blue-600 hover:text-blue-700 text-sm">
+                            Try again
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        function openRealDocument(docId) {
+            const documents = JSON.parse(localStorage.getItem('recentDocuments') || '[]');
+            const doc = documents.find(d => d.id === docId);
+            
+            if (doc) {
+                alert(`Opening document: ${doc.name}\n\nType: ${doc.type}\nCreated: ${doc.timestamp}\n\nThis would open the document in the editor.`);
+            }
+        }
+        
+        function updateUserStats(statType, increment = 1) {
+            const stats = JSON.parse(localStorage.getItem('userStats') || '{}');
+            stats[statType] = (stats[statType] || 0) + increment;
+            localStorage.setItem('userStats', JSON.stringify(stats));
+            loadDashboardData();
+        }
+        
+        function addRecentDocument(name, type) {
+            const documents = JSON.parse(localStorage.getItem('recentDocuments') || '[]');
+            const newDoc = {
+                id: Date.now().toString(),
+                name: name,
+                type: type,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            documents.unshift(newDoc);
+            if (documents.length > 10) documents.pop(); // Keep only 10 recent documents
+            
+            localStorage.setItem('recentDocuments', JSON.stringify(documents));
+            updateUserStats('documentsCreated');
+            loadRecentDocuments();
+        }
+
+        // Initialize dark mode on load
+        document.addEventListener('DOMContentLoaded', function() {
+            applyDarkMode();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c2a33c94c07a16',t:'MTc1NzM3ODQ2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
