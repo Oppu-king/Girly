@@ -49,15 +49,13 @@ def call_openrouter_api(prompt, system_prompt="You are Nipa, a helpful AI assist
 
 
 # Helper Functions
+# -------------------------------------------------------------------
 def call_ai_api(message, context='general'):
-    """Helper function to call AI API"""
     headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {OPENROUTER_API_KEY}',
-        'HTTP-Referer': request.url_root,
-        'X-Title': 'LegalMind Pro'
+        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Content-Type": "application/json"
     }
-    
+
     system_prompts = {
         'tutor': 'You are an expert AI Legal Tutor helping law students.',
         'case_brief': 'You are an AI legal assistant specializing in case brief generation.',
@@ -65,59 +63,47 @@ def call_ai_api(message, context='general'):
         'research': 'You are an AI legal research assistant.',
         'general': 'You are an expert AI legal assistant.'
     }
-    
+
     payload = {
-        'model': 'deepseek/deepseek-chat',
-        'messages': [
-            {'role': 'system', 'content': system_prompts.get(context, system_prompts['general'])},
-            {'role': 'user', 'content': message}
+        "model": "deepseek/deepseek-chat",
+        "messages": [
+            {"role": "system", "content": system_prompts.get(context, system_prompts['general'])},
+            {"role": "user", "content": message}
         ],
-        'max_tokens': 3000,
-        'temperature': 0.7
+        "max_tokens": 3000,
+        "temperature": 0.7
     }
-    
+
     response = requests.post(OPENROUTER_BASE_URL, headers=headers, json=payload)
-    
+
     if response.status_code == 200:
         result = response.json()
         return result['choices'][0]['message']['content']
     else:
-        raise Exception(f'API request failed: {response.status_code}')
+        raise Exception(f"API request failed: {response.status_code} | {response.text}")
 
 def extract_file_content(file_path, filename):
-    """Extract text content from uploaded files"""
     try:
         if filename.endswith('.txt'):
             with open(file_path, 'r', encoding='utf-8') as f:
                 return f.read()
         elif filename.endswith('.pdf'):
-            # In production, use PyPDF2 or similar
-            return f"PDF content from {filename} (text extraction would be implemented here)"
+            return f"PDF content from {filename} (parser needed)"
         elif filename.endswith(('.doc', '.docx')):
-            # In production, use python-docx
-            return f"Word document content from {filename} (text extraction would be implemented here)"
+            return f"Word content from {filename} (parser needed)"
         else:
             return f"File content from {filename}"
     except Exception as e:
         return f"Error reading file: {str(e)}"
 
 def log_interaction(message, response, context):
-    """Log AI interactions for analytics"""
-    # In production, save to database
     pass
 
 def save_generated_document(doc_type, content, details):
-    """Save generated documents"""
-    doc_id = str(uuid.uuid4())
-    # In production, save to database
-    return doc_id
+    return str(uuid.uuid4())
 
 def save_case_brief(content, case_name):
-    """Save generated case briefs"""
-    brief_id = str(uuid.uuid4())
-    # In production, save to database
-    return brief_id
-
+    return str(uuid.uuid4())
 
 @app.route('/')
 def index():
@@ -391,11 +377,11 @@ def chat_with_ai():
         message = data.get('message', '')
         context = data.get('context', 'general')
         model = data.get('model', 'deepseek/deepseek-chat')
-        
+
         if not message:
             return jsonify({'error': 'Message is required'}), 400
-        
-        # Prepare system prompt based on context
+
+        # System prompts
         system_prompts = {
             'tutor': 'You are an expert AI Legal Tutor helping law students. Provide educational explanations with examples and case references where relevant. Focus on Indian law when applicable.',
             'case_brief': 'You are an AI legal assistant specializing in case brief generation. Analyze judgments and create comprehensive case briefs with facts, issues, holdings, and legal reasoning.',
@@ -404,271 +390,237 @@ def chat_with_ai():
             'moot_court': 'You are an AI moot court judge. Provide constructive feedback, ask probing questions, and present counter-arguments. Be professional but challenging.',
             'general': 'You are an expert AI legal assistant helping law students and professionals. Provide accurate, helpful legal information and guidance.'
         }
-        
         system_prompt = system_prompts.get(context, system_prompts['general'])
-        
+
         # Call OpenRouter API
         headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {OPENROUTER_API_KEY}',
-            'HTTP-Referer': request.url_root,
-            'X-Title': 'LegalMind Pro'
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+            "Content-Type": "application/json"
         }
-        
+
         payload = {
-            'model': model,
-            'messages': [
-                {'role': 'system', 'content': system_prompt},
-                {'role': 'user', 'content': message}
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": message}
             ],
-            'max_tokens': 3000,
-            'temperature': 0.7,
-            'top_p': 1,
-            'frequency_penalty': 0,
-            'presence_penalty': 0
+            "max_tokens": 3000,
+            "temperature": 0.7,
+            "top_p": 1
         }
-        
+
         response = requests.post(OPENROUTER_BASE_URL, headers=headers, json=payload)
-        
+
         if response.status_code == 200:
             result = response.json()
             ai_response = result['choices'][0]['message']['content']
-            
-            # Log interaction (optional)
+
             log_interaction(message, ai_response, context)
-            
+
             return jsonify({
-                'response': ai_response,
-                'model': model,
-                'timestamp': datetime.now().isoformat()
+                "response": ai_response,
+                "model": model,
+                "timestamp": datetime.now().isoformat()
             })
         else:
-            return jsonify({'error': f'API request failed: {response.status_code}'}), 500
-            
+            return jsonify({
+                "error": f"API request failed: {response.status_code}",
+                "details": response.text
+            }), 500
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# -------------------------------------------------------------------
+# File Upload
+# -------------------------------------------------------------------
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
-    """Handle file uploads for document analysis"""
     try:
         if 'file' not in request.files:
             return jsonify({'error': 'No file uploaded'}), 400
-        
+
         file = request.files['file']
         if file.filename == '':
             return jsonify({'error': 'No file selected'}), 400
-        
-        # Generate unique filename
+
         file_id = str(uuid.uuid4())
         filename = f"{file_id}_{file.filename}"
-        
-        # Save file (in production, use cloud storage)
+
         upload_folder = os.path.join(app.root_path, 'uploads')
         os.makedirs(upload_folder, exist_ok=True)
         file_path = os.path.join(upload_folder, filename)
         file.save(file_path)
-        
-        # Extract text content (simplified - in production, use proper parsers)
+
         content = extract_file_content(file_path, file.filename)
-        
+
         return jsonify({
-            'file_id': file_id,
-            'filename': file.filename,
-            'content_preview': content[:500] + '...' if len(content) > 500 else content,
-            'size': os.path.getsize(file_path),
-            'upload_time': datetime.now().isoformat()
+            "file_id": file_id,
+            "filename": file.filename,
+            "content_preview": content[:500] + "..." if len(content) > 500 else content,
+            "size": os.path.getsize(file_path),
+            "upload_time": datetime.now().isoformat()
         })
-        
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# -------------------------------------------------------------------
+# Generate Document
+# -------------------------------------------------------------------
 @app.route('/api/generate-document', methods=['POST'])
 def generate_document():
-    """Generate legal documents using AI"""
     try:
         data = request.get_json()
         doc_type = data.get('document_type', '')
         details = data.get('details', '')
-        
+
         if not doc_type or not details:
             return jsonify({'error': 'Document type and details are required'}), 400
-        
-        prompt = f"""Generate a professional {doc_type} based on these requirements: "{details}". 
 
+        prompt = f"""Generate a professional {doc_type} based on these requirements: "{details}". 
 Please create a complete, legally formatted document with:
 1. Proper legal structure and formatting
 2. All necessary clauses and provisions
 3. Placeholder fields for customization (marked with [PLACEHOLDER])
 4. Professional legal language
-5. Compliance with standard legal practices
+5. Compliance with standard legal practices"""
 
-Make it comprehensive and ready for professional use."""
-        
-        # Call AI API
         ai_response = call_ai_api(prompt, 'drafting')
-        
-        # Save generated document
         doc_id = save_generated_document(doc_type, ai_response, details)
-        
+
         return jsonify({
-            'document_id': doc_id,
-            'content': ai_response,
-            'document_type': doc_type,
-            'generated_at': datetime.now().isoformat()
+            "document_id": doc_id,
+            "content": ai_response,
+            "document_type": doc_type,
+            "generated_at": datetime.now().isoformat()
         })
-        
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# -------------------------------------------------------------------
+# Case Brief
+# -------------------------------------------------------------------
 @app.route('/api/case-brief', methods=['POST'])
 def generate_case_brief():
-    """Generate case briefs from uploaded judgments"""
     try:
         data = request.get_json()
         file_content = data.get('file_content', '')
-        
+
         if not file_content:
             return jsonify({'error': 'File content is required'}), 400
-        
-        prompt = f"""Analyze this legal judgment and create a comprehensive case brief. Content: "{file_content}". 
 
-Please provide a detailed case brief with these sections:
-1. **Case Citation** - Full case name and citation
-2. **Facts** - Key factual background
-3. **Legal Issues** - Main legal questions raised
-4. **Holding/Ruling** - Court's decision
-5. **Legal Reasoning** - Court's rationale and legal principles applied
-6. **Significance** - Importance and precedential value
-7. **Key Legal Principles** - Important legal concepts established
+        prompt = f"""Analyze this legal judgment and create a comprehensive case brief. Content: "{file_content}"."""
 
-Format it professionally with clear headings and detailed analysis."""
-        
         ai_response = call_ai_api(prompt, 'case_brief')
-        
-        # Save case brief
         brief_id = save_case_brief(ai_response, file_content[:100])
-        
+
         return jsonify({
-            'brief_id': brief_id,
-            'content': ai_response,
-            'generated_at': datetime.now().isoformat()
+            "brief_id": brief_id,
+            "content": ai_response,
+            "generated_at": datetime.now().isoformat()
         })
-        
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# -------------------------------------------------------------------
+# Plagiarism
+# -------------------------------------------------------------------
 @app.route('/api/plagiarism-check', methods=['POST'])
 def check_plagiarism():
-    """Check document for plagiarism"""
     try:
         data = request.get_json()
         content = data.get('content', '')
-        
+
         if not content:
             return jsonify({'error': 'Content is required'}), 400
-        
-        prompt = f"""Analyze this document for potential plagiarism and originality. Content: "{content}". 
 
-Please provide:
-1. **Originality Score** (as a percentage)
-2. **Analysis Summary** - Overall assessment
-3. **Potential Issues** - Areas of concern if any
-4. **Recommendations** - How to improve originality
-5. **Writing Quality** - Assessment of writing style and structure
-6. **Citation Analysis** - Proper attribution check
+        prompt = f"""Analyze this document for plagiarism and originality. Content: "{content}"."""
 
-Provide a comprehensive plagiarism report with specific recommendations."""
-        
         ai_response = call_ai_api(prompt, 'research')
-        
+
         return jsonify({
-            'report': ai_response,
-            'analyzed_at': datetime.now().isoformat(),
-            'word_count': len(content.split())
+            "report": ai_response,
+            "analyzed_at": datetime.now().isoformat(),
+            "word_count": len(content.split())
         })
-        
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# -------------------------------------------------------------------
+# User Stats
+# -------------------------------------------------------------------
 @app.route('/api/user-stats', methods=['GET', 'POST'])
 def user_stats():
-    """Get or update user statistics"""
     if request.method == 'GET':
-        # Return user stats from session or database
         stats = session.get('user_stats', {
-            'study_streak': 0,
-            'cases_studied': 0,
-            'ai_interactions': 0,
-            'documents_created': 0,
-            'overall_progress': 0
+            "study_streak": 0,
+            "cases_studied": 0,
+            "ai_interactions": 0,
+            "documents_created": 0,
+            "overall_progress": 0
         })
         return jsonify(stats)
-    
-    elif request.method == 'POST':
-        # Update user stats
+
+    if request.method == 'POST':
         data = request.get_json()
         current_stats = session.get('user_stats', {})
         current_stats.update(data)
         session['user_stats'] = current_stats
         return jsonify(current_stats)
 
+# -------------------------------------------------------------------
+# Save Document
+# -------------------------------------------------------------------
 @app.route('/api/save-document', methods=['POST'])
 def save_document():
-    """Save user documents"""
     try:
         data = request.get_json()
         doc_name = data.get('name', '')
         doc_content = data.get('content', '')
         doc_type = data.get('type', 'general')
-        
+
         if not doc_name or not doc_content:
             return jsonify({'error': 'Name and content are required'}), 400
-        
-        # Save to session (in production, use database)
+
         saved_docs = session.get('saved_documents', [])
         doc_id = str(uuid.uuid4())
-        
+
         new_doc = {
-            'id': doc_id,
-            'name': doc_name,
-            'content': doc_content,
-            'type': doc_type,
-            'created_at': datetime.now().isoformat(),
-            'updated_at': datetime.now().isoformat()
+            "id": doc_id,
+            "name": doc_name,
+            "content": doc_content,
+            "type": doc_type,
+            "created_at": datetime.now().isoformat(),
+            "updated_at": datetime.now().isoformat()
         }
-        
+
         saved_docs.append(new_doc)
         session['saved_documents'] = saved_docs
-        
+
         return jsonify({
-            'document_id': doc_id,
-            'message': 'Document saved successfully'
+            "document_id": doc_id,
+            "message": "Document saved successfully"
         })
-        
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# -------------------------------------------------------------------
+# Legal News
+# -------------------------------------------------------------------
 @app.route('/api/legal-news', methods=['GET'])
 def get_legal_news():
-    """Get latest legal news and updates"""
     try:
-        prompt = """Generate 3 current and realistic legal news items for today's date. Include:
-1. A recent Supreme Court or High Court ruling
-2. A legislative update or new law
-3. A legal technology or profession update
+        prompt = """Generate 3 current and realistic legal news items for today's date relevant to Indian law students."""
 
-Format each as: Title, Brief description (1-2 sentences), and make them relevant to Indian law students."""
-        
         ai_response = call_ai_api(prompt, 'general')
-        
+
         return jsonify({
-            'news': ai_response,
-            'generated_at': datetime.now().isoformat()
+            "news": ai_response,
+            "generated_at": datetime.now().isoformat()
         })
-        
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 # Health check endpoint
 @app.route('/health', methods=['GET'])
