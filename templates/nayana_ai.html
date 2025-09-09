@@ -790,12 +790,12 @@ Provide thoughtful life guidance with:
       return modePrompts[mode] || modePrompts.general;
     }
 
-    // Enhanced AI response processing - Updated to use your /ask-ai endpoint
+    // Enhanced AI response processing - Updated to use your /nayana-ai endpoint
     async function processAIRequest(question) {
       const systemPrompt = generateSystemPrompt(currentMode, question);
       
-      // Send request to your existing ask-ai endpoint
-      const response = await fetch('/ask-ai', {
+      // Send request to your existing nayana-ai endpoint
+      const response = await fetch('/nayana-ai', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -973,7 +973,7 @@ Provide thoughtful life guidance with:
 
     // Console welcome message
     console.log(`
-    🌌 NEXUS AI OMEGA - QUANTUM INTELLIGENCE SYSTEM
+    🌌 NAYANA AI OMEGA - QUANTUM INTELLIGENCE SYSTEM
     ================================================
     
     Welcome to the future of AI assistance!
