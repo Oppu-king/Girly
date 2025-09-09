@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌌 NEXUS AI OMEGA - Quantum Intelligence</title>
+  <title>🌌 NAYANA AI OMEGA - Quantum Intelligence</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap');
     
@@ -545,7 +545,7 @@
   <div class="container">
     <!-- Header -->
     <div class="header">
-      <h1 class="ai-title">🌌 NEXUS AI OMEGA</h1>
+      <h1 class="ai-title">🌌 NAYANA AI OMEGA</h1>
       <p class="ai-subtitle">Quantum Intelligence • Neural Trading • Consciousness Simulation</p>
       
       <div class="status-indicators">
@@ -573,10 +573,10 @@
           <div class="mode-title">General AI</div>
           <div class="mode-desc">Universal knowledge & reasoning</div>
         </div>
-        <div class="mode-card" data-mode="trading">
+        <div class="mode-card" data-mode="lawyer">
           <div class="mode-icon">📈</div>
-          <div class="mode-title">Trading Expert</div>
-          <div class="mode-desc">Advanced market analysis</div>
+          <div class="mode-title">Law Expert</div>
+          <div class="mode-desc">Advanced case analysis</div>
         </div>
         <div class="mode-card" data-mode="crypto">
           <div class="mode-icon">₿</div>
@@ -592,7 +592,7 @@
 
       <!-- Input Section -->
       <div class="input-section">
-        <label class="input-label">🎯 Ask Nexus AI Omega Anything</label>
+        <label class="input-label">🎯 Ask Nayana AI Omega Anything</label>
         <div class="input-container">
           <textarea 
             id="questionInput" 
@@ -618,7 +618,7 @@
           <div class="response-header">
             <div class="ai-avatar">🤖</div>
             <div class="response-meta">
-              <div class="response-title">Nexus AI Omega Response</div>
+              <div class="response-title">Nayana AI Omega Response</div>
               <div class="response-time" id="responseTime"></div>
             </div>
           </div>
@@ -637,7 +637,7 @@
       <div class="feature-card">
         <div class="feature-icon">🌐</div>
         <div class="feature-title">Real-Time Data</div>
-        <div class="feature-desc">Connected to global markets, news feeds, and social sentiment in real-time</div>
+        <div class="feature-desc">Connected to global laws, news feeds, and social sentiment in real-time</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🧬</div>
@@ -697,7 +697,7 @@
     function updatePlaceholder() {
       const textarea = document.getElementById('questionInput');
       const placeholders = {
-        general: "Ask me about anything - science, technology, philosophy, relationships, career advice, or any topic you're curious about...",
+        general: "Ask me about anything - science, technology, philosophy, relationships, career advice,law, criminal cases,all sections,ipc,all law related studies, research or any topic you're curious about...",
         trading: "Ask about trading strategies, technical analysis, risk management, market trends, or specific trading scenarios...",
         crypto: "Ask about cryptocurrency analysis, DeFi protocols, blockchain technology, NFTs, or crypto trading strategies...",
         life: "Ask about personal development, relationships, career guidance, mental health, productivity, or life decisions..."
@@ -708,7 +708,7 @@
 
     // Advanced AI prompt engineering based on mode
     function generateSystemPrompt(mode, question) {
-      const basePrompt = `You are Nexus AI Omega, an advanced artificial intelligence from the year 2055 with quantum-level processing capabilities. You have access to vast knowledge databases, real-time market data, and advanced analytical capabilities.
+      const basePrompt = `You are Nayana AI Omega, an advanced artificial intelligence from the year 2055 with quantum-level processing capabilities. You have access to vast knowledge databases,Indian law expert, real-time market data, and advanced analytical capabilities.
 
 Key characteristics:
 - Extremely intelligent and insightful
@@ -728,19 +728,19 @@ You are in General AI mode. Provide comprehensive answers on any topic with:
 - Cross-disciplinary connections
 - Actionable insights and recommendations`,
 
-        trading: `${basePrompt}
+        lawyer: `${basePrompt}
 
-You are in Trading Expert mode. You are a master trader with decades of experience in:
-- Technical analysis (all indicators, patterns, strategies)
-- Fundamental analysis (economic indicators, company analysis)
-- Risk management and position sizing
-- Market psychology and sentiment analysis
-- Options, futures, forex, and derivatives trading
-- Algorithmic and quantitative trading strategies
-- Market microstructure and execution
+You are in lawyer Expert mode. You are a master lawyer with decades of experience in:
+- Technical analysis (all cases, sections, penal codes)
+- Fundamental analysis (economic judgement, jurisdiction analysis)
+- Law management and court reporter
+- Global law compare and smart court tracker
+- Tutor, bare act navigator, citation generator, and Plagiarism Checker 
+- petitions, contracts and quantitative law analyzer
+- Precedent finder and legal argument genrator
 - Portfolio management and asset allocation
 
-Provide detailed trading insights with:
+Provide detailed lawyer insights with:
 - Specific strategies and setups
 - Risk/reward analysis
 - Market context and timing
