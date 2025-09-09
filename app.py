@@ -628,7 +628,6 @@ def get_legal_news():
 
 @app.route("/nayana-ai", methods=["GET", "POST"])
 def nayana_ai():
-    response = None
     if request.method == "POST":
         try:
             # Get data from form or JSON
@@ -652,7 +651,7 @@ def nayana_ai():
                     "Authorization": f"Bearer {OPENROUTER_KEY}",
                     "Content-Type": "application/json",
                     "HTTP-Referer": "https://girly-z0et.onrender.com",
-                    "X-Title": "Nayana Ai"
+                    "X-Title": "Nayana AI"
                 },
                 json={
                     "model": "deepseek/deepseek-chat-v3-0324",
@@ -689,7 +688,9 @@ def nayana_ai():
                 return jsonify({'error': error_msg}), 500
             else:
                 return render_template("nayana_ai.html", response=error_msg)
-    
+
+    # 👇 Handle GET requests here
+    return render_template("nayana_ai.html", response=None)
 
 
 # Health check endpoint
