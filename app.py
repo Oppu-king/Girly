@@ -625,6 +625,73 @@ def get_legal_news():
         return jsonify({"error": str(e)}), 500
 
 
+
+@app.route("/ask-ai", methods=["GET", "POST"])
+def ask_ai():
+    response = None
+    if request.method == "POST":
+        try:
+            # Get data from form or JSON
+            if request.is_json:
+                data = request.get_json()
+                question = data.get('question')
+                mode = data.get('mode', 'general')
+                system_prompt = data.get('systemPrompt', '')
+            else:
+                question = request.form.get("question")
+                mode = request.form.get("mode", "general")
+                system_prompt = request.form.get("systemPrompt", "")
+            
+            if not question:
+                return jsonify({'error': 'No question provided'}), 400
+            
+            # Make request to OpenRouter using your working configuration
+            ai_response = requests.post(
+                OPENROUTER_URL,
+                headers={
+                    "Authorization": f"Bearer {OPENROUTER_KEY}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://lakshmi-ai-trades.onrender.com",
+                    "X-Title": "Lakshmi AI Wife"
+                },
+                json={
+                    "model": "deepseek/deepseek-chat-v3-0324",
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": question}
+                    ],
+                    "max_tokens": 600,
+                    "temperature": 0.9,
+                    "top_p": 0.95
+                }
+            )
+            
+            if ai_response.status_code != 200:
+                print(f"OpenRouter API Error: {ai_response.status_code}")
+                print(f"Response: {ai_response.text}")
+                return jsonify({'error': f'AI service error: {ai_response.status_code}'}), 500
+                
+            ai_data = ai_response.json()
+            response = ai_data['choices'][0]['message']['content']
+            
+            # Return JSON for AJAX requests
+            if request.is_json or request.headers.get('Content-Type') == 'application/json':
+                return jsonify({'response': response})
+            
+            # Return HTML template for regular form submissions
+            return render_template("ask_ai.html", response=response)
+            
+        except Exception as e:
+            print(f"AI Chat Error: {e}")
+            error_msg = f"AI Processing Error: {str(e)}"
+            
+            if request.is_json or request.headers.get('Content-Type') == 'application/json':
+                return jsonify({'error': error_msg}), 500
+            else:
+                return render_template("ask_ai.html", response=error_msg)
+    
+
+
 # Health check endpoint
 @app.route('/health', methods=['GET'])
 def health_check():
