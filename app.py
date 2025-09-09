@@ -379,8 +379,8 @@ def style_challenge():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/')
-def index():
+@app.route('/legalmind')
+def legalmind_page():
     """Main application route"""
     return render_template('legalmind.html')
 
