@@ -372,61 +372,62 @@ def legalmind():
 
 @app.route('/api/chat', methods=['POST'])
 def chat_with_ai():
-"""Handle AI chat requests"""
-try:
-data = request.get_json()
-message = data.get('message', '')
-context = data.get('context', 'general')
-model = data.get('model', 'deepseek/deepseek-chat')
+    """Handle AI chat requests"""
+    try:
+        data = request.get_json()
+        message = data.get('message', '')
+        context = data.get('context', 'general')
+        model = data.get('model', 'deepseek/deepseek-chat')
 
-if not message:  
-        return jsonify({'error': 'Message is required'}), 400  
+        if not message:  
+            return jsonify({'error': 'Message is required'}), 400  
 
-    # System prompts  
-    system_prompts = {  
-        'tutor': 'You are an expert AI Legal Tutor helping law students. Provide educational explanations with examples and case references where relevant. Focus on Indian law when applicable.',  
-        'case_brief': 'You are an AI legal assistant specializing in case brief generation. Analyze judgments and create comprehensive case briefs with facts, issues, holdings, and legal reasoning.',  
-        'drafting': 'You are an AI legal drafting assistant. Create professional legal documents with proper formatting, clauses, and legal language. Ensure compliance with standard legal practices.',  
-        'research': 'You are an AI legal research assistant. Provide comprehensive legal research with relevant cases, statutes, legal principles, and citations.',  
-        'moot_court': 'You are an AI moot court judge. Provide constructive feedback, ask probing questions, and present counter-arguments. Be professional but challenging.',  
-        'general': 'You are an expert AI legal assistant helping law students and professionals. Provide accurate, helpful legal information and guidance.'  
-    }  
-    system_prompt = system_prompts.get(context, system_prompts['general'])  
+        # System prompts  
+        system_prompts = {  
+            'tutor': 'You are an expert AI Legal Tutor helping law students. Provide educational explanations with examples and case references where relevant. Focus on Indian law when applicable.',  
+            'case_brief': 'You are an AI legal assistant specializing in case brief generation. Analyze judgments and create comprehensive case briefs with facts, issues, holdings, and legal reasoning.',  
+            'drafting': 'You are an AI legal drafting assistant. Create professional legal documents with proper formatting, clauses, and legal language. Ensure compliance with standard legal practices.',  
+            'research': 'You are an AI legal research assistant. Provide comprehensive legal research with relevant cases, statutes, legal principles, and citations.',  
+            'moot_court': 'You are an AI moot court judge. Provide constructive feedback, ask probing questions, and present counter-arguments. Be professional but challenging.',  
+            'general': 'You are an expert AI legal assistant helping law students and professionals. Provide accurate, helpful legal information and guidance.'  
+        }  
 
-    # Call OpenRouter API directly  
-    headers = {  
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",  
-        "Content-Type": "application/json"  
-    }  
+        system_prompt = system_prompts.get(context, system_prompts['general'])  
 
-    payload = {  
-        "model": model,  
-        "messages": [  
-            {"role": "system", "content": system_prompt},  
-            {"role": "user", "content": message}  
-        ],  
-        "max_tokens": 1000,  
-        "temperature": 0.7,  
-        "top_p": 1  
-    }  
+        # Call OpenRouter API directly  
+        headers = {  
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",  
+            "Content-Type": "application/json"  
+        }  
 
-    import requests  
-    response = requests.post(  
-        "https://openrouter.ai/api/v1/chat/completions",  
-        headers=headers,  
-        json=payload  
-    )  
+        payload = {  
+            "model": model,  
+            "messages": [  
+                {"role": "system", "content": system_prompt},  
+                {"role": "user", "content": message}  
+            ],  
+            "max_tokens": 1000,  
+            "temperature": 0.7,  
+            "top_p": 1  
+        }  
 
-    if response.status_code != 200:  
-        return jsonify({'error': f"OpenRouter API error: {response.text}"}), 500  
+        import requests  
+        response = requests.post(  
+            "https://openrouter.ai/api/v1/chat/completions",  
+            headers=headers,  
+            json=payload  
+        )  
 
-    result = response.json()  
-    ai_message = result['choices'][0]['message']['content']  
+        if response.status_code != 200:  
+            return jsonify({'error': f"OpenRouter API error: {response.text}"}), 500  
 
-    return jsonify({'reply': ai_message})  
+        result = response.json()  
+        ai_message = result['choices'][0]['message']['content']  
 
-except Exception as e:  
-    return jsonify({'error': str(e)}), 500
+        return jsonify({'reply': ai_message})  
+
+    except Exception as e:  
+        return jsonify({'error': str(e)}), 500
 
 
 
