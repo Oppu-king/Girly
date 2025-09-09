@@ -379,10 +379,9 @@ def style_challenge():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/legalmind')
-def legalmind_page():
-    """Main application route"""
-    return render_template('legalmind.html')
+@app.route("/legalmind")
+def legalmind():
+    return render_template("legalmind.html")
 
 @app.route('/api/chat', methods=['POST'])
 def chat_with_ai():
