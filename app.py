@@ -626,7 +626,7 @@ def get_legal_news():
 
 
 
-@app.route("/ask-ai", methods=["GET", "POST"])
+@app.route("/nayana-ai", methods=["GET", "POST"])
 def ask_ai():
     response = None
     if request.method == "POST":
@@ -679,7 +679,7 @@ def ask_ai():
                 return jsonify({'response': response})
             
             # Return HTML template for regular form submissions
-            return render_template("ask_ai.html", response=response)
+            return render_template("nayana_ai.html", response=response)
             
         except Exception as e:
             print(f"AI Chat Error: {e}")
