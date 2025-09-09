@@ -105,6 +105,44 @@ def save_generated_document(doc_type, content, details):
 def save_case_brief(content, case_name):
     return str(uuid.uuid4())
 
+def call_openrouter_api(prompt: str, api_key: str) -> str:
+"""Call OpenRouter API with DeepSeek V3"""
+try:
+response = requests.post(
+'https://openrouter.ai/api/v1/chat/completions',
+headers={
+'Authorization': f'Bearer {api_key}',
+'Content-Type': 'application/json',
+'HTTP-Referer': 'https://nexus-ai-trading.com',
+'X-Title': 'NEXUS AI Trading Platform'
+},
+json={
+'model': 'deepseek/deepseek-chat',
+'messages': [
+{
+'role': 'system',
+'content': 'You are a professional Indian market analyst specializing in NSE and BSE stocks. Provide specific insights for Indian markets.'
+},
+{
+'role': 'user',
+'content': prompt
+}
+],
+'max_tokens': 3000,
+'temperature': 0.1
+}
+)
+
+if response.status_code == 200:  
+        data = response.json()  
+        return data['choices'][0]['message']['content']  
+    else:  
+        return f"API Error: {response.status_code} - {response.text}"  
+          
+except Exception as e:  
+    return f"Error calling OpenRouter API: {str(e)}"
+
+
 @app.route('/')
 def index():
     """Serve the main HTML page"""
