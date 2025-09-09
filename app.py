@@ -15,41 +15,41 @@ OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', 'your-openrouter-api-key-he
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 def call_openrouter_api(prompt: str, api_key: str) -> str:
-"""Call OpenRouter API with DeepSeek V3"""
-try:
-response = requests.post(
-'https://openrouter.ai/api/v1/chat/completions',
-headers={
-'Authorization': f'Bearer {api_key}',
-'Content-Type': 'application/json',
-'HTTP-Referer': 'https://nexus-ai-trading.com',
-'X-Title': 'NEXUS AI Trading Platform'
-},
-json={
-'model': 'deepseek/deepseek-chat',
-'messages': [
-{
-'role': 'system',
-'content': 'You are a professional Indian market analyst specializing in NSE and BSE stocks. Provide specific insights for Indian markets.'
-},
-{
-'role': 'user',
-'content': prompt
-}
-],
-'max_tokens': 3000,
-'temperature': 0.1
-}
-)
+    """Call OpenRouter API with DeepSeek V3"""
+    try:
+        response = requests.post(
+            'https://openrouter.ai/api/v1/chat/completions',
+            headers={
+                'Authorization': f'Bearer {api_key}',
+                'Content-Type': 'application/json',
+                'HTTP-Referer': 'https://nexus-ai-trading.com',
+                'X-Title': 'NEXUS AI Trading Platform'
+            },
+            json={
+                'model': 'deepseek/deepseek-chat',
+                'messages': [
+                    {
+                        'role': 'system',
+                        'content': 'You are a professional Indian market analyst specializing in NSE and BSE stocks. Provide specific insights for Indian markets.'
+                    },
+                    {
+                        'role': 'user',
+                        'content': prompt
+                    }
+                ],
+                'max_tokens': 3000,
+                'temperature': 0.1
+            }
+        )
 
-if response.status_code == 200:  
-        data = response.json()  
-        return data['choices'][0]['message']['content']  
-    else:  
-        return f"API Error: {response.status_code} - {response.text}"  
+        if response.status_code == 200:
+            data = response.json()
+            return data['choices'][0]['message']['content']
+        else:
+            return f"API Error: {response.status_code} - {response.text}"
 
-except Exception as e:  
-    return f"Error calling OpenRouter API: {str(e)}"
+    except Exception as e:
+        return f"Error calling OpenRouter API: {str(e)}"
 
 def call_openrouter_api(prompt, system_prompt="You are Nipa, a helpful AI assistant for girls. You're friendly, supportive, and knowledgeable about fashion, beauty, wellness, and lifestyle. IMPORTANT: Always use emojis instead of asterisks (*). Never use asterisks for emphasis - use emojis like 💕✨🌟💖 instead. Respond in a girly, encouraging tone with lots of emojis."):
     """Call OpenRouter API with DeepSeek model"""
