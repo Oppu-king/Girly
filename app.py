@@ -14,6 +14,11 @@ CORS(app)
 OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', 'your-openrouter-api-key-here')
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
 
+OPENROUTER_KEY = os.getenv("OPENROUTER_API_KEY")
+print("🔑 OPENROUTER_KEY:", OPENROUTER_KEY)  # ✅ Should now print the key
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+
+
 def call_openrouter_api(prompt: str, api_key: str) -> str:
     """Call OpenRouter API with DeepSeek V3"""
     try:
