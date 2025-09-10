@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, render_template_string
 from flask_cors import CORS
 import os
 import requests
@@ -6,6 +6,7 @@ import json
 from datetime import datetime, timedelta
 import uuid
 import random
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -17,6 +18,78 @@ OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
 OPENROUTER_KEY = os.getenv("OPENROUTER_API_KEY")
 print("🔑 OPENROUTER_KEY:", OPENROUTER_KEY)  # ✅ Should now print the key
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+
+
+# Party Hub State
+party_state = {
+    'party_mode': True,
+    'lighting': {
+        'brightness': 85,
+        'theme': 'party',
+        'beat_sync': True
+    },
+    'audio': {
+        'volume': 75,
+        'playing': False,
+        'current_playlist': 'party',
+        'current_song_index': 0,
+        'current_time': 0,
+        'duration': 0
+    },
+    'playlists': {
+        'party': [
+            {'title': 'Blinding Lights', 'artist': 'The Weeknd', 'duration': 200, 'vocals': True},
+            {'title': 'Levitating', 'artist': 'Dua Lipa', 'duration': 203, 'vocals': True},
+            {'title': 'Good 4 U', 'artist': 'Olivia Rodrigo', 'duration': 178, 'vocals': True},
+            {'title': 'Stay', 'artist': 'The Kid LAROI & Justin Bieber', 'duration': 141, 'vocals': True},
+            {'title': 'Industry Baby', 'artist': 'Lil Nas X & Jack Harlow', 'duration': 212, 'vocals': True}
+        ],
+        'chill': [
+            {'title': 'Watermelon Sugar', 'artist': 'Harry Styles', 'duration': 174, 'vocals': True},
+            {'title': 'Circles', 'artist': 'Post Malone', 'duration': 215, 'vocals': True},
+            {'title': 'Sunflower', 'artist': 'Post Malone & Swae Lee', 'duration': 158, 'vocals': True}
+        ],
+        'dance': [
+            {'title': 'One More Time', 'artist': 'Daft Punk', 'duration': 320, 'vocals': True},
+            {'title': 'Titanium', 'artist': 'David Guetta ft. Sia', 'duration': 245, 'vocals': True},
+            {'title': 'Levels', 'artist': 'Avicii', 'duration': 203, 'vocals': True}
+        ]
+    },
+    'environment': {
+        'temperature': 24.0,
+        'target_temp': 24,
+        'humidity': 45.0,
+        'pm25': 12.0,
+        'ventilation': True,
+        'purifier': 'auto',
+        'ac': False,
+        'heater': False
+    },
+    'scent': {
+        'active': 'none',
+        'intensity': 60
+    },
+    'cigarette': {
+        'count': 0,
+        'selected_brand': 'marlboro',
+        'dispenser_active': True,
+        'lighter_active': True,
+        'ventilation_active': False
+    },
+    'bar': {
+        'drinks': 0,
+        'last_drink': None
+    },
+    'stats': {
+        'duration': 0,
+        'peak_guests': 15,
+        'songs_played': 47,
+        'start_time': time.time()
+    },
+    'guests': 15,
+    'notifications': []
+}
+
 
 
 def call_openrouter_api(prompt: str, api_key: str) -> str:
@@ -737,6 +810,417 @@ def nayana_ai():
 
     # ✅ Handle GET requests
     return render_template("nayana_ai.html", response=None)
+
+
+# Get current party status
+@app.route('/api/status', methods=['GET'])
+def get_status():
+    # Update real-time data
+    party_state['stats']['duration'] = int(time.time() - party_state['stats']['start_time'])
+    
+    # Simulate sensor fluctuations
+    party_state['environment']['temperature'] += random.uniform(-0.5, 0.5)
+    party_state['environment']['humidity'] += random.uniform(-2, 2)
+    party_state['environment']['pm25'] += random.uniform(-1, 1)
+    
+    # Clamp values
+    party_state['environment']['temperature'] = max(18, min(32, party_state['environment']['temperature']))
+    party_state['environment']['humidity'] = max(30, min(70, party_state['environment']['humidity']))
+    party_state['environment']['pm25'] = max(5, min(50, party_state['environment']['pm25']))
+    
+    return jsonify({
+        'success': True,
+        'data': party_state,
+        'timestamp': datetime.now().isoformat()
+    })
+
+# Toggle party mode
+@app.route('/api/party/toggle', methods=['POST'])
+def toggle_party_mode():
+    party_state['party_mode'] = not party_state['party_mode']
+    
+    notification = {
+        'message': f"🎉 Party mode {'activated' if party_state['party_mode'] else 'paused'}!",
+        'type': 'success' if party_state['party_mode'] else 'info',
+        'timestamp': datetime.now().isoformat()
+    }
+    party_state['notifications'].append(notification)
+    
+    return jsonify({
+        'success': True,
+        'party_mode': party_state['party_mode'],
+        'notification': notification
+    })
+
+# Update lighting system
+@app.route('/api/lighting/update', methods=['POST'])
+def update_lighting():
+    data = request.get_json()
+    
+    if 'brightness' in data:
+        party_state['lighting']['brightness'] = max(0, min(100, int(data['brightness'])))
+    
+    if 'theme' in data:
+        party_state['lighting']['theme'] = data['theme']
+    
+    if 'beat_sync' in data:
+        party_state['lighting']['beat_sync'] = bool(data['beat_sync'])
+    
+    notification = {
+        'message': f"💡 Lighting updated - {party_state['lighting']['theme']} theme",
+        'type': 'success',
+        'timestamp': datetime.now().isoformat()
+    }
+    party_state['notifications'].append(notification)
+    
+    return jsonify({
+        'success': True,
+        'lighting': party_state['lighting'],
+        'notification': notification
+    })
+
+# Audio system controls
+@app.route('/api/audio/play', methods=['POST'])
+def control_audio():
+    data = request.get_json()
+    action = data.get('action', 'toggle')
+    
+    if action == 'toggle':
+        party_state['audio']['playing'] = not party_state['audio']['playing']
+        message = f"🎵 Music {'playing' if party_state['audio']['playing'] else 'paused'}"
+        
+    elif action == 'next':
+        playlist = party_state['playlists'][party_state['audio']['current_playlist']]
+        party_state['audio']['current_song_index'] = (party_state['audio']['current_song_index'] + 1) % len(playlist)
+        party_state['audio']['current_time'] = 0
+        current_song = playlist[party_state['audio']['current_song_index']]
+        message = f"⏭️ Next: {current_song['title']}"
+        
+    elif action == 'previous':
+        playlist = party_state['playlists'][party_state['audio']['current_playlist']]
+        party_state['audio']['current_song_index'] = (party_state['audio']['current_song_index'] - 1) % len(playlist)
+        party_state['audio']['current_time'] = 0
+        current_song = playlist[party_state['audio']['current_song_index']]
+        message = f"⏮️ Previous: {current_song['title']}"
+        
+    elif action == 'playlist':
+        playlist_name = data.get('playlist', 'party')
+        if playlist_name in party_state['playlists']:
+            party_state['audio']['current_playlist'] = playlist_name
+            party_state['audio']['current_song_index'] = 0
+            party_state['audio']['current_time'] = 0
+            message = f"🎵 {playlist_name.title()} playlist loaded"
+        else:
+            return jsonify({'success': False, 'error': 'Invalid playlist'})
+    
+    if 'volume' in data:
+        party_state['audio']['volume'] = max(0, min(100, int(data['volume'])))
+        message = f"🔊 Volume set to {party_state['audio']['volume']}%"
+    
+    notification = {
+        'message': message,
+        'type': 'success',
+        'timestamp': datetime.now().isoformat()
+    }
+    party_state['notifications'].append(notification)
+    
+    return jsonify({
+        'success': True,
+        'audio': party_state['audio'],
+        'notification': notification
+    })
+
+# Environment controls
+@app.route('/api/environment/update', methods=['POST'])
+def update_environment():
+    data = request.get_json()
+    
+    if 'target_temp' in data:
+        party_state['environment']['target_temp'] = max(18, min(30, int(data['target_temp'])))
+    
+    if 'ventilation' in data:
+        party_state['environment']['ventilation'] = bool(data['ventilation'])
+    
+    if 'purifier' in data:
+        party_state['environment']['purifier'] = data['purifier']
+    
+    if 'ac' in data:
+        party_state['environment']['ac'] = bool(data['ac'])
+        if party_state['environment']['ac']:
+            party_state['environment']['heater'] = False
+    
+    if 'heater' in data:
+        party_state['environment']['heater'] = bool(data['heater'])
+        if party_state['environment']['heater']:
+            party_state['environment']['ac'] = False
+    
+    notification = {
+        'message': "🌡️ Environment settings updated",
+        'type': 'success',
+        'timestamp': datetime.now().isoformat()
+    }
+    party_state['notifications'].append(notification)
+    
+    return jsonify({
+        'success': True,
+        'environment': party_state['environment'],
+        'notification': notification
+    })
+
+# Scent system
+@app.route('/api/scent/update', methods=['POST'])
+def update_scent():
+    data = request.get_json()
+    
+    if 'scent' in data:
+        party_state['scent']['active'] = data['scent']
+    
+    if 'intensity' in data:
+        party_state['scent']['intensity'] = max(0, min(100, int(data['intensity'])))
+    
+    scents = {
+        'citrus': 'Energizing Citrus',
+        'lavender': 'Calming Lavender',
+        'vanilla': 'Sweet Vanilla'
+    }
+    
+    scent_name = scents.get(party_state['scent']['active'], 'No scent')
+    
+    notification = {
+        'message': f"🌸 {scent_name} activated at {party_state['scent']['intensity']}%",
+        'type': 'success',
+        'timestamp': datetime.now().isoformat()
+    }
+    party_state['notifications'].append(notification)
+    
+    return jsonify({
+        'success': True,
+        'scent': party_state['scent'],
+        'notification': notification
+    })
+
+# Cigarette system
+@app.route('/api/cigarette/dispense', methods=['POST'])
+def cigarette_system():
+    data = request.get_json()
+    action = data.get('action', 'dispense')
+    
+    if action == 'select_brand':
+        brand = data.get('brand', 'marlboro')
+        party_state['cigarette']['selected_brand'] = brand
+        brands = {
+            'marlboro': 'Marlboro Red',
+            'camel': 'Camel Blue',
+            'lucky': 'Lucky Strike',
+            'parliament': 'Parliament Lights'
+        }
+        message = f"🚬 {brands[brand]} selected"
+        
+    elif action == 'dispense':
+        if not party_state['cigarette']['dispenser_active']:
+            return jsonify({
+                'success': False,
+                'error': 'Dispenser offline - contact maintenance'
+            })
+        
+        party_state['cigarette']['count'] += 1
+        brands = {
+            'marlboro': 'Marlboro Red',
+            'camel': 'Camel Blue',
+            'lucky': 'Lucky Strike',
+            'parliament': 'Parliament Lights'
+        }
+        brand_name = brands[party_state['cigarette']['selected_brand']]
+        message = f"🚬 {brand_name} dispensed"
+        
+    elif action == 'light':
+        if not party_state['cigarette']['lighter_active']:
+            return jsonify({
+                'success': False,
+                'error': 'Auto-lighter offline'
+            })
+        
+        if party_state['cigarette']['count'] == 0:
+            return jsonify({
+                'success': False,
+                'error': 'Please dispense a cigarette first'
+            })
+        
+        message = "🔥 Cigarette lit successfully"
+        party_state['cigarette']['ventilation_active'] = True
+        
+    elif action == 'ventilation':
+        party_state['cigarette']['ventilation_active'] = not party_state['cigarette']['ventilation_active']
+        message = f"💨 Smoke extraction {'activated' if party_state['cigarette']['ventilation_active'] else 'deactivated'}"
+    
+    notification = {
+        'message': message,
+        'type': 'success',
+        'timestamp': datetime.now().isoformat()
+    }
+    party_state['notifications'].append(notification)
+    
+    return jsonify({
+        'success': True,
+        'cigarette': party_state['cigarette'],
+        'notification': notification
+    })
+
+# Smart bar system
+@app.route('/api/bar/log-drink', methods=['POST'])
+def log_drink():
+    party_state['bar']['drinks'] += 1
+    party_state['bar']['last_drink'] = datetime.now().isoformat()
+    
+    notification = {
+        'message': f"🍺 Drink #{party_state['bar']['drinks']} logged",
+        'type': 'success',
+        'timestamp': datetime.now().isoformat()
+    }
+    party_state['notifications'].append(notification)
+    
+    return jsonify({
+        'success': True,
+        'bar': party_state['bar'],
+        'notification': notification
+    })
+
+@app.route('/api/bar/make-cocktail', methods=['POST'])
+def make_cocktail():
+    cocktails = ['Mojito', 'Cosmopolitan', 'Margarita', 'Old Fashioned', 'Martini']
+    random_cocktail = random.choice(cocktails)
+    
+    notification = {
+        'message': f"🍸 Making {random_cocktail}... Ready in 2 minutes!",
+        'type': 'info',
+        'timestamp': datetime.now().isoformat()
+    }
+    party_state['notifications'].append(notification)
+    
+    return jsonify({
+        'success': True,
+        'cocktail': random_cocktail,
+        'notification': notification
+    })
+
+@app.route('/api/bar/order-supplies', methods=['POST'])
+def order_supplies():
+    notification = {
+        'message': "📦 Order placed! Delivery in 30 minutes",
+        'type': 'success',
+        'timestamp': datetime.now().isoformat()
+    }
+    party_state['notifications'].append(notification)
+    
+    return jsonify({
+        'success': True,
+        'notification': notification
+    })
+
+# AI Assistant
+@app.route('/api/ai/suggestion', methods=['GET'])
+def get_ai_suggestion():
+    suggestions = [
+        'Energy is high! Switch to dance music for maximum vibes',
+        'Temperature rising - activate AC for comfort',
+        'Great party pace! Consider adding citrus scent',
+        'Perfect lighting for photos - encourage group shots',
+        'Hydration reminder - offer water to guests',
+        'Music volume optimal for conversation',
+        'Consider switching to chill playlist for wind-down',
+        'Air quality excellent - perfect party conditions'
+    ]
+    
+    suggestion = random.choice(suggestions)
+    
+    return jsonify({
+        'success': True,
+        'suggestion': suggestion,
+        'timestamp': datetime.now().isoformat()
+    })
+
+@app.route('/api/ai/optimize', methods=['POST'])
+def optimize_party():
+    # Auto-optimize based on current conditions
+    optimizations = []
+    
+    # Temperature optimization
+    if party_state['environment']['temperature'] > 26:
+        party_state['environment']['ac'] = True
+        party_state['environment']['heater'] = False
+        optimizations.append('AC activated for cooling')
+    
+    # Lighting optimization based on time
+    current_hour = datetime.now().hour
+    if current_hour > 22:  # After 10 PM
+        party_state['lighting']['theme'] = 'chill'
+        optimizations.append('Switched to chill lighting')
+    
+    # Air quality optimization
+    if party_state['environment']['pm25'] > 25:
+        party_state['environment']['purifier'] = 'high'
+        optimizations.append('Air purifier set to high')
+    
+    notification = {
+        'message': f"⚡ AI optimized: {', '.join(optimizations)}",
+        'type': 'success',
+        'timestamp': datetime.now().isoformat()
+    }
+    party_state['notifications'].append(notification)
+    
+    return jsonify({
+        'success': True,
+        'optimizations': optimizations,
+        'notification': notification
+    })
+
+# Export statistics
+@app.route('/api/stats/export', methods=['GET'])
+def export_stats():
+    stats = {
+        'party_duration_minutes': int((time.time() - party_state['stats']['start_time']) / 60),
+        'total_drinks': party_state['bar']['drinks'],
+        'cigarettes_dispensed': party_state['cigarette']['count'],
+        'peak_guests': party_state['stats']['peak_guests'],
+        'songs_played': party_state['stats']['songs_played'],
+        'current_temperature': round(party_state['environment']['temperature'], 1),
+        'current_humidity': round(party_state['environment']['humidity'], 1),
+        'air_quality_pm25': round(party_state['environment']['pm25'], 1),
+        'lighting_theme': party_state['lighting']['theme'],
+        'music_playlist': party_state['audio']['current_playlist'],
+        'party_mode_active': party_state['party_mode'],
+        'export_timestamp': datetime.now().isoformat(),
+        'notifications_count': len(party_state['notifications'])
+    }
+    
+    return jsonify({
+        'success': True,
+        'stats': stats,
+        'filename': f"nayana-party-stats-{datetime.now().strftime('%Y-%m-%d-%H-%M')}.json"
+    })
+
+# Get recent notifications
+@app.route('/api/notifications', methods=['GET'])
+def get_notifications():
+    # Return last 10 notifications
+    recent_notifications = party_state['notifications'][-10:]
+    
+    return jsonify({
+        'success': True,
+        'notifications': recent_notifications,
+        'count': len(recent_notifications)
+    })
+
+# Clear notifications
+@app.route('/api/notifications/clear', methods=['POST'])
+def clear_notifications():
+    party_state['notifications'] = []
+    
+    return jsonify({
+        'success': True,
+        'message': 'Notifications cleared'
+    })
+
 
 # Health check endpoint
 @app.route('/health', methods=['GET'])
