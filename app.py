@@ -36,31 +36,33 @@ party_state = {
         'current_time': 0,
         'duration': 0
     },
-    'playlists': {
-        'party': [
-            {'title': 'Blinding Lights', 'artist': 'The Weeknd', 'duration': 200, 'vocals': True},
-            {'title': 'Levitating', 'artist': 'Dua Lipa', 'duration': 203, 'vocals': True},
-            {'title': 'Good 4 U', 'artist': 'Olivia Rodrigo', 'duration': 178, 'vocals': True},
-            {'title': 'Stay', 'artist': 'The Kid LAROI & Justin Bieber', 'duration': 141, 'vocals': True},
-            {'title': 'Industry Baby', 'artist': 'Lil Nas X & Jack Harlow', 'duration': 212, 'vocals': True},
-  
-        # More famous vocal party songs
-        {'title': 'Don’t Start Now', 'artist': 'Dua Lipa', 'duration': 183, 'vocals': True},
-        {'title': 'Shape of You', 'artist': 'Ed Sheeran', 'duration': 234, 'vocals': True},
-        {'title': 'Uptown Funk', 'artist': 'Mark Ronson ft. Bruno Mars', 'duration': 269, 'vocals': True},
-        {'title': 'Can’t Stop the Feeling!', 'artist': 'Justin Timberlake', 'duration': 236, 'vocals': True},
-        {'title': 'Sorry', 'artist': 'Justin Bieber', 'duration': 200, 'vocals': True},
-        {'title': 'Cheap Thrills', 'artist': 'Sia ft. Sean Paul', 'duration': 225, 'vocals': True},
-        {'title': 'Closer', 'artist': 'The Chainsmokers ft. Halsey', 'duration': 244, 'vocals': True},
-        {'title': 'Starboy', 'artist': 'The Weeknd ft. Daft Punk', 'duration': 230, 'vocals': True},
-        {'title': 'Break Free', 'artist': 'Ariana Grande ft. Zedd', 'duration': 215, 'vocals': True},
-        {'title': 'Shut Up and Dance', 'artist': 'WALK THE MOON', 'duration': 199, 'vocals': True},
-        {'title': '24K Magic', 'artist': 'Bruno Mars', 'duration': 227, 'vocals': True},
-        {'title': 'Timber', 'artist': 'Pitbull ft. Kesha', 'duration': 202, 'vocals': True},
-        {'title': 'Wake Me Up', 'artist': 'Avicii ft. Aloe Blacc', 'duration': 247, 'vocals': True},
-        {'title': 'Tik Tok', 'artist': 'Kesha', 'duration': 215, 'vocals': True},
-        {'title': 'Single Ladies (Put a Ring on It)', 'artist': 'Beyoncé', 'duration': 195, 'vocals': True}
-    ],
+    'playlists = {
+    'party': [
+        # Existing English songs...
+        {'title': 'Blinding Lights', 'artist': 'The Weeknd', 'duration': 200, 'vocals': True},
+        {'title': 'Levitating', 'artist': 'Dua Lipa', 'duration': 203, 'vocals': True},
+        {'title': 'Good 4 U', 'artist': 'Olivia Rodrigo', 'duration': 178, 'vocals': True},
+        {'title': 'Stay', 'artist': 'The Kid LAROI & Justin Bieber', 'duration': 141, 'vocals': True},
+        {'title': 'Industry Baby', 'artist': 'Lil Nas X & Jack Harlow', 'duration': 212, 'vocals': True},
+
+        # Hindi Famous / Trending Songs (Party/Popular)
+        {'title': 'Apna Bana Le', 'artist': 'Arijit Singh', 'duration': 236, 'vocals': True},
+        {'title': 'Kesariya', 'artist': 'Arijit Singh', 'duration': 210, 'vocals': True},
+        {'title': 'Tum Hi Ho', 'artist': 'Arijit Singh', 'duration': 261, 'vocals': True},
+        {'title': 'Ghungroo', 'artist': 'Arijit Singh & Shilpa Rao', 'duration': 300, 'vocals': True},
+        {'title': 'Malhari', 'artist': 'Vishal Dadlani', 'duration': 218, 'vocals': True},
+        {'title': 'Kala Chashma', 'artist': 'Badshah & Neha Kakkar', 'duration': 203, 'vocals': True},
+        {'title': 'Kar Gayi Chull', 'artist': 'Badshah, Neha Kakkar', 'duration': 230, 'vocals': True},
+        {'title': 'London Thumakda', 'artist': 'Neha Kakkar, Labh Janjua', 'duration': 245, 'vocals': True},
+        {'title': 'Nashe Si Chadh Gayi', 'artist': 'Arijit Singh', 'duration': 205, 'vocals': True},
+        {'title': 'Tera Ban Jaunga', 'artist': 'Akhil Sachdeva & Tulsi Kumar', 'duration': 240, 'vocals': True},
+        {'title': 'Tera Yaar Hoon Main', 'artist': 'Arijit Singh', 'duration': 254, 'vocals': True},
+        {'title': 'Bijlee Bijlee', 'artist': 'Harrdy Sandhu', 'duration': 220, 'vocals': True},
+        {'title': 'Jhoome Jo Pathaan', 'artist': 'Arijit Singh, Sukriti Kakar', 'duration': 231, 'vocals': True},
+        {'title': 'Not Ramaiya Vastavaiya', 'artist': 'Anirudh Ravichander', 'duration': 240, 'vocals': True},
+        {'title': 'Tum Kya Mile', 'artist': 'Arijit Singh, Shreya Ghoshal', 'duration': 246, 'vocals': True},
+    ]
+}
       
         'chill': [
             {'title': 'Watermelon Sugar', 'artist': 'Harry Styles', 'duration': 174, 'vocals': True},
