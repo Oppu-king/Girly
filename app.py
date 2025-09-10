@@ -36,7 +36,7 @@ party_state = {
         'current_time': 0,
         'duration': 0
     },
-    'playlists = {
+    'playlists': {
     'party': [
         # Existing English songs...
         {'title': 'Blinding Lights', 'artist': 'The Weeknd', 'duration': 200, 'vocals': True},
