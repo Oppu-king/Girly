@@ -42,7 +42,7 @@ party_state = {
             {'title': 'Levitating', 'artist': 'Dua Lipa', 'duration': 203, 'vocals': True},
             {'title': 'Good 4 U', 'artist': 'Olivia Rodrigo', 'duration': 178, 'vocals': True},
             {'title': 'Stay', 'artist': 'The Kid LAROI & Justin Bieber', 'duration': 141, 'vocals': True},
-            {'title': 'Industry Baby', 'artist': 'Lil Nas X & Jack Harlow', 'duration': 212, 'vocals': True}
+            {'title': 'Industry Baby', 'artist': 'Lil Nas X & Jack Harlow', 'duration': 212, 'vocals': True},
   
         # More famous vocal party songs
         {'title': 'Don’t Start Now', 'artist': 'Dua Lipa', 'duration': 183, 'vocals': True},
