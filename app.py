@@ -811,11 +811,6 @@ def nayana_ai():
     # ✅ Handle GET requests
     return render_template("nayana_ai.html", response=None)
 
-@app.route('/')
-def index():
-    return render_template("party.html")
-
-# (optional extra route so you can also open /party)
 @app.route('/party')
 def party():
     return render_template("party.html")
