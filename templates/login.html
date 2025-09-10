@@ -883,7 +883,7 @@
     </div>
 
     <script>
-        class LakshmiAIAuth {
+        class NayanaAuth {
             constructor() {
                 this.validCredentials = {
                     username: 'nayana',
@@ -901,7 +901,7 @@
             async initialize() {
                 await this.checkBiometricSupport();
                 this.setupEventListeners();
-                console.log('🪷 Nayana AI Authentication System initialized');
+                console.log('🪷 Nayana Authentication System initialized');
             }
 
             async checkBiometricSupport() {
@@ -1055,13 +1055,13 @@
                         publicKey: {
                             challenge: new Uint8Array(32),
                             rp: {
-                                name: "Lakshmi AI",
+                                name: "Nayana",
                                 id: window.location.hostname,
                             },
                             user: {
                                 id: new Uint8Array(16),
-                                name: "user@lakshmi-ai.com",
-                                displayName: "Lakshmi AI User",
+                                name: "user@nayana.com",
+                                displayName: "Nayana User",
                             },
                             pubKeyCredParams: [{alg: -7, type: "public-key"}],
                             authenticatorSelection: {
@@ -1140,7 +1140,7 @@
             }
 
             async startVoiceAuth() {
-                this.showBiometricScanner('Voice Recognition', 'Say "Lakshmi AI authenticate me"');
+                this.showBiometricScanner('Voice Recognition', 'Say "Nayana authenticate me"');
                 this.updateBiometricUI('voiceAuth', 'voiceStatus', 'Listening...', 'scanning');
 
                 try {
@@ -1217,7 +1217,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ method, username: 'monjit' })
+                        body: JSON.stringify({ method, username: 'nayana' })
                     });
                     
                     const data = await response.json();
@@ -1277,23 +1277,23 @@
         }
 
         function startFingerprintScan() {
-            lakshmiAuth.startFingerprintScan();
+            nayanaAuth.startFingerprintScan();
         }
 
         function startRetinalScan() {
-            lakshmiAuth.startRetinalScan();
+            nayanaAuth.startRetinalScan();
         }
 
         function startFaceScan() {
-            lakshmiAuth.startFaceScan();
+            nayanaAuth.startFaceScan();
         }
 
         function startVoiceAuth() {
-            lakshmiAuth.startVoiceAuth();
+            nayanaAuth.startVoiceAuth();
         }
 
         function closeBiometricScanner() {
-            lakshmiAuth.closeBiometricScanner();
+            nayanaAuth.closeBiometricScanner();
         }
 
         function showForgotPassword() {
@@ -1305,12 +1305,12 @@
         }
 
         // Initialize authentication system
-        let lakshmiAuth;
+        let NayanaAuth;
         document.addEventListener('DOMContentLoaded', () => {
-            lakshmiAuth = new LakshmiAIAuth();
+            nayanaAuth = new NakshmiAuth();
         });
 
-        console.log('🪷 Lakshmi AI Professional Authentication System');
+        console.log('🪷 Nayana Professional Authentication System');
         console.log('🔐 Real biometric authentication with WebAuthn, Camera, and Voice APIs');
         console.log('🌐 OAuth integration with Google, Facebook, Instagram');
         console.log('⚡ Production-ready Flask backend integration');
