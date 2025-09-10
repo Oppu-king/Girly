@@ -43,7 +43,25 @@ party_state = {
             {'title': 'Good 4 U', 'artist': 'Olivia Rodrigo', 'duration': 178, 'vocals': True},
             {'title': 'Stay', 'artist': 'The Kid LAROI & Justin Bieber', 'duration': 141, 'vocals': True},
             {'title': 'Industry Baby', 'artist': 'Lil Nas X & Jack Harlow', 'duration': 212, 'vocals': True}
-        ],
+  
+        # More famous vocal party songs
+        {'title': 'Don’t Start Now', 'artist': 'Dua Lipa', 'duration': 183, 'vocals': True},
+        {'title': 'Shape of You', 'artist': 'Ed Sheeran', 'duration': 234, 'vocals': True},
+        {'title': 'Uptown Funk', 'artist': 'Mark Ronson ft. Bruno Mars', 'duration': 269, 'vocals': True},
+        {'title': 'Can’t Stop the Feeling!', 'artist': 'Justin Timberlake', 'duration': 236, 'vocals': True},
+        {'title': 'Sorry', 'artist': 'Justin Bieber', 'duration': 200, 'vocals': True},
+        {'title': 'Cheap Thrills', 'artist': 'Sia ft. Sean Paul', 'duration': 225, 'vocals': True},
+        {'title': 'Closer', 'artist': 'The Chainsmokers ft. Halsey', 'duration': 244, 'vocals': True},
+        {'title': 'Starboy', 'artist': 'The Weeknd ft. Daft Punk', 'duration': 230, 'vocals': True},
+        {'title': 'Break Free', 'artist': 'Ariana Grande ft. Zedd', 'duration': 215, 'vocals': True},
+        {'title': 'Shut Up and Dance', 'artist': 'WALK THE MOON', 'duration': 199, 'vocals': True},
+        {'title': '24K Magic', 'artist': 'Bruno Mars', 'duration': 227, 'vocals': True},
+        {'title': 'Timber', 'artist': 'Pitbull ft. Kesha', 'duration': 202, 'vocals': True},
+        {'title': 'Wake Me Up', 'artist': 'Avicii ft. Aloe Blacc', 'duration': 247, 'vocals': True},
+        {'title': 'Tik Tok', 'artist': 'Kesha', 'duration': 215, 'vocals': True},
+        {'title': 'Single Ladies (Put a Ring on It)', 'artist': 'Beyoncé', 'duration': 195, 'vocals': True}
+    ]
+      
         'chill': [
             {'title': 'Watermelon Sugar', 'artist': 'Harry Styles', 'duration': 174, 'vocals': True},
             {'title': 'Circles', 'artist': 'Post Malone', 'duration': 215, 'vocals': True},
