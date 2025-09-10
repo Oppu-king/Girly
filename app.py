@@ -60,7 +60,7 @@ party_state = {
         {'title': 'Wake Me Up', 'artist': 'Avicii ft. Aloe Blacc', 'duration': 247, 'vocals': True},
         {'title': 'Tik Tok', 'artist': 'Kesha', 'duration': 215, 'vocals': True},
         {'title': 'Single Ladies (Put a Ring on It)', 'artist': 'Beyoncé', 'duration': 195, 'vocals': True}
-    ]
+    ],
       
         'chill': [
             {'title': 'Watermelon Sugar', 'artist': 'Harry Styles', 'duration': 174, 'vocals': True},
