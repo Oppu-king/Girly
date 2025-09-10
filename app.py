@@ -21,6 +21,10 @@ OPENROUTER_KEY = os.getenv("OPENROUTER_API_KEY")
 print("🔑 OPENROUTER_KEY:", OPENROUTER_KEY)  # ✅ Should now print the key
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
+app = Flask(__name__)
+app.secret_key = "nayana_secret_key"
+app.config['UPLOAD_FOLDER'] = 'static/voice_notes'
+
 # Initialize OAuth
 oauth = OAuth(app)
 
