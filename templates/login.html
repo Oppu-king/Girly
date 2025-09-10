@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nayana's Zone - Divine Quantum Platform</title>
+    <title>Lakshmi AI - Divine Trading Platform</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -756,8 +756,8 @@
             <div class="logo-container">
                 <div class="logo"><span>🪷</span></div>
             </div>
-            <h1 class="platform-title">Nayana's Zone</h1>
-            <p class="platform-subtitle">Divine Quantum Platform</p>
+            <h1 class="platform-title">Lakshmi AI</h1>
+            <p class="platform-subtitle">Divine Trading Platform</p>
         </div>
 
         <div class="auth-tabs">
@@ -883,10 +883,10 @@
     </div>
 
     <script>
-        class NayanaAuth {
+        class LakshmiAIAuth {
             constructor() {
                 this.validCredentials = {
-                    username: 'nayana',
+                    username: 'monjit',
                     password: 'love123'
                 };
                 this.biometricSupported = {
@@ -901,7 +901,7 @@
             async initialize() {
                 await this.checkBiometricSupport();
                 this.setupEventListeners();
-                console.log('🪷 Nayana Authentication System initialized');
+                console.log('🪷 Lakshmi AI Authentication System initialized');
             }
 
             async checkBiometricSupport() {
@@ -1055,13 +1055,13 @@
                         publicKey: {
                             challenge: new Uint8Array(32),
                             rp: {
-                                name: "Nayana",
+                                name: "Lakshmi AI",
                                 id: window.location.hostname,
                             },
                             user: {
                                 id: new Uint8Array(16),
-                                name: "user@nayana.com",
-                                displayName: "Nayana User",
+                                name: "user@lakshmi-ai.com",
+                                displayName: "Lakshmi AI User",
                             },
                             pubKeyCredParams: [{alg: -7, type: "public-key"}],
                             authenticatorSelection: {
@@ -1140,7 +1140,7 @@
             }
 
             async startVoiceAuth() {
-                this.showBiometricScanner('Voice Recognition', 'Say "Nayana authenticate me"');
+                this.showBiometricScanner('Voice Recognition', 'Say "Lakshmi AI authenticate me"');
                 this.updateBiometricUI('voiceAuth', 'voiceStatus', 'Listening...', 'scanning');
 
                 try {
@@ -1217,7 +1217,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ method, username: 'nayana' })
+                        body: JSON.stringify({ method, username: 'monjit' })
                     });
                     
                     const data = await response.json();
@@ -1277,23 +1277,23 @@
         }
 
         function startFingerprintScan() {
-            nayanaAuth.startFingerprintScan();
+            lakshmiAuth.startFingerprintScan();
         }
 
         function startRetinalScan() {
-            nayanaAuth.startRetinalScan();
+            lakshmiAuth.startRetinalScan();
         }
 
         function startFaceScan() {
-            nayanaAuth.startFaceScan();
+            lakshmiAuth.startFaceScan();
         }
 
         function startVoiceAuth() {
-            nayanaAuth.startVoiceAuth();
+            lakshmiAuth.startVoiceAuth();
         }
 
         function closeBiometricScanner() {
-            nayanaAuth.closeBiometricScanner();
+            lakshmiAuth.closeBiometricScanner();
         }
 
         function showForgotPassword() {
@@ -1305,12 +1305,12 @@
         }
 
         // Initialize authentication system
-        let NayanaAuth;
+        let lakshmiAuth;
         document.addEventListener('DOMContentLoaded', () => {
-            nayanaAuth = new NakshmiAuth();
+            lakshmiAuth = new LakshmiAIAuth();
         });
 
-        console.log('🪷 Nayana Professional Authentication System');
+        console.log('🪷 Lakshmi AI Professional Authentication System');
         console.log('🔐 Real biometric authentication with WebAuthn, Camera, and Voice APIs');
         console.log('🌐 OAuth integration with Google, Facebook, Instagram');
         console.log('⚡ Production-ready Flask backend integration');
