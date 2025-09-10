@@ -60,10 +60,8 @@ party_state = {
         {'title': 'Bijlee Bijlee', 'artist': 'Harrdy Sandhu', 'duration': 220, 'vocals': True},
         {'title': 'Jhoome Jo Pathaan', 'artist': 'Arijit Singh, Sukriti Kakar', 'duration': 231, 'vocals': True},
         {'title': 'Not Ramaiya Vastavaiya', 'artist': 'Anirudh Ravichander', 'duration': 240, 'vocals': True},
-        {'title': 'Tum Kya Mile', 'artist': 'Arijit Singh, Shreya Ghoshal', 'duration': 246, 'vocals': True},
-    ]
-}
-      
+        {'title': 'Tum Kya Mile', 'artist': 'Arijit Singh, Shreya Ghoshal', 'duration': 246, 'vocals': True}
+    ],
         'chill': [
             {'title': 'Watermelon Sugar', 'artist': 'Harry Styles', 'duration': 174, 'vocals': True},
             {'title': 'Circles', 'artist': 'Post Malone', 'duration': 215, 'vocals': True},
