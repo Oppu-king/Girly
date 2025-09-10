@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nayana's Party Hub - Ultimate Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .orbitron {
+            font-family: 'Orbitron', monospace;
+        }
+        
+        :root {
+            --neon-pink: #ff0080;
+            --neon-blue: #00ffff;
+            --neon-purple: #8000ff;
+            --neon-green: #00ff80;
+            --neon-yellow: #ffff00;
+            --dark-bg: #0a0a0f;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 128, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(128, 0, 255, 0.2) 0%, transparent 50%);
+            animation: cosmicShift 20s ease-in-out infinite;
+        }
+        
+        @keyframes cosmicShift {
+            0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+            25% { filter: hue-rotate(90deg) brightness(1.2); }
+            50% { filter: hue-rotate(180deg) brightness(0.8); }
+            75% { filter: hue-rotate(270deg) brightness(1.1); }
+        }
+        
+        /* Glass Effect */
+        .cyber-glass {
+            background: rgba(15, 15, 30, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 20px rgba(0, 255, 255, 0.1);
+        }
+        
+        /* Neon Text */
+        .neon-text {
+            text-shadow: 
+                0 0 5px currentColor,
+                0 0 10px currentColor,
+                0 0 15px currentColor,
+                0 0 20px currentColor;
+            animation: neonFlicker 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes neonFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Button Effects */
+        .cyber-button {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 
+                0 4px 15px rgba(0, 255, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.5s;
+        }
+        
+        .cyber-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 25px rgba(0, 255, 255, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+        
+        .cyber-button:active {
+            transform: translateY(1px);
+        }
+        
+        /* Status Indicators */
+        .status-orb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: relative;
+            animation: orbPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes orbPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        
+        /* Dropdown Menu */
+        .cyber-dropdown {
+            background: rgba(15, 15, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(0, 255, 255, 0.1);
+            transform: translateY(-10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .cyber-dropdown.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .dropdown-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            color: #ffffff;
+            font-weight: 500;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        /* Device Cards */
+        .device-card {
+            background: rgba(15, 15, 30, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .device-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--neon-blue);
+            box-shadow: 
+                0 20px 40px rgba(0, 255, 255, 0.2),
+                0 0 30px rgba(0, 255, 255, 0.1);
+        }
+        
+        /* Notification System */
+        .notification {
+            background: rgba(15, 15, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--neon-blue);
+            border-radius: 15px;
+            padding: 15px 20px;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+            transform: translateX(400px);
+            transition: all 0.5s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Audio Visualizer */
+        .audio-spectrum {
+            display: flex;
+            align-items: end;
+            height: 120px;
+            gap: 3px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .spectrum-bar {
+            width: 6px;
+            background: linear-gradient(to top, 
+                var(--neon-pink) 0%, 
+                var(--neon-purple) 50%, 
+                var(--neon-blue) 100%);
+            border-radius: 3px;
+            transition: height 0.1s ease;
+            box-shadow: 0 0 10px currentColor;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .cyber-glass {
+                margin: 10px;
+                padding: 15px;
+            }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cosmic Background -->
+    <div class="cosmic-bg"></div>
+    
+    <!-- Navigation Header -->
+    <nav class="fixed top-0 w-full z-50 cyber-glass border-b border-cyan-500/30">
+        <div class="max-w-full mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo Section -->
+                <div class="flex items-center space-x-4 flex-shrink-0">
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 via-purple-500 to-cyan-500 flex items-center justify-center border-2 border-cyan-400">
+                            <span class="text-lg font-black text-white orbitron">N</span>
+                        </div>
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full status-orb"></div>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-black orbitron neon-text text-cyan-400">NAYANA'S</h1>
+                        <p class="text-sm font-bold text-purple-400">PARTY HUB</p>
+                    </div>
+                </div>
+                
+                <!-- Status Dashboard -->
+                <div class="hidden md:flex items-center space-x-4 flex-shrink-0">
+                    <div class="flex items-center space-x-2">
+                        <div class="status-orb bg-green-400"></div>
+                        <div>
+                            <p class="text-xs font-bold text-green-400">ONLINE</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="status-orb bg-blue-400"></div>
+                        <div>
+                            <p class="text-xs font-bold text-blue-400" id="guestCount">15 GUESTS</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Control Panel -->
+                <div class="flex items-center space-x-2 flex-shrink-0">
+                    <!-- Main Menu Dropdown -->
+                    <div class="relative">
+                        <button onclick="toggleDropdown('mainMenu')" class="cyber-button px-3 py-2 rounded-lg font-bold text-cyan-300 orbitron text-xs">
+                            ⚡ MENU
+                        </button>
+                        <div id="mainMenu" class="cyber-dropdown absolute right-0 top-full mt-2 w-48 z-50">
+                            <div class="dropdown-item" onclick="openSection('lighting')">💡 Lighting Control</div>
+                            <div class="dropdown-item" onclick="openSection('audio')">🎵 Audio System</div>
+                            <div class="dropdown-item" onclick="openSection('air')">🌬️ Air Management</div>
+                            <div class="dropdown-item" onclick="openSection('drinks')">🍹 Smart Bar</div>
+                            <div class="dropdown-item" onclick="openSection('cigarette')">🚬 Cigarette System</div>
+                            <div class="dropdown-item" onclick="openSection('ai')">🤖 AI Assistant</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Party Mode Toggle -->
+                    <button onclick="togglePartyMode()" id="partyModeBtn" class="cyber-button px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg font-bold text-white orbitron text-xs">
+                        🎉 PARTY
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <div class="pt-24 min-h-screen">
+        <!-- Hero Section -->
+        <div class="px-8 py-12">
+            <div class="text-center mb-12">
+                <h2 class="text-6xl font-black orbitron neon-text text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 mb-4">
+                    ULTIMATE PARTY EXPERIENCE
+                </h2>
+                <p class="text-xl text-gray-300 max-w-4xl mx-auto">
+                    Advanced party management with real-time environmental control and smart tracking
+                </p>
+            </div>
+            
+            <!-- Real-time Metrics Dashboard -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="cyber-glass rounded-2xl p-6 text-center">
+                    <div class="text-4xl mb-2">🎵</div>
+                    <div class="text-3xl font-black orbitron text-cyan-400" id="bpmDisplay">128</div>
+                    <p class="text-sm text-gray-400 orbitron">BPM DETECTED</p>
+                </div>
+                <div class="cyber-glass rounded-2xl p-6 text-center">
+                    <div class="text-4xl mb-2">🌡️</div>
+                    <div class="text-3xl font-black orbitron text-green-400" id="tempDisplay">24°C</div>
+                    <p class="text-sm text-gray-400 orbitron">TEMPERATURE</p>
+                </div>
+                <div class="cyber-glass rounded-2xl p-6 text-center">
+                    <div class="text-4xl mb-2">💨</div>
+                    <div class="text-3xl font-black orbitron text-blue-400" id="airQualityDisplay">GOOD</div>
+                    <p class="text-sm text-gray-400 orbitron">AIR QUALITY</p>
+                </div>
+                <div class="cyber-glass rounded-2xl p-6 text-center">
+                    <div class="text-4xl mb-2">⚡</div>
+                    <div class="text-3xl font-black orbitron text-purple-400" id="energyDisplay">HIGH</div>
+                    <p class="text-sm text-gray-400 orbitron">PARTY ENERGY</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Control Grid -->
+        <div class="px-8 grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            
+            <!-- Lighting & Audio Control -->
+            <div class="space-y-8">
+                <!-- Advanced Lighting System -->
+                <div class="device-card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold orbitron text-cyan-200 neon-text" style="text-shadow: 0 0 20px #00ffff;">
+                            💡 SMART LIGHTING
+                        </h3>
+                        <div class="flex items-center space-x-2">
+                            <div class="status-orb bg-green-400"></div>
+                            <span class="text-sm text-green-400 orbitron">ACTIVE</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Audio Spectrum Visualizer -->
+                    <div class="audio-spectrum mb-6" id="audioSpectrum">
+                        <!-- Spectrum bars will be generated by JavaScript -->
+                    </div>
+                    
+                    <!-- Lighting Controls -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-purple-400 orbitron">BRIGHTNESS</label>
+                            <input type="range" id="brightness" min="0" max="100" value="85" 
+                                   class="w-full h-3 bg-gray-800 rounded-lg appearance-none cursor-pointer"
+                                   onchange="updateLighting()">
+                            <span class="text-xs text-cyan-400 orbitron" id="brightnessValue">85%</span>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-purple-400 orbitron">BEAT SYNC</label>
+                            <button onclick="toggleBeatSync()" id="beatSyncBtn" 
+                                    class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-cyan-400">
+                                🎵 SYNC ON
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Scene Presets -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="setLightingTheme('chill')" class="cyber-button p-4 rounded-xl text-center">
+                            <div class="text-3xl mb-2">🌊</div>
+                            <span class="text-sm font-bold orbitron text-blue-400">CHILL</span>
+                        </button>
+                        <button onclick="setLightingTheme('party')" class="cyber-button p-4 rounded-xl text-center">
+                            <div class="text-3xl mb-2">🔥</div>
+                            <span class="text-sm font-bold orbitron text-red-400">PARTY</span>
+                        </button>
+                        <button onclick="setLightingTheme('rave')" class="cyber-button p-4 rounded-xl text-center">
+                            <div class="text-3xl mb-2">⚡</div>
+                            <span class="text-sm font-bold orbitron text-purple-400">RAVE</span>
+                        </button>
+                        <button onclick="setLightingTheme('custom')" class="cyber-button p-4 rounded-xl text-center">
+                            <div class="text-3xl mb-2">🎨</div>
+                            <span class="text-sm font-bold orbitron text-green-400">CUSTOM</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Audio System -->
+                <div class="device-card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold orbitron text-purple-200 neon-text" style="text-shadow: 0 0 20px #8000ff;">
+                            🎵 AUDIO SYSTEM
+                        </h3>
+                        <div class="status-orb bg-purple-400"></div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Now Playing Display -->
+                        <div class="cyber-glass p-4 rounded-xl">
+                            <div class="text-sm text-purple-300 orbitron mb-1">NOW PLAYING:</div>
+                            <div class="text-lg font-bold text-white orbitron" id="currentSong">Select a playlist</div>
+                            <div class="text-xs text-gray-400 orbitron" id="currentArtist">No artist</div>
+                            <div class="mt-2 bg-gray-800 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-1000" id="progressBar" style="width: 0%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400 mt-1 orbitron">
+                                <span id="currentTime">0:00</span>
+                                <span id="totalTime">0:00</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Volume Control -->
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-purple-400 orbitron">VOLUME</label>
+                            <input type="range" id="volume" min="0" max="100" value="75" 
+                                   class="w-full h-3 bg-gray-800 rounded-lg appearance-none cursor-pointer"
+                                   onchange="updateVolume()">
+                            <span class="text-xs text-cyan-400 orbitron" id="volumeValue">75%</span>
+                        </div>
+                        
+                        <!-- Playlist Selection -->
+                        <div class="grid grid-cols-3 gap-3">
+                            <button onclick="playPlaylist('party')" class="cyber-button px-3 py-2 rounded-xl text-sm orbitron">
+                                🎉 PARTY
+                            </button>
+                            <button onclick="playPlaylist('chill')" class="cyber-button px-3 py-2 rounded-xl text-sm orbitron">
+                                😎 CHILL
+                            </button>
+                            <button onclick="playPlaylist('dance')" class="cyber-button px-3 py-2 rounded-xl text-sm orbitron">
+                                💃 DANCE
+                            </button>
+                        </div>
+                        
+                        <!-- Music Controls -->
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="previousSong()" class="cyber-button px-3 py-2 rounded-xl text-sm orbitron">
+                                ⏮️ PREV
+                            </button>
+                            <button onclick="toggleMusic()" id="musicBtn" class="cyber-button px-3 py-2 rounded-xl font-bold orbitron text-green-400">
+                                ▶️ PLAY
+                            </button>
+                            <button onclick="nextSong()" class="cyber-button px-3 py-2 rounded-xl text-sm orbitron">
+                                ⏭️ NEXT
+                            </button>
+                        </div>
+                        
+                        <!-- Song Queue -->
+                        <div class="cyber-glass p-3 rounded-xl max-h-32 overflow-y-auto">
+                            <div class="text-sm font-bold text-purple-300 orbitron mb-2">QUEUE:</div>
+                            <div id="songQueue" class="space-y-1">
+                                <!-- Songs will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Environmental Control -->
+            <div class="space-y-8">
+                <!-- Air Quality Management -->
+                <div class="device-card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold orbitron text-green-200 neon-text" style="text-shadow: 0 0 20px #00ff80;">
+                            🌬️ AIR CONTROL
+                        </h3>
+                        <div class="status-orb bg-green-400" id="airQualityOrb"></div>
+                    </div>
+                    
+                    <!-- Real-time Sensor Data -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="cyber-glass p-4 rounded-xl">
+                            <div class="text-lg font-bold text-cyan-400 orbitron" id="pm25Reading">12 μg/m³</div>
+                            <p class="text-xs text-gray-400">PM2.5 LEVEL</p>
+                        </div>
+                        <div class="cyber-glass p-4 rounded-xl">
+                            <div class="text-lg font-bold text-blue-400 orbitron" id="humidityReading">45%</div>
+                            <p class="text-xs text-gray-400">HUMIDITY</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Controls -->
+                    <div class="space-y-3">
+                        <button onclick="toggleVentilation()" class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-blue-400">
+                            💨 VENTILATION: <span id="ventStatus">ON</span>
+                        </button>
+                        <button onclick="togglePurifier()" class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-green-400">
+                            🌿 PURIFIER: <span id="purifierStatus">AUTO</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Temperature Control -->
+                <div class="device-card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold orbitron text-orange-200 neon-text" style="text-shadow: 0 0 20px #ff8000;">
+                            🌡️ CLIMATE
+                        </h3>
+                        <div class="status-orb bg-orange-400"></div>
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <div class="text-5xl font-black orbitron text-orange-400 mb-2" id="currentTemp">24°C</div>
+                        <p class="text-gray-400 orbitron">CURRENT TEMPERATURE</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-orange-400 orbitron">TARGET TEMP</label>
+                            <input type="range" id="targetTemp" min="18" max="30" value="24" 
+                                   class="w-full h-3 bg-gray-800 rounded-lg appearance-none cursor-pointer"
+                                   onchange="updateTemperature()">
+                            <span class="text-xs text-cyan-400 orbitron" id="targetTempValue">24°C</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="toggleAC()" id="acBtn" class="cyber-button px-4 py-3 rounded-xl font-bold orbitron text-blue-400">
+                                ❄️ AC OFF
+                            </button>
+                            <button onclick="toggleHeater()" id="heaterBtn" class="cyber-button px-4 py-3 rounded-xl font-bold orbitron text-red-400">
+                                🔥 HEAT OFF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cigarette System -->
+                <div class="device-card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold orbitron text-orange-200 neon-text" style="text-shadow: 0 0 20px #ff8000;">
+                            🚬 CIGARETTE SYSTEM
+                        </h3>
+                        <div class="status-orb bg-orange-400" id="cigaretteOrb"></div>
+                    </div>
+                    
+                    <!-- Cigarette Counter -->
+                    <div class="text-center mb-6">
+                        <div class="text-4xl font-black orbitron text-orange-400 mb-2" id="cigaretteCount">0</div>
+                        <p class="text-gray-400 orbitron">CIGARETTES TODAY</p>
+                    </div>
+                    
+                    <!-- Brand Selection -->
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <button onclick="selectCigaretteBrand('marlboro')" class="cyber-button p-3 rounded-xl text-center" id="marlboroBtn">
+                            <div class="text-2xl mb-1">🚬</div>
+                            <span class="text-xs font-bold orbitron text-red-400">MARLBORO</span>
+                        </button>
+                        <button onclick="selectCigaretteBrand('camel')" class="cyber-button p-3 rounded-xl text-center" id="camelBtn">
+                            <div class="text-2xl mb-1">🐪</div>
+                            <span class="text-xs font-bold orbitron text-yellow-400">CAMEL</span>
+                        </button>
+                        <button onclick="selectCigaretteBrand('lucky')" class="cyber-button p-3 rounded-xl text-center" id="luckyBtn">
+                            <div class="text-2xl mb-1">🍀</div>
+                            <span class="text-xs font-bold orbitron text-green-400">LUCKY STRIKE</span>
+                        </button>
+                        <button onclick="selectCigaretteBrand('parliament')" class="cyber-button p-3 rounded-xl text-center" id="parliamentBtn">
+                            <div class="text-2xl mb-1">🏛️</div>
+                            <span class="text-xs font-bold orbitron text-blue-400">PARLIAMENT</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Controls -->
+                    <div class="space-y-3">
+                        <button onclick="dispenseCigarette()" class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-orange-400">
+                            📦 DISPENSE CIGARETTE
+                        </button>
+                        <button onclick="lightCigarette()" class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-red-400">
+                            🔥 AUTO LIGHTER
+                        </button>
+                        <button onclick="activateVentilation()" class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-blue-400">
+                            💨 SMOKE EXTRACTION
+                        </button>
+                    </div>
+                    
+                    <!-- Health Warning -->
+                    <div class="cyber-glass p-3 rounded-xl mt-4 border border-red-500/30">
+                        <p class="text-xs text-red-400 orbitron text-center">⚠️ SMOKING IS HARMFUL TO HEALTH</p>
+                    </div>
+                </div>
+                
+                <!-- Scent System -->
+                <div class="device-card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold orbitron text-pink-200 neon-text" style="text-shadow: 0 0 20px #ff0080;">
+                            🌸 SCENT SYSTEM
+                        </h3>
+                        <div class="status-orb bg-pink-400"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-3 mb-6">
+                        <button onclick="activateScent('citrus')" class="cyber-button p-3 rounded-xl text-center">
+                            <div class="text-2xl mb-1">🍊</div>
+                            <span class="text-xs font-bold orbitron text-yellow-400">CITRUS</span>
+                        </button>
+                        <button onclick="activateScent('lavender')" class="cyber-button p-3 rounded-xl text-center">
+                            <div class="text-2xl mb-1">💜</div>
+                            <span class="text-xs font-bold orbitron text-purple-400">LAVENDER</span>
+                        </button>
+                        <button onclick="activateScent('vanilla')" class="cyber-button p-3 rounded-xl text-center">
+                            <div class="text-2xl mb-1">🍦</div>
+                            <span class="text-xs font-bold orbitron text-amber-400">VANILLA</span>
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-3 text-pink-400 orbitron">INTENSITY</label>
+                        <input type="range" id="scentIntensity" min="0" max="100" value="60" 
+                               class="w-full h-3 bg-gray-800 rounded-lg appearance-none cursor-pointer"
+                               onchange="updateScentIntensity()">
+                        <div class="flex justify-between text-xs text-gray-400 mt-1 orbitron">
+                            <span>SUBTLE</span>
+                            <span>INTENSE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Smart Bar & Analytics -->
+            <div class="space-y-8">
+                <!-- Smart Bar System -->
+                <div class="device-card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold orbitron text-blue-200 neon-text" style="text-shadow: 0 0 20px #0080ff;">
+                            🍹 SMART BAR
+                        </h3>
+                        <div class="status-orb bg-blue-400"></div>
+                    </div>
+                    
+                    <!-- Drink Counter -->
+                    <div class="text-center mb-6">
+                        <div class="text-4xl font-black orbitron text-blue-400 mb-2" id="drinkCount">0</div>
+                        <p class="text-gray-400 orbitron">DRINKS TODAY</p>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="space-y-3">
+                        <button onclick="logDrink()" class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-purple-400">
+                            ➕ LOG DRINK
+                        </button>
+                        <button onclick="makeCocktail()" class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-green-400">
+                            🍸 MAKE COCKTAIL
+                        </button>
+                        <button onclick="orderSupplies()" class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-yellow-400">
+                            📦 ORDER SUPPLIES
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Party Analytics -->
+                <div class="device-card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold orbitron text-purple-200 neon-text" style="text-shadow: 0 0 20px #8000ff;">
+                            📊 PARTY STATS
+                        </h3>
+                        <div class="status-orb bg-purple-400"></div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="cyber-glass p-4 rounded-xl">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm orbitron text-gray-300">🎉 PARTY DURATION</span>
+                                <span class="font-bold text-green-400 orbitron" id="partyDuration">2h 15m</span>
+                            </div>
+                        </div>
+                        <div class="cyber-glass p-4 rounded-xl">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm orbitron text-gray-300">👥 PEAK GUESTS</span>
+                                <span class="font-bold text-blue-400 orbitron" id="peakGuests">15</span>
+                            </div>
+                        </div>
+                        <div class="cyber-glass p-4 rounded-xl">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm orbitron text-gray-300">🎵 SONGS PLAYED</span>
+                                <span class="font-bold text-purple-400 orbitron" id="songsPlayed">47</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="exportStats()" class="cyber-button w-full mt-4 px-4 py-3 rounded-xl font-bold orbitron text-cyan-400">
+                        📥 EXPORT DATA
+                    </button>
+                </div>
+                
+                <!-- AI Assistant */
+                <div class="device-card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold orbitron text-cyan-200 neon-text" style="text-shadow: 0 0 20px #00ffff;">
+                            🤖 AI ASSISTANT
+                        </h3>
+                        <div class="status-orb bg-cyan-400"></div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="cyber-glass p-4 rounded-xl">
+                            <p class="text-sm text-cyan-300 mb-2 orbitron">💡 AI SUGGESTION:</p>
+                            <p class="text-xs text-gray-400" id="aiSuggestion">Party energy is high! Consider switching to dance music.</p>
+                        </div>
+                        
+                        <button onclick="getAISuggestion()" class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-purple-400">
+                            🧠 GET SUGGESTION
+                        </button>
+                        <button onclick="optimizeParty()" class="cyber-button w-full px-4 py-3 rounded-xl font-bold orbitron text-green-400">
+                            ⚡ AUTO OPTIMIZE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="fixed top-24 right-8 z-50 space-y-4"></div>
+
+    <!-- Hidden Audio Elements for Real Music -->
+    <audio id="audioPlayer" preload="auto" style="display: none;"></audio>
+
+    <script>
+        // Party Hub State Management
+        const PartyHub = {
+            partyMode: true,
+            lighting: {
+                brightness: 85,
+                theme: 'party',
+                beatSync: true
+            },
+            audio: {
+                volume: 75,
+                playing: false,
+                currentPlaylist: 'party',
+                currentSongIndex: 0,
+                currentTime: 0,
+                duration: 0,
+                progressInterval: null,
+                audioElement: null,
+                musicSystem: null
+            },
+            playlists: {
+                party: [
+                    { title: "Blinding Lights", artist: "The Weeknd", duration: 200, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3", vocals: true },
+                    { title: "Levitating", artist: "Dua Lipa", duration: 203, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "Good 4 U", artist: "Olivia Rodrigo", duration: 178, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3", vocals: true },
+                    { title: "Stay", artist: "The Kid LAROI & Justin Bieber", duration: 141, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "Industry Baby", artist: "Lil Nas X & Jack Harlow", duration: 212, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3", vocals: true },
+                    { title: "Heat Waves", artist: "Glass Animals", duration: 238, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "Bad Habits", artist: "Ed Sheeran", duration: 231, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3", vocals: true },
+                    { title: "Anti-Hero", artist: "Taylor Swift", duration: 201, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "As It Was", artist: "Harry Styles", duration: 167, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3", vocals: true },
+                    { title: "Flowers", artist: "Miley Cyrus", duration: 200, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "Unholy", artist: "Sam Smith ft. Kim Petras", duration: 156, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3", vocals: true },
+                    { title: "Shake It Off", artist: "Taylor Swift", duration: 219, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true }
+                ],
+                chill: [
+                    { title: "Watermelon Sugar", artist: "Harry Styles", duration: 174, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "Circles", artist: "Post Malone", duration: 215, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3", vocals: true },
+                    { title: "Sunflower", artist: "Post Malone & Swae Lee", duration: 158, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3", vocals: true },
+                    { title: "Someone You Loved", artist: "Lewis Capaldi", duration: 182, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "Perfect", artist: "Ed Sheeran", duration: 263, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3", vocals: true },
+                    { title: "Shallow", artist: "Lady Gaga & Bradley Cooper", duration: 215, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3", vocals: true },
+                    { title: "Drivers License", artist: "Olivia Rodrigo", duration: 242, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "Golden", artist: "Harry Styles", duration: 206, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3", vocals: true },
+                    { title: "Adore You", artist: "Harry Styles", duration: 207, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3", vocals: true },
+                    { title: "Cardigan", artist: "Taylor Swift", duration: 239, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true }
+                ],
+                dance: [
+                    { title: "One More Time", artist: "Daft Punk", duration: 320, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3", vocals: true },
+                    { title: "Titanium", artist: "David Guetta ft. Sia", duration: 245, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "Levels", artist: "Avicii", duration: 203, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3", vocals: true },
+                    { title: "Clarity", artist: "Zedd ft. Foxes", duration: 271, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "Animals", artist: "Martin Garrix", duration: 302, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3", vocals: true },
+                    { title: "Bangarang", artist: "Skrillex", duration: 215, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3", vocals: true },
+                    { title: "Don't Start Now", artist: "Dua Lipa", duration: 183, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true },
+                    { title: "Physical", artist: "Dua Lipa", duration: 193, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3", vocals: true },
+                    { title: "Uptown Funk", artist: "Mark Ronson ft. Bruno Mars", duration: 270, url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3", vocals: true },
+                    { title: "Can't Stop The Feeling", artist: "Justin Timberlake", duration: 236, url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg", vocals: true }
+                ]
+            },
+            environment: {
+                temperature: 24,
+                targetTemp: 24,
+                humidity: 45,
+                pm25: 12,
+                ventilation: true,
+                purifier: 'auto',
+                ac: false,
+                heater: false
+            },
+            scent: {
+                active: 'none',
+                intensity: 60
+            },
+            cigarette: {
+                count: 0,
+                selectedBrand: 'marlboro',
+                dispenserActive: true,
+                lighterActive: true,
+                ventilationActive: false
+            },
+            bar: {
+                drinks: 0,
+                lastDrink: null
+            },
+            stats: {
+                duration: 0,
+                peakGuests: 15,
+                songsPlayed: 47,
+                startTime: Date.now()
+            }
+        };
+
+        // Initialize Party Hub
+        function initializePartyHub() {
+            console.log('🎉 Initializing Nayana\'s Party Hub...');
+            
+            // Create audio spectrum visualizer
+            createAudioSpectrum();
+            
+            // Start real-time updates
+            startRealTimeUpdates();
+            
+            // Initialize all systems
+            updateAllDisplays();
+            
+            // Initialize audio player
+            initializeAudioPlayer();
+            
+            showNotification('🎉 Party Hub Online - All systems ready!', 'success');
+        }
+
+        // Initialize Real Audio Player with Working Sound
+        function initializeAudioPlayer() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            PartyHub.audio.audioElement = audioPlayer;
+            
+            // Set up audio event listeners for real playback
+            audioPlayer.addEventListener('loadedmetadata', () => {
+                PartyHub.audio.duration = Math.floor(audioPlayer.duration);
+                document.getElementById('totalTime').textContent = formatTime(PartyHub.audio.duration);
+                console.log('✅ Real audio loaded successfully');
+            });
+            
+            audioPlayer.addEventListener('timeupdate', () => {
+                PartyHub.audio.currentTime = Math.floor(audioPlayer.currentTime);
+                updateProgressBar();
+            });
+            
+            audioPlayer.addEventListener('ended', () => {
+                nextSong();
+                if (PartyHub.audio.playing) {
+                    setTimeout(() => {
+                        loadCurrentSong();
+                        PartyHub.audio.audioElement.play();
+                    }, 500);
+                }
+            });
+            
+            audioPlayer.addEventListener('error', (e) => {
+                console.log('Audio loading error:', e);
+                showNotification('🎵 Audio file not available', 'warning');
+            });
+            
+            audioPlayer.addEventListener('canplay', () => {
+                console.log('✅ Audio ready to play with sound');
+            });
+            
+            // Set initial volume
+            audioPlayer.volume = PartyHub.audio.volume / 100;
+        }
+
+        // Load Current Song with Real Audio
+        function loadCurrentSong() {
+            const playlist = PartyHub.playlists[PartyHub.audio.currentPlaylist];
+            const currentSong = playlist[PartyHub.audio.currentSongIndex];
+            
+            if (PartyHub.audio.audioElement && currentSong.url) {
+                PartyHub.audio.audioElement.src = currentSong.url;
+                PartyHub.audio.audioElement.load();
+                console.log('🎵 Loading real music:', currentSong.title, 'by', currentSong.artist);
+            }
+        }
+
+        // Audio Spectrum Visualizer
+        function createAudioSpectrum() {
+            const spectrum = document.getElementById('audioSpectrum');
+            spectrum.innerHTML = '';
+            
+            // Create 32 spectrum bars
+            for (let i = 0; i < 32; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'spectrum-bar';
+                bar.style.height = '10px';
+                spectrum.appendChild(bar);
+            }
+            
+            // Animate spectrum bars
+            animateSpectrum();
+        }
+
+        function animateSpectrum() {
+            const bars = document.querySelectorAll('.spectrum-bar');
+            
+            setInterval(() => {
+                bars.forEach((bar, index) => {
+                    // More realistic animation when music is playing
+                    const baseHeight = PartyHub.audio.playing ? 30 : 8;
+                    const variation = PartyHub.audio.playing ? 90 : 15;
+                    
+                    // Create frequency-based animation
+                    const frequency = index / bars.length;
+                    const timeOffset = Date.now() * 0.005;
+                    const musicSync = Math.sin(timeOffset + frequency * 10) * 0.5 + 0.5;
+                    
+                    const height = baseHeight + (variation * musicSync);
+                    bar.style.height = `${height}px`;
+                    
+                    // Dynamic colors based on frequency and music state
+                    if (PartyHub.audio.playing) {
+                        if (index < 8) {
+                            // Bass frequencies - red/pink
+                            bar.style.background = `linear-gradient(to top, #ff0080, #ff4080)`;
+                            bar.style.boxShadow = '0 0 10px #ff0080';
+                        } else if (index < 20) {
+                            // Mid frequencies - purple
+                            bar.style.background = `linear-gradient(to top, #8000ff, #a040ff)`;
+                            bar.style.boxShadow = '0 0 10px #8000ff';
+                        } else {
+                            // High frequencies - cyan/blue
+                            bar.style.background = `linear-gradient(to top, #00ffff, #40ffff)`;
+                            bar.style.boxShadow = '0 0 10px #00ffff';
+                        }
+                    } else {
+                        bar.style.background = 'linear-gradient(to top, #333, #555)';
+                        bar.style.boxShadow = 'none';
+                    }
+                });
+            }, PartyHub.audio.playing ? 50 : 200);
+        }
+
+        // Lighting Controls
+        function updateLighting() {
+            const brightness = document.getElementById('brightness').value;
+            PartyHub.lighting.brightness = parseInt(brightness);
+            document.getElementById('brightnessValue').textContent = `${brightness}%`;
+            
+            // Apply lighting changes
+            document.body.style.filter = `brightness(${brightness / 100})`;
+            
+            showNotification(`💡 Brightness set to ${brightness}%`, 'info');
+        }
+
+        function setLightingTheme(theme) {
+            PartyHub.lighting.theme = theme;
+            
+            const themes = {
+                chill: { 
+                    color: '#00ffff', 
+                    name: 'CHILL VIBES',
+                    gradient: 'linear-gradient(135deg, #0a0a0f 0%, #001a2e 50%, #002a4e 100%)',
+                    glow: '#00ffff'
+                },
+                party: { 
+                    color: '#ff0080', 
+                    name: 'PARTY MODE',
+                    gradient: 'linear-gradient(135deg, #2a0a0f 0%, #4a0a2e 50%, #6a0a4e 100%)',
+                    glow: '#ff0080'
+                },
+                rave: { 
+                    color: '#8000ff', 
+                    name: 'RAVE STORM',
+                    gradient: 'linear-gradient(135deg, #1a0a2f 0%, #3a0a5e 50%, #5a0a8e 100%)',
+                    glow: '#8000ff'
+                },
+                custom: { 
+                    color: '#00ff80', 
+                    name: 'CUSTOM FX',
+                    gradient: 'linear-gradient(135deg, #0a2a0f 0%, #0a4a2e 50%, #0a6a4e 100%)',
+                    glow: '#00ff80'
+                }
+            };
+            
+            const themeData = themes[theme];
+            
+            // Apply comprehensive lighting changes
+            document.body.style.background = themeData.gradient;
+            document.body.style.boxShadow = `inset 0 0 100px ${themeData.color}20`;
+            
+            // Update cosmic background
+            const cosmicBg = document.querySelector('.cosmic-bg');
+            if (cosmicBg) {
+                cosmicBg.style.background = `
+                    radial-gradient(circle at 20% 80%, ${themeData.color}30 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, ${themeData.color}20 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, ${themeData.color}15 0%, transparent 50%)
+                `;
+            }
+            
+            // Update all cyber-glass elements
+            document.querySelectorAll('.cyber-glass').forEach(element => {
+                element.style.boxShadow = `
+                    0 8px 32px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                    0 0 20px ${themeData.color}20
+                `;
+                element.style.borderColor = `${themeData.color}30`;
+            });
+            
+            // Update all cyber buttons
+            document.querySelectorAll('.cyber-button').forEach(button => {
+                button.style.borderColor = themeData.color;
+                button.style.boxShadow = `
+                    0 4px 15px ${themeData.color}30,
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1)
+                `;
+            });
+            
+            // Start lighting animation if beat sync is on
+            if (PartyHub.lighting.beatSync && PartyHub.audio.playing) {
+                startLightingAnimation(themeData.color);
+            }
+            
+            showNotification(`💡 ${themeData.name} activated`, 'success');
+        }
+        
+        function startLightingAnimation(color) {
+            // Clear any existing animation
+            if (window.lightingInterval) {
+                clearInterval(window.lightingInterval);
+            }
+            
+            window.lightingInterval = setInterval(() => {
+                if (!PartyHub.lighting.beatSync || !PartyHub.audio.playing) {
+                    clearInterval(window.lightingInterval);
+                    return;
+                }
+                
+                // Pulse effect synchronized with music
+                const intensity = 0.3 + Math.random() * 0.4;
+                const pulseColor = `${color}${Math.floor(intensity * 255).toString(16).padStart(2, '0')}`;
+                
+                document.body.style.boxShadow = `inset 0 0 150px ${pulseColor}`;
+                
+                // Flash effect on beat
+                if (Math.random() > 0.7) {
+                    document.body.style.filter = `brightness(${1.2 + Math.random() * 0.3})`;
+                    setTimeout(() => {
+                        document.body.style.filter = `brightness(${PartyHub.lighting.brightness / 100})`;
+                    }, 100);
+                }
+                
+            }, 200); // 5 times per second for smooth animation
+        }
+
+        function toggleBeatSync() {
+            PartyHub.lighting.beatSync = !PartyHub.lighting.beatSync;
+            const btn = document.getElementById('beatSyncBtn');
+            
+            if (PartyHub.lighting.beatSync) {
+                btn.textContent = '🎵 SYNC ON';
+                btn.classList.add('animate-pulse');
+                btn.style.backgroundColor = '#00ff8050';
+                btn.style.borderColor = '#00ff80';
+                
+                // Start lighting animation if music is playing
+                if (PartyHub.audio.playing) {
+                    const themes = {
+                        chill: '#00ffff',
+                        party: '#ff0080', 
+                        rave: '#8000ff',
+                        custom: '#00ff80'
+                    };
+                    startLightingAnimation(themes[PartyHub.lighting.theme] || '#00ffff');
+                }
+            } else {
+                btn.textContent = '🎵 SYNC OFF';
+                btn.classList.remove('animate-pulse');
+                btn.style.backgroundColor = '';
+                btn.style.borderColor = '#00ffff';
+                
+                // Stop lighting animation
+                if (window.lightingInterval) {
+                    clearInterval(window.lightingInterval);
+                }
+            }
+            
+            showNotification(`🎵 Beat sync ${PartyHub.lighting.beatSync ? 'enabled' : 'disabled'}`, 'info');
+        }
+
+        // Audio Controls
+        function updateVolume() {
+            const volume = document.getElementById('volume').value;
+            PartyHub.audio.volume = parseInt(volume);
+            document.getElementById('volumeValue').textContent = `${volume}%`;
+            
+            // Control HTML5 audio volume
+            if (PartyHub.audio.audioElement) {
+                PartyHub.audio.audioElement.volume = volume / 100;
+            }
+            
+            showNotification(`🔊 Volume set to ${volume}%`, 'info');
+        }
+
+        function playPlaylist(playlist) {
+            PartyHub.audio.currentPlaylist = playlist;
+            PartyHub.audio.currentSongIndex = 0;
+            
+            const playlists = {
+                party: 'Party Hits 2024',
+                chill: 'Chill Vibes',
+                dance: 'Dance Floor Bangers'
+            };
+            
+            // Stop current audio if playing
+            if (PartyHub.audio.audioElement && PartyHub.audio.playing) {
+                PartyHub.audio.audioElement.pause();
+            }
+            
+            updateCurrentSong();
+            updateSongQueue();
+            loadCurrentSong();
+            
+            showNotification(`🎵 ${playlists[playlist]} loaded`, 'success');
+        }
+
+        function toggleMusic() {
+            if (!PartyHub.audio.currentPlaylist || PartyHub.playlists[PartyHub.audio.currentPlaylist].length === 0) {
+                showNotification('🎵 Please select a playlist first', 'warning');
+                return;
+            }
+            
+            PartyHub.audio.playing = !PartyHub.audio.playing;
+            const btn = document.getElementById('musicBtn');
+            
+            if (PartyHub.audio.playing) {
+                btn.textContent = '⏸️ PAUSE';
+                btn.classList.add('animate-pulse');
+                btn.style.backgroundColor = '#00ff8050';
+                btn.style.borderColor = '#00ff80';
+                
+                // Load and play current song
+                if (!PartyHub.audio.audioElement.src) {
+                    loadCurrentSong();
+                }
+                
+                // Play the real audio
+                PartyHub.audio.audioElement.play().then(() => {
+                    console.log('✅ Real music playing successfully');
+                    startMusicProgress();
+                    showNotification(`🎵 Now playing: ${PartyHub.playlists[PartyHub.audio.currentPlaylist][PartyHub.audio.currentSongIndex].title}`, 'success');
+                }).catch(e => {
+                    console.log('Audio play failed:', e);
+                    showNotification(`🎵 Audio not available for this track`, 'warning');
+                });
+                
+            } else {
+                btn.textContent = '▶️ PLAY';
+                btn.classList.remove('animate-pulse');
+                btn.style.backgroundColor = '';
+                btn.style.borderColor = '#00ffff';
+                
+                // Stop audio
+                if (PartyHub.audio.audioElement) {
+                    PartyHub.audio.audioElement.pause();
+                }
+                
+                stopMusicProgress();
+                showNotification(`🎵 Music paused`, 'info');
+            }
+        }
+
+        function nextSong() {
+            const playlist = PartyHub.playlists[PartyHub.audio.currentPlaylist];
+            PartyHub.audio.currentSongIndex = (PartyHub.audio.currentSongIndex + 1) % playlist.length;
+            PartyHub.audio.currentTime = 0;
+            
+            // Stop current audio
+            if (PartyHub.audio.audioElement) {
+                PartyHub.audio.audioElement.pause();
+            }
+            
+            updateCurrentSong();
+            updateSongQueue();
+            
+            if (PartyHub.audio.playing) {
+                loadCurrentSong();
+                PartyHub.audio.audioElement.play().then(() => {
+                    console.log('✅ Next song playing');
+                }).catch(e => {
+                    console.log('Next song audio failed:', e);
+                });
+            }
+            
+            showNotification(`⏭️ Next: ${playlist[PartyHub.audio.currentSongIndex].title}`, 'info');
+        }
+
+        function previousSong() {
+            const playlist = PartyHub.playlists[PartyHub.audio.currentPlaylist];
+            PartyHub.audio.currentSongIndex = PartyHub.audio.currentSongIndex === 0 ? 
+                playlist.length - 1 : PartyHub.audio.currentSongIndex - 1;
+            PartyHub.audio.currentTime = 0;
+            
+            // Stop current audio
+            if (PartyHub.audio.audioElement) {
+                PartyHub.audio.audioElement.pause();
+            }
+            
+            updateCurrentSong();
+            updateSongQueue();
+            
+            if (PartyHub.audio.playing) {
+                loadCurrentSong();
+                PartyHub.audio.audioElement.play().then(() => {
+                    console.log('✅ Previous song playing');
+                }).catch(e => {
+                    console.log('Previous song audio failed:', e);
+                });
+            }
+            
+            showNotification(`⏮️ Previous: ${playlist[PartyHub.audio.currentSongIndex].title}`, 'info');
+        }
+
+        function updateCurrentSong() {
+            const playlist = PartyHub.playlists[PartyHub.audio.currentPlaylist];
+            const currentSong = playlist[PartyHub.audio.currentSongIndex];
+            
+            document.getElementById('currentSong').textContent = currentSong.title;
+            document.getElementById('currentArtist').textContent = currentSong.artist;
+            document.getElementById('totalTime').textContent = formatTime(currentSong.duration);
+            
+            PartyHub.audio.duration = currentSong.duration;
+            PartyHub.audio.currentTime = 0;
+            updateProgressBar();
+        }
+
+        function updateSongQueue() {
+            const playlist = PartyHub.playlists[PartyHub.audio.currentPlaylist];
+            const queueContainer = document.getElementById('songQueue');
+            queueContainer.innerHTML = '';
+            
+            playlist.forEach((song, index) => {
+                const songElement = document.createElement('div');
+                songElement.className = `text-xs orbitron cursor-pointer p-1 rounded ${
+                    index === PartyHub.audio.currentSongIndex ? 
+                    'text-purple-300 bg-purple-900/30' : 'text-gray-400 hover:text-white'
+                }`;
+                songElement.textContent = `${song.title} - ${song.artist}`;
+                songElement.onclick = () => {
+                    PartyHub.audio.currentSongIndex = index;
+                    PartyHub.audio.currentTime = 0;
+                    updateCurrentSong();
+                    updateSongQueue();
+                    
+                    if (PartyHub.audio.playing) {
+                        loadCurrentSong();
+                        PartyHub.audio.audioElement.play().catch(e => {
+                            // Already using Web Audio API
+                        });
+                        startMusicProgress();
+                    }
+                };
+                queueContainer.appendChild(songElement);
+            });
+        }
+
+        function startMusicProgress() {
+            if (PartyHub.audio.progressInterval) {
+                clearInterval(PartyHub.audio.progressInterval);
+            }
+            
+            PartyHub.audio.progressInterval = setInterval(() => {
+                PartyHub.audio.currentTime++;
+                updateProgressBar();
+                
+                // Auto-advance to next song when current song ends
+                if (PartyHub.audio.currentTime >= PartyHub.audio.duration) {
+                    nextSong();
+                }
+            }, 1000);
+        }
+
+        function stopMusicProgress() {
+            if (PartyHub.audio.progressInterval) {
+                clearInterval(PartyHub.audio.progressInterval);
+                PartyHub.audio.progressInterval = null;
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = (PartyHub.audio.currentTime / PartyHub.audio.duration) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('currentTime').textContent = formatTime(PartyHub.audio.currentTime);
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Environmental Controls
+        function toggleVentilation() {
+            PartyHub.environment.ventilation = !PartyHub.environment.ventilation;
+            const status = document.getElementById('ventStatus');
+            
+            status.textContent = PartyHub.environment.ventilation ? 'ON' : 'OFF';
+            showNotification(`💨 Ventilation ${PartyHub.environment.ventilation ? 'activated' : 'deactivated'}`, 'info');
+        }
+
+        function togglePurifier() {
+            const modes = ['OFF', 'AUTO', 'HIGH'];
+            const currentIndex = modes.indexOf(PartyHub.environment.purifier.toUpperCase());
+            const nextIndex = (currentIndex + 1) % modes.length;
+            
+            PartyHub.environment.purifier = modes[nextIndex].toLowerCase();
+            document.getElementById('purifierStatus').textContent = modes[nextIndex];
+            
+            showNotification(`🌿 Air purifier: ${modes[nextIndex]}`, 'info');
+        }
+
+        function updateTemperature() {
+            const temp = document.getElementById('targetTemp').value;
+            PartyHub.environment.targetTemp = parseInt(temp);
+            document.getElementById('targetTempValue').textContent = `${temp}°C`;
+            
+            showNotification(`🌡️ Target temperature set to ${temp}°C`, 'info');
+        }
+
+        function toggleAC() {
+            PartyHub.environment.ac = !PartyHub.environment.ac;
+            const btn = document.getElementById('acBtn');
+            
+            if (PartyHub.environment.ac) {
+                btn.textContent = '❄️ AC ON';
+                PartyHub.environment.heater = false;
+                document.getElementById('heaterBtn').textContent = '🔥 HEAT OFF';
+            } else {
+                btn.textContent = '❄️ AC OFF';
+            }
+            
+            showNotification(`❄️ Air conditioning ${PartyHub.environment.ac ? 'activated' : 'deactivated'}`, 'info');
+        }
+
+        function toggleHeater() {
+            PartyHub.environment.heater = !PartyHub.environment.heater;
+            const btn = document.getElementById('heaterBtn');
+            
+            if (PartyHub.environment.heater) {
+                btn.textContent = '🔥 HEAT ON';
+                PartyHub.environment.ac = false;
+                document.getElementById('acBtn').textContent = '❄️ AC OFF';
+            } else {
+                btn.textContent = '🔥 HEAT OFF';
+            }
+            
+            showNotification(`🔥 Heating ${PartyHub.environment.heater ? 'activated' : 'deactivated'}`, 'info');
+        }
+
+        // Cigarette System Functions
+        function selectCigaretteBrand(brand) {
+            PartyHub.cigarette.selectedBrand = brand;
+            
+            // Reset all button styles
+            ['marlboro', 'camel', 'lucky', 'parliament'].forEach(b => {
+                const btn = document.getElementById(b + 'Btn');
+                btn.classList.remove('border-2', 'border-orange-400');
+            });
+            
+            // Highlight selected brand
+            const selectedBtn = document.getElementById(brand + 'Btn');
+            selectedBtn.classList.add('border-2', 'border-orange-400');
+            
+            const brands = {
+                marlboro: 'Marlboro Red',
+                camel: 'Camel Blue',
+                lucky: 'Lucky Strike',
+                parliament: 'Parliament Lights'
+            };
+            
+            showNotification(`🚬 ${brands[brand]} selected`, 'success');
+        }
+
+        function dispenseCigarette() {
+            if (!PartyHub.cigarette.dispenserActive) {
+                showNotification('🚬 Dispenser offline - contact maintenance', 'error');
+                return;
+            }
+            
+            PartyHub.cigarette.count++;
+            document.getElementById('cigaretteCount').textContent = PartyHub.cigarette.count;
+            
+            const brands = {
+                marlboro: 'Marlboro Red',
+                camel: 'Camel Blue',
+                lucky: 'Lucky Strike',
+                parliament: 'Parliament Lights'
+            };
+            
+            showNotification(`🚬 ${brands[PartyHub.cigarette.selectedBrand]} dispensed`, 'success');
+            
+            // Simulate dispenser mechanism
+            setTimeout(() => {
+                showNotification('📦 Cigarette ready for pickup', 'info');
+            }, 2000);
+        }
+
+        function lightCigarette() {
+            if (!PartyHub.cigarette.lighterActive) {
+                showNotification('🔥 Auto-lighter offline', 'error');
+                return;
+            }
+            
+            if (PartyHub.cigarette.count === 0) {
+                showNotification('🚬 Please dispense a cigarette first', 'warning');
+                return;
+            }
+            
+            showNotification('🔥 Auto-lighter activated', 'info');
+            
+            setTimeout(() => {
+                showNotification('🔥 Cigarette lit successfully', 'success');
+                
+                // Auto-activate ventilation
+                if (!PartyHub.cigarette.ventilationActive) {
+                    activateVentilation();
+                }
+            }, 1500);
+        }
+
+        function activateVentilation() {
+            PartyHub.cigarette.ventilationActive = !PartyHub.cigarette.ventilationActive;
+            
+            const orb = document.getElementById('cigaretteOrb');
+            
+            if (PartyHub.cigarette.ventilationActive) {
+                orb.className = 'status-orb bg-blue-400';
+                showNotification('💨 Smoke extraction activated', 'success');
+            } else {
+                orb.className = 'status-orb bg-orange-400';
+                showNotification('💨 Smoke extraction deactivated', 'info');
+            }
+        }
+
+        // Scent System
+        function activateScent(scentType) {
+            PartyHub.scent.active = scentType;
+            
+            const scents = {
+                citrus: 'Energizing Citrus',
+                lavender: 'Calming Lavender',
+                vanilla: 'Sweet Vanilla'
+            };
+            
+            showNotification(`🌸 ${scents[scentType]} activated`, 'success');
+        }
+
+        function updateScentIntensity() {
+            const intensity = document.getElementById('scentIntensity').value;
+            PartyHub.scent.intensity = parseInt(intensity);
+            
+            showNotification(`🌸 Scent intensity: ${intensity}%`, 'info');
+        }
+
+        // Smart Bar Functions
+        function logDrink() {
+            PartyHub.bar.drinks++;
+            PartyHub.bar.lastDrink = new Date();
+            document.getElementById('drinkCount').textContent = PartyHub.bar.drinks;
+            
+            showNotification(`🍺 Drink #${PartyHub.bar.drinks} logged`, 'success');
+        }
+
+        function makeCocktail() {
+            const cocktails = ['Mojito', 'Cosmopolitan', 'Margarita', 'Old Fashioned', 'Martini'];
+            const randomCocktail = cocktails[Math.floor(Math.random() * cocktails.length)];
+            
+            showNotification(`🍸 Making ${randomCocktail}... Ready in 2 minutes!`, 'info');
+            
+            setTimeout(() => {
+                showNotification(`🍸 ${randomCocktail} ready! Enjoy responsibly`, 'success');
+            }, 2000);
+        }
+
+        function orderSupplies() {
+            showNotification('📦 Connecting to suppliers...', 'info');
+            
+            setTimeout(() => {
+                showNotification('📦 Order placed! Delivery in 30 minutes', 'success');
+            }, 2000);
+        }
+
+        // AI Assistant Functions
+        function getAISuggestion() {
+            const suggestions = [
+                'Energy is high! Switch to dance music for maximum vibes',
+                'Temperature rising - activate AC for comfort',
+                'Great party pace! Consider adding citrus scent',
+                'Perfect lighting for photos - encourage group shots',
+                'Hydration reminder - offer water to guests'
+            ];
+            
+            const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+            document.getElementById('aiSuggestion').textContent = randomSuggestion;
+            
+            showNotification('🤖 AI analysis complete', 'success');
+        }
+
+        function optimizeParty() {
+            showNotification('⚡ AI optimizing party settings...', 'info');
+            
+            // Auto-optimize based on current conditions
+            setTimeout(() => {
+                // Adjust lighting
+                if (PartyHub.stats.duration > 120) {
+                    setLightingTheme('chill');
+                }
+                
+                // Adjust temperature
+                if (PartyHub.environment.temperature > 26) {
+                    PartyHub.environment.ac = true;
+                    document.getElementById('acBtn').textContent = '❄️ AC ON';
+                }
+                
+                showNotification('⚡ Party optimized by AI!', 'success');
+            }, 3000);
+        }
+
+        // Analytics Functions
+        function exportStats() {
+            const stats = {
+                partyDuration: Math.floor((Date.now() - PartyHub.stats.startTime) / 60000),
+                totalDrinks: PartyHub.bar.drinks,
+                peakGuests: PartyHub.stats.peakGuests,
+                songsPlayed: PartyHub.stats.songsPlayed,
+                averageTemp: PartyHub.environment.temperature,
+                lightingChanges: 12,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Create downloadable file
+            const dataStr = JSON.stringify(stats, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `nayana-party-stats-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            showNotification('📥 Party stats exported successfully!', 'success');
+        }
+
+        // Utility Functions
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('active');
+            
+            // Close other dropdowns
+            document.querySelectorAll('.cyber-dropdown').forEach(dd => {
+                if (dd.id !== dropdownId) {
+                    dd.classList.remove('active');
+                }
+            });
+        }
+
+        function openSection(sectionName) {
+            showNotification(`🎛️ ${sectionName.toUpperCase()} controls activated`, 'info');
+            
+            // Close dropdown
+            document.querySelectorAll('.cyber-dropdown').forEach(dd => {
+                dd.classList.remove('active');
+            });
+        }
+
+        function togglePartyMode() {
+            PartyHub.partyMode = !PartyHub.partyMode;
+            const btn = document.getElementById('partyModeBtn');
+            
+            if (PartyHub.partyMode) {
+                btn.textContent = '🎉 PARTY MODE';
+                btn.className = 'cyber-button px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl font-bold text-white orbitron';
+                showNotification('🎉 PARTY MODE ACTIVATED!', 'success');
+            } else {
+                btn.textContent = '⏸️ PARTY PAUSED';
+                btn.className = 'cyber-button px-8 py-3 bg-gray-600 rounded-xl font-bold text-white orbitron';
+                showNotification('⏸️ Party mode paused', 'info');
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            
+            const colors = {
+                success: 'border-green-500 text-green-400',
+                error: 'border-red-500 text-red-400',
+                warning: 'border-yellow-500 text-yellow-400',
+                info: 'border-cyan-500 text-cyan-400'
+            };
+            
+            notification.className = `notification cyber-glass rounded-2xl border ${colors[type]} p-4 max-w-sm`;
+            notification.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="status-orb bg-${type === 'success' ? 'green' : type === 'error' ? 'red' : type === 'warning' ? 'yellow' : 'cyan'}-400"></div>
+                    <p class="text-sm font-bold orbitron">${message}</p>
+                </div>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            // Remove after 4 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+
+        function updateAllDisplays() {
+            // Update all display values with real data
+            document.getElementById('brightnessValue').textContent = `${PartyHub.lighting.brightness}%`;
+            document.getElementById('volumeValue').textContent = `${PartyHub.audio.volume}%`;
+            document.getElementById('targetTempValue').textContent = `${PartyHub.environment.targetTemp}°C`;
+            document.getElementById('drinkCount').textContent = PartyHub.bar.drinks;
+            document.getElementById('cigaretteCount').textContent = PartyHub.cigarette.count;
+            
+            // Initialize cigarette brand selection
+            selectCigaretteBrand('marlboro');
+        }
+
+        function startRealTimeUpdates() {
+            // Update party duration every minute
+            setInterval(() => {
+                const duration = Math.floor((Date.now() - PartyHub.stats.startTime) / 60000);
+                const hours = Math.floor(duration / 60);
+                const minutes = duration % 60;
+                document.getElementById('partyDuration').textContent = `${hours}h ${minutes}m`;
+                
+                // Simulate sensor fluctuations
+                PartyHub.environment.temperature += (Math.random() - 0.5) * 0.5;
+                PartyHub.environment.humidity += (Math.random() - 0.5) * 2;
+                PartyHub.environment.pm25 += (Math.random() - 0.5) * 1;
+                
+                // Clamp values to realistic ranges
+                PartyHub.environment.temperature = Math.max(18, Math.min(32, PartyHub.environment.temperature));
+                PartyHub.environment.humidity = Math.max(30, Math.min(70, PartyHub.environment.humidity));
+                PartyHub.environment.pm25 = Math.max(5, Math.min(50, PartyHub.environment.pm25));
+                
+                // Update displays
+                document.getElementById('currentTemp').textContent = `${PartyHub.environment.temperature.toFixed(1)}°C`;
+                document.getElementById('tempDisplay').textContent = `${PartyHub.environment.temperature.toFixed(0)}°C`;
+                document.getElementById('humidityReading').textContent = `${PartyHub.environment.humidity.toFixed(0)}%`;
+                document.getElementById('pm25Reading').textContent = `${PartyHub.environment.pm25.toFixed(1)} μg/m³`;
+                
+                // Update air quality status
+                const airQualityOrb = document.getElementById('airQualityOrb');
+                const airQualityDisplay = document.getElementById('airQualityDisplay');
+                
+                if (PartyHub.environment.pm25 < 15) {
+                    airQualityOrb.className = 'status-orb bg-green-400';
+                    airQualityDisplay.textContent = 'EXCELLENT';
+                } else if (PartyHub.environment.pm25 < 30) {
+                    airQualityOrb.className = 'status-orb bg-yellow-400';
+                    airQualityDisplay.textContent = 'GOOD';
+                } else {
+                    airQualityOrb.className = 'status-orb bg-red-400';
+                    airQualityDisplay.textContent = 'POOR';
+                }
+                
+                // Update BPM simulation
+                const bpm = 120 + Math.floor(Math.random() * 40);
+                document.getElementById('bpmDisplay').textContent = bpm;
+                
+                // Update energy level
+                const energyLevels = ['LOW', 'MEDIUM', 'HIGH', 'EXTREME'];
+                const energyLevel = energyLevels[Math.floor(Math.random() * energyLevels.length)];
+                document.getElementById('energyDisplay').textContent = energyLevel;
+                
+            }, 5000); // Update every 5 seconds
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePartyHub();
+            // Initialize music system
+            updateCurrentSong();
+            updateSongQueue();
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.relative')) {
+                document.querySelectorAll('.cyber-dropdown').forEach(dd => {
+                    dd.classList.remove('active');
+                });
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97cd365e47c33cb2',t:'MTc1NzQ4OTM0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
