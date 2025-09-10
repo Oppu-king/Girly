@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify, session, render_template_string
+
+ flask import Flask, render_template, request, jsonify, session, render_template_string
 from flask_cors import CORS
 import os
 import requests
@@ -811,6 +812,14 @@ def nayana_ai():
     # ✅ Handle GET requests
     return render_template("nayana_ai.html", response=None)
 
+@app.route('/')
+def index():
+    return render_template("party.html")
+
+# (optional extra route so you can also open /party)
+@app.route('/party')
+def party():
+    return render_template("party.html")
 
 # Get current party status
 @app.route('/api/status', methods=['GET'])
