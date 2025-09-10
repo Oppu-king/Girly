@@ -354,7 +354,7 @@ def login():
 def biometric_auth():
     """
     Called from frontend after simulated/real biometric success.
-    Expects JSON: { method: 'face'|'retinal'|'fingerprint'|'voice', username: 'monjit' }
+    Expects JSON: { method: 'face'|'retinal'|'fingerprint'|'voice', username: 'nayana' }
     """
     try:
         data = request.get_json()
