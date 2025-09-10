@@ -1,5 +1,4 @@
-
- flask import Flask, render_template, request, jsonify, session, render_template_string
+flask import Flask, render_template, request, jsonify, session
 from flask_cors import CORS
 import os
 import requests
